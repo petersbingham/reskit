@@ -1,5 +1,5 @@
 # ResKit
-Python package to parametrise the multi-channel S-matrix using a pade approximation according to the technique presented in "S.A. Rakityansky P.O.G. Ogunbade. S-matrix parametrization as a way of locating quantum resonances and bound states:multichannel case, 2010".
+Python Package to assist with the identification and characterisation of quantum scattering resonances.
 
 ## Installation
 
