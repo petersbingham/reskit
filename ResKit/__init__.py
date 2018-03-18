@@ -17,6 +17,9 @@ def overrideDependencies():
 MOD_CHART = 0
 def getModule(modID, parmaFilePaths=None, resultsRoot=None):
     if modID == MOD_CHART:
-        import chart
-        chart.dMat = dMat
-        return chart
+        import chart as mod
+    if parmaFilePaths is not None:
+        mod.parmaFilePaths = parmaFilePaths
+    if resultsRoot is not None:
+        mod.resultsRoot = resultsRoot
+    return mod

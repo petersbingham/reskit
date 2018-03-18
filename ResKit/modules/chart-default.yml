@@ -1,0 +1,13 @@
+colourCycle:
+  - red
+  - green
+  - blue
+  - purple
+
+legPrefix: ''
+
+useMarker: False
+
+xsize: 8
+
+ysize: 6

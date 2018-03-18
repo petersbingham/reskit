@@ -1,0 +1,13 @@
+colourCycle:
+  - black
+  - black
+  - black
+  - black
+
+legPrefix: ''
+
+useMarker: True
+
+xsize: 4
+
+ysize: 3
