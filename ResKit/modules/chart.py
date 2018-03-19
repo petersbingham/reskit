@@ -2,9 +2,9 @@ import yaml
 
 import os
 import sys
-configDir = os.path.dirname(os.path.realpath(__file__))+ "/chart-default.yml"
-parmaFilePaths = [configDir]
 resultsRoot = None
+configDef = os.path.dirname(os.path.realpath(__file__)) + "/chart-default.yml"
+parmaFilePaths = [configDef]
 
 def _setChartParameters(dMat_plot, title):
     if title is not None:

@@ -1,0 +1,5 @@
+stelempy:
+  startingDistThres: 0.0001
+  endDistThres: null
+  cfSteps: 2
+  amalgThres: null
