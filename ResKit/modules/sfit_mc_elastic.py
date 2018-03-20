@@ -10,16 +10,12 @@ parmaFilePaths = [configDef]
 import parSmat as psm
 import stelempy as sp
 
-def _setTypeMode(dMat):
-    psm.setTypeMode(dMat.getTypeMode(), dMat.getTypeDps())
-
 def _calculateCoefficients(dSmat, N, asymCalc):
     ris = dSmat.calculateReductionIndices(0,len(dSmat)-1,N)[0]
     dSmat2 = dSmat[ris[0]:ris[1]:ris[2]]
     return psm.calculateCoefficients(dSmat2, asymCalc)
 
 def getElasticSmats(dMat, Nlist, asymCalc):
-    _setTypeMode(dMat)
     dSmat = dMat.to_dSmat()
     cSmats = []
     for N in Nlist:
@@ -31,7 +27,6 @@ def getElasticSmats(dMat, Nlist, asymCalc):
     return cSmats
 
 def getElasticFins(dMat, Nlist, asymCalc):
-    _setTypeMode(dMat)
     dSmat = dMat.to_dSmat()
     cFins = []
     for N in Nlist:

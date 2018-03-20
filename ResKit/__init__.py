@@ -10,15 +10,6 @@ import channelutil as cu
 import tisutil as tu
 import pynumwrap as nw
 
-# If overridden, will look for the modules in the site-packages first.
-dependencyOverride = False
-def overrideDependencies():
-    global dependencyOverride
-    if not dependencyOverride:
-        sys.path.remove(depPath)
-        sys.path.append(depPath)
-        dependencyOverride = True
-
 mat_type_S = tu.mat_type_S
 mat_type_K = tu.mat_type_K
 mat_type_T = tu.mat_type_T
@@ -27,15 +18,10 @@ RYDs = cu.RYDs
 HARTs = cu.HARTs
 eVs = cu.eVs
 
-type_mode_python = nw.mode_python
-type_mode_mpmath = nw.mode_mpmath
-def initFromDiscreteData(matType, matDict, units, typeMode=None, typeDps=None):
-    tu.setTypeMode(typeMode, typeDps)
+def initFromDiscreteData(matType, matDict, units):
     return tu.getDiscreteScatteringMatrix(matType, matDict, units)
 
-def initFromContinuousData(matType, funPtr, units, startEne, endEne, numPoints,
-                           typeMode=None, typeDps=None):
-    tu.setTypeMode(typeMode, typeDps)
+def initFromContinuousData(matType, funPtr, units, startEne, endEne, numPoints):
     cMat = tu.getContinuousScatteringMatrix(matType, funPtr, units)
     return cMat.discretise(startEne, endEne, numPoints-1)
 
@@ -55,3 +41,18 @@ def getModule(modID, resultsRoot=None, parmaFilePaths=None):
             if parmaFilePath is not None:
                 mod.parmaFilePaths[i] = parmaFilePath
     return mod
+
+def usePythonTypes(dps=nw.dps_default_python):
+    nw.usePythonTypes(dps)
+
+def useMpmathTypes(dps=nw.dps_default_mpmath):
+    nw.useMpmathTypes(dps)
+
+# If overridden, will look for the modules in the site-packages first.
+dependencyOverride = False
+def overrideDependencies():
+    global dependencyOverride
+    if not dependencyOverride:
+        sys.path.remove(depPath)
+        sys.path.append(depPath)
+        dependencyOverride = True

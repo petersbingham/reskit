@@ -26,14 +26,12 @@ class parentTest(unittest.TestCase):
 
 class test_numpy(parentTest):
     def runTest(self):
-        cu.usePythonTypes()
-        rw.usePythonTypes()  
+        rk.usePythonTypes()
         self.calculateQIs()
 
 class test_mpmath(parentTest):
     def runTest(self):
-        cu.useMpmathTypes()
-        rw.useMpmathTypes()  
+        rk.useMpmathTypes()
         self.calculateQIs()
 
 if __name__ == "__main__":
