@@ -18,16 +18,19 @@ RYDs = cu.RYDs
 HARTs = cu.HARTs
 eVs = cu.eVs
 
-def initFromDiscreteData(matType, matDict, units):
+def getAsymCalc(units, ls=None):
+    return cu.asymCal(units, ls)
+
+def getdMatFromDiscrete(matType, matDict, units):
     return tu.getDiscreteScatteringMatrix(matType, matDict, units)
 
-def initFromContinuousData(matType, funPtr, units, startEne, endEne, numPoints):
+def getdMatFromContinuous(matType, funPtr, units, startEne, endEne, numPoints):
     cMat = tu.getContinuousScatteringMatrix(matType, funPtr, units)
     return cMat.discretise(startEne, endEne, numPoints-1)
 
 MOD_CHART = 0
 MOD_SFIT_MC_ELASTIC = 1
-def getModule(modID, resultsRoot=None, parmaFilePaths=None):
+def getTool(modID, resultsRoot=None, parmaFilePaths=None):
     if modID == MOD_CHART:
         import chart as mod
     elif modID == MOD_SFIT_MC_ELASTIC:
@@ -35,7 +38,7 @@ def getModule(modID, resultsRoot=None, parmaFilePaths=None):
     else:
         raise Exception("Unrecognised module enum.")
     if resultsRoot is not None:
-        mod.resultsRoot = resultsRoot
+        mod.resultsRoot = resultsRoot+os.sep+nw.getConfigString()+os.sep
     if parmaFilePaths is not None:
         for i,parmaFilePath in enumerate(parmaFilePaths):
             if parmaFilePath is not None:

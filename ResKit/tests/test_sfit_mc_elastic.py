@@ -7,19 +7,20 @@ sys.path.insert(0,rkPath)
 import ResKit as rk
 import channelutil as cu
 import TwoChanRadialWell as rw
+import pynumwrap as nw
 
 import unittest
-
+import shutil
 
 class parentTest(unittest.TestCase):
     def calculateQIs(self):
-        cal = cu.asymCal([0.,0.], units=cu.HARTs)
+        cal = rk.getAsymCalc(cu.HARTs, [0,0])
         cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dSmat = cSmat.discretise(1.,8.,100)
-        sfit_mc_elastic = rk.getModule(rk.MOD_SFIT_MC_ELASTIC)
-        
+        sfit_mc_elastic = rk.getTool(rk.MOD_SFIT_MC_ELASTIC, resultsRoot="test")
+
         sfit_mc_elastic.getElasticSmats(dSmat, range(2,6,2), cal)
-        
+        shutil.rmtree("test"+os.sep+nw.getConfigString())
         cFins = sfit_mc_elastic.getElasticFins(dSmat, range(2,20,2), cal)
         return sfit_mc_elastic.calculateQIs(cFins)
 
@@ -36,5 +37,5 @@ class test_mpmath(parentTest):
 
 if __name__ == "__main__":
     #Just for debug
-    b = test_mpmath()
+    b = test_numpy()
     b.runTest()
