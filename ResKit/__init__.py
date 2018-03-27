@@ -1,18 +1,18 @@
 import os
 import sys
 fileDir = os.path.dirname(os.path.realpath(__file__))
-modPath = fileDir+'/modules' # Keep modules before dependencies
+modPath = fileDir+'/tools' # Keep modules before dependencies
 sys.path.insert(0,modPath)
-depPath = fileDir+'/dependencies'
+depPath = fileDir+'/parts'
 sys.path.insert(0,depPath)
 
 import channelutil as cu
 import tisutil as tu
 import pynumwrap as nw
 
-mat_type_S = tu.mat_type_S
-mat_type_K = tu.mat_type_K
-mat_type_T = tu.mat_type_T
+Smat = tu.Smat
+Kmat = tu.Kmat
+Tmat = tu.Tmat
 
 RYDs = cu.RYDs
 HARTs = cu.HARTs
@@ -21,11 +21,12 @@ eVs = cu.eVs
 def getAsymCalc(units, ls=None):
     return cu.asymCal(units, ls)
 
-def getdMatFromDiscrete(matType, matDict, units):
-    return tu.getDiscreteScatteringMatrix(matType, matDict, units)
+def getdMatFromDiscrete(matType, matDict, asymCal):
+    return tu.getDiscreteScatteringMatrix(matType, matDict, asymCal)
 
-def getdMatFromContinuous(matType, funPtr, units, startEne, endEne, numPoints):
-    cMat = tu.getContinuousScatteringMatrix(matType, funPtr, units)
+def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, 
+                          numPoints):
+    cMat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal)
     return cMat.discretise(startEne, endEne, numPoints-1)
 
 MOD_CHART = 0

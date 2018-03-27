@@ -19,9 +19,9 @@ class parentTest(unittest.TestCase):
         dSmat = cSmat.discretise(1.,8.,100)
         sfit_mc_elastic = rk.getTool(rk.MOD_SFIT_MC_ELASTIC, resultsRoot="test")
 
-        sfit_mc_elastic.getElasticSmats(dSmat, range(2,6,2), cal)
+        sfit_mc_elastic.getElasticSmat(dSmat, 6)
         shutil.rmtree("test"+os.sep+nw.getConfigString())
-        cFins = sfit_mc_elastic.getElasticFins(dSmat, range(2,20,2), cal)
+        cFins = sfit_mc_elastic.getElasticFins(dSmat, range(2,20,2))
         return sfit_mc_elastic.calculateQIs(cFins)
 
 

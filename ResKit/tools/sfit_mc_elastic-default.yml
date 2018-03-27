@@ -1,4 +1,4 @@
-getElasticSmats:
+getElasticSmat:
   sym_matrix_inv:
     method: GE
 

@@ -19,12 +19,12 @@ import numpy as np
 def _getInputDescStr(N, ris0):
     return "N="+str(N)+"_"+"S="+str(ris0[0])+"_E="+str(ris0[1])
 
-def _getNumHeader(asymCalc):
-    return ["k","E ("+asymCalc.getUnits()+")"]
+def _getNumHeader(asymCal):
+    return ["k","E ("+asymCal.getUnits()+")"]
 
-def _getNumRow(val, asymCalc):
+def _getNumRow(val, asymCal):
     kstr = str(val).replace('(','').replace(')','')
-    Estr = str(asymCalc.ke(val)).replace('(','').replace(')','')
+    Estr = str(asymCal.ke(val)).replace('(','').replace(')','')
     return [kstr, Estr]
 
 ##### Coefficient Save #####
@@ -58,34 +58,34 @@ def _writeCoeffsToFile(coeffs, N, ris0):
         _writeCoeffToFile(coeffs[0], path, "A")
         _writeCoeffToFile(coeffs[1], path, "B")
 
-def _calculateCoefficients(dSmat, N, ris0, asymCalc):
+def _calculateCoefficients(dSmat, N, ris0):
     dSmat2 = dSmat[ris0[0]:ris0[1]:ris0[2]]
-    coeffs = psm.calculateCoefficients(dSmat2, asymCalc)
+    coeffs = psm.calculateCoefficients(dSmat2, dSmat2.asymCal)
     _writeCoeffsToFile(coeffs, N, ris0)
     return coeffs
 
 ##### Root Save #####
 
-def _getRootFileHeaderStr(N, ris, asymCalc):
+def _getRootFileHeaderStr(N, ris, asymCal):
     Nstr = "N="+str(N)
     EminStr = "Emin="+str(ris[0][0])+"("+str(ris[1][0])+")"
     EmaxStr = "Emax="+str(ris[0][1])+"("+str(ris[1][1])+")"
     stepStr = "step="+str(ris[0][2])
     return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
-def _saveRoots(N, ris, roots, asymCalc):
+def _saveRoots(N, ris, roots, asymCal):
     path = resultsRoot+"roots"
     if not os.path.isdir(path):
         os.makedirs(path)
 
-    header = _getNumHeader(asymCalc)
+    header = _getNumHeader(asymCal)
     rows = []
     for root in roots:
-        rows.append(_getNumRow(root, asymCalc))
+        rows.append(_getNumRow(root, asymCal))
 
     fileName = path + os.sep+_getInputDescStr(N, ris[0])+".dat"
     with open(fileName, 'w') as f:
-        f.write(_getRootFileHeaderStr(N, ris, asymCalc))
+        f.write(_getRootFileHeaderStr(N, ris, asymCal))
         f.write(t.tabulate(rows,header))
 
 ##### Pole Save #####
@@ -93,96 +93,95 @@ def _saveRoots(N, ris, roots, asymCalc):
 def _getPoleInfoPath(nList):
     return resultsRoot+"poles"+os.sep+str(nList).replace(' ','')+os.sep
 
-def _getPoleFileHeaderStr(numPoles, asymCalc):
-    return str(numPoles)+" poles, "+asymCalc.getUnits()+"\n\n"
+def _getPoleFileHeaderStr(numPoles, asymCal):
+    return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
 
-def _getPoleRow(N, pole, status, asymCalc):
-    return [str(N), status] + _getNumRow(pole, asymCalc)
+def _getPoleRow(N, pole, status, asymCal):
+    return [str(N), status] + _getNumRow(pole, asymCal)
 
-def _savePoleData(nList, poleData, asymCalc):
+def _savePoleData(nList, poleData, asymCal):
     path = _getPoleInfoPath(nList)
     if not os.path.isdir(path):
         os.makedirs(path)
 
     for i,dk in enumerate(poleData[2]):
-        header = ["N","status"] + _getNumHeader(asymCalc)
+        header = ["N","status"] + _getNumHeader(asymCal)
         rows = []
         for pole in poleData[0][i]:
             for j in sorted(pole.keys()):
-                row = _getPoleRow(nList[j], pole[j][0], pole[j][2], asymCalc)
+                row = _getPoleRow(nList[j], pole[j][0], pole[j][2], asymCal)
                 rows.append(row)
             rows.append(["","","",""])
 
         fileName = path+os.sep+"dk"+nu.sciStr(dk)+".dat"
         with open(fileName, 'w') as f:
-            f.write(_getPoleFileHeaderStr(len(poleData[0][i]), asymCalc))
+            f.write(_getPoleFileHeaderStr(len(poleData[0][i]), asymCal))
             f.write(t.tabulate(rows,header))
 
 ##### QI Save #####
 
-def _getQIFileHeaderStr(numPoles, asymCalc):
-    return str(numPoles)+" poles, "+asymCalc.getUnits()+"\n\n"
+def _getQIFileHeaderStr(numPoles, asymCal):
+    return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
 
-def _getQIRow(poleQI, asymCalc):
-    return _getNumRow(poleQI[0], asymCalc) + [str(poleQI[1]), str(poleQI[2])]
+def _getQIRow(poleQI, asymCal):
+    return _getNumRow(poleQI[0], asymCal) + [str(poleQI[1]), str(poleQI[2])]
 
-def _saveQIdata(nList, QIdat, asymCalc):
-    header = _getNumHeader(asymCalc) + ["^dk","ENk"]
+def _saveQIdata(nList, QIdat, asymCal):
+    header = _getNumHeader(asymCal) + ["^dk","ENk"]
     rows = []
     for poleQI in QIdat[0]:
-        rows.append(_getQIRow(poleQI, asymCalc))
+        rows.append(_getQIRow(poleQI, asymCal))
     
     fileName = _getPoleInfoPath(nList)+os.sep+"QIs.dat"
     with open(fileName, 'w') as f:
-            f.write(_getQIFileHeaderStr(len(QIdat[0]), asymCalc))
+            f.write(_getQIFileHeaderStr(len(QIdat[0]), asymCal))
             f.write(t.tabulate(rows,header))
 
 ##### Public API #####
 
-def getElasticSmats(dMat, Nlist, asymCalc):
+def getElasticSmat(dMat, N):
     dSmat = dMat.to_dSmat()
-    cSmats = []
-    for N in Nlist:
-        ris = dSmat.calculateReductionIndices(0,len(dSmat)-1,N)
-        coeffs = _calculateCoefficients(dSmat, N, ris[0], asymCalc)
-        with open(parmaFilePaths[0], 'r') as f:
-            config = yaml.load(f.read())
-            cSmats.append(psm.getElasticSmatFun(coeffs, asymCalc,
-                                                **config["getElasticSmats"]))
-    return cSmats
+    ris = dSmat.calculateReductionIndices(0,len(dSmat)-1,N)
+    coeffs = _calculateCoefficients(dSmat, N, ris[0])
+    with open(parmaFilePaths[0], 'r') as f:
+        config = yaml.load(f.read())
+        return psm.getElasticSmatFun(coeffs, dSmat.asymCal,
+                                     **config["getElasticSmat"])
 
-def getElasticFins(dMat, Nlist, asymCalc):
+def getElasticFins(dMat, Nlist):
     dSmat = dMat.to_dSmat()
-    class extList(list):
-        def __init__(self, asymCalc):
-            self.asymCalc = copy.deepcopy(asymCalc)
-            list.__init__(self)
-    cFins = extList(asymCalc)
+    cFins = []
     for N in Nlist:
         ris = dSmat.calculateReductionIndices(0,len(dSmat)-1,N)
-        coeffs = _calculateCoefficients(dSmat, N, ris[0], asymCalc)
-        cFin = psm.getElasticFinFun(coeffs, asymCalc)
+        coeffs = _calculateCoefficients(dSmat, N, ris[0])
+        cFin = psm.getElasticFinFun(coeffs, dSmat.asymCal)
         cFin.fitInfo = (N,ris)
         cFins.append(cFin)
     return cFins
 
 def calculateQIs(cFins):
-    with open(parmaFilePaths[0], 'r') as f:
-        config = yaml.load(f.read())
-        allRoots = []
-        nList = []
-        for cFin in cFins:
-            p = config["calculateQIs"]
-            cVal = cFin.determinant(**p["cPolyMat_determinant"])
-            roots = cVal.findRoots(**p["cPolyVal_findRoots"])
-            allRoots.append(roots)
-            nList.append(cFin.fitInfo[0])
-            _saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, cFins.asymCalc)
+    if len(cFins) > 0:
+        with open(parmaFilePaths[0], 'r') as f:
+            config = yaml.load(f.read())
+            allRoots = []
+            nList = []
+            asymCal = None
+            for cFin in cFins:
+                if asymCal is not None:
+                    assert asymCal == cFin.asymCal
+                asymCal = cFin.asymCal
+                p = config["calculateQIs"]
+                cVal = cFin.determinant(**p["cPolyMat_determinant"])
+                roots = cVal.findRoots(**p["cPolyVal_findRoots"])
+                allRoots.append(roots)
+                nList.append(cFin.fitInfo[0])
+                _saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, asymCal)
 
-        p = p["stelempy"]
-        poleData = sp.calculateConvergenceGroupsRange(allRoots, 
-                        p["startingDistThres"], p["endDistThres"], p["cfSteps"])
-        _savePoleData(nList, poleData, cFins.asymCalc)
-        QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
-        _saveQIdata(nList, QIdat, cFins.asymCalc)
-        return QIdat
+            p = p["stelempy"]
+            poleData = sp.calculateConvergenceGroupsRange(allRoots, 
+                            p["startingDistThres"], p["endDistThres"], p["cfSteps"])
+            _savePoleData(nList, poleData, asymCal)
+            QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
+            _saveQIdata(nList, QIdat, asymCal)
+            return QIdat
+        return None, None
