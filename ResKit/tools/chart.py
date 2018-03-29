@@ -39,7 +39,7 @@ def _getdmat(mat, start, end, numPoints, units):
             end = len(mat)-1
         if numPoints is None:
             numPoints = end - start + 1
-        dmat = mat.createReducedSize(start, end, numPoints)
+        dmat = mat.createReducedLength(start, end, numPoints)
     else:
         if end is None:
             end = 10.
