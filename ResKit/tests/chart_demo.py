@@ -9,12 +9,11 @@ import channelutil as cu
 import TwoChanRadialWell as rw
 
 #### python Types ####
-
-cal = cu.asymCal([0.,0.], units=cu.HARTs)
+cal = cu.asymCal(cu.HARTs, [0,0])
 cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
 dSmat = cSmat.discretise(1.,8.,100)
-chart = rk.getModule(rk.MOD_CHART)
 
+chart = rk.getTool(rk.TOOL_CHART)
 chart.plotSmatrix(dSmat)
 
 chart.plotSmatrix(dSmat,len(dSmat)/4,len(dSmat)*3/4)
@@ -27,14 +26,14 @@ chart.plotTmatrix(dSmat,len(dSmat)/4,len(dSmat)*3/4,row=0,col=0,
                   logx=True,logy=True,imag=True)
 
 #### mpmath types ####
-
 cu.useMpmathTypes()
 rw.useMpmathTypes()
-cal = cu.asymCal([0.,0.], units=cu.HARTs)
+cal = cu.asymCal(cu.HARTs, [0,0])
 cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
+chart.plotSmatrix(cSmat)
 dSmat = cSmat.discretise(1.,8.,100)
 chart.plotSmatrix(dSmat)
 
 # Check copy saved on file system
-chart = rk.getModule(rk.MOD_CHART, ".", ["chart-test.yml"])
+chart = rk.getTool(rk.TOOL_CHART, "./test", ["chart-test.yml"])
 chart.plotSmatrix(dSmat)

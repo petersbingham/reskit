@@ -3,7 +3,7 @@ import sys
 fileDir = os.path.dirname(os.path.realpath(__file__))
 modPath = fileDir+'/tools' # Keep modules before dependencies
 sys.path.insert(0,modPath)
-depPath = fileDir+'/parts'
+depPath = fileDir+'/packages'
 sys.path.insert(0,depPath)
 
 import channelutil as cu
@@ -27,14 +27,14 @@ def getdMatFromDiscrete(matType, matDict, asymCal):
 def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, 
                           numPoints):
     cMat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal)
-    return cMat.discretise(startEne, endEne, numPoints-1)
+    return cMat.discretise(startEne, endEne, numPoints)
 
-MOD_CHART = 0
-MOD_SFIT_MC_ELASTIC = 1
-def getTool(modID, resultsRoot=None, parmaFilePaths=None):
-    if modID == MOD_CHART:
+TOOL_CHART = 0
+TOOL_SFIT_MC_ELASTIC = 1
+def getTool(toolID, resultsRoot=None, parmaFilePaths=None):
+    if toolID == TOOL_CHART:
         import chart as mod
-    elif modID == MOD_SFIT_MC_ELASTIC:
+    elif toolID == TOOL_SFIT_MC_ELASTIC:
         import sfit_mc_elastic as mod
     else:
         raise Exception("Unrecognised module enum.")
@@ -54,9 +54,12 @@ def useMpmathTypes(dps=nw.dps_default_mpmath):
 
 # If overridden, will look for the modules in the site-packages first.
 dependencyOverride = False
-def overrideDependencies():
+def overridePackages():
     global dependencyOverride
     if not dependencyOverride:
         sys.path.remove(depPath)
         sys.path.append(depPath)
         dependencyOverride = True
+        reload(cu)
+        reload(tu)
+        reload(nw)

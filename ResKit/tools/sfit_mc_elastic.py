@@ -39,7 +39,7 @@ def _fixNumpyFile(fileName):
     os.remove(fileName)
     os.rename(fileName + "_temp", fileName)
 
-def _writeCoeffToFile(coeff, path, typeStr):
+def _saveCoeff(coeff, path, typeStr):
     fileBase = path+os.sep+typeStr+"_"
     for i,cmat in enumerate(coeff):
         fileName = fileBase+str(i)+".dat"
@@ -50,18 +50,18 @@ def _writeCoeffToFile(coeff, path, typeStr):
             with open(fileName, 'w') as f:
                 f.write(str(cmat))
 
-def _writeCoeffsToFile(coeffs, N, ris0):
+def _saveCoeffs(coeffs, N, ris0):
     if resultsRoot is not None:
         path = resultsRoot+"coeffs"+os.sep+_getInputDescStr(N, ris0)
         if not os.path.isdir(path):
             os.makedirs(path)
-        _writeCoeffToFile(coeffs[0], path, "A")
-        _writeCoeffToFile(coeffs[1], path, "B")
+        _saveCoeff(coeffs[0], path, "A")
+        _saveCoeff(coeffs[1], path, "B")
 
 def _calculateCoefficients(dSmat, N, ris0):
     dSmat2 = dSmat[ris0[0]:ris0[1]:ris0[2]]
     coeffs = psm.calculateCoefficients(dSmat2, dSmat2.asymCal)
-    _writeCoeffsToFile(coeffs, N, ris0)
+    _saveCoeffs(coeffs, N, ris0)
     return coeffs
 
 ##### Root Save #####
@@ -74,19 +74,20 @@ def _getRootFileHeaderStr(N, ris, asymCal):
     return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
 def _saveRoots(N, ris, roots, asymCal):
-    path = resultsRoot+"roots"
-    if not os.path.isdir(path):
-        os.makedirs(path)
-
-    header = _getNumHeader(asymCal)
-    rows = []
-    for root in roots:
-        rows.append(_getNumRow(root, asymCal))
-
-    fileName = path + os.sep+_getInputDescStr(N, ris[0])+".dat"
-    with open(fileName, 'w') as f:
-        f.write(_getRootFileHeaderStr(N, ris, asymCal))
-        f.write(t.tabulate(rows,header))
+    if resultsRoot is not None:
+        path = resultsRoot+"roots"
+        if not os.path.isdir(path):
+            os.makedirs(path)
+    
+        header = _getNumHeader(asymCal)
+        rows = []
+        for root in roots:
+            rows.append(_getNumRow(root, asymCal))
+    
+        fileName = path + os.sep+_getInputDescStr(N, ris[0])+".dat"
+        with open(fileName, 'w') as f:
+            f.write(_getRootFileHeaderStr(N, ris, asymCal))
+            f.write(t.tabulate(rows,header))
 
 ##### Pole Save #####
 
@@ -100,23 +101,24 @@ def _getPoleRow(N, pole, status, asymCal):
     return [str(N), status] + _getNumRow(pole, asymCal)
 
 def _savePoleData(nList, poleData, asymCal):
-    path = _getPoleInfoPath(nList)
-    if not os.path.isdir(path):
-        os.makedirs(path)
-
-    for i,dk in enumerate(poleData[2]):
-        header = ["N","status"] + _getNumHeader(asymCal)
-        rows = []
-        for pole in poleData[0][i]:
-            for j in sorted(pole.keys()):
-                row = _getPoleRow(nList[j], pole[j][0], pole[j][2], asymCal)
-                rows.append(row)
-            rows.append(["","","",""])
-
-        fileName = path+os.sep+"dk"+nu.sciStr(dk)+".dat"
-        with open(fileName, 'w') as f:
-            f.write(_getPoleFileHeaderStr(len(poleData[0][i]), asymCal))
-            f.write(t.tabulate(rows,header))
+    if resultsRoot is not None:
+        path = _getPoleInfoPath(nList)
+        if not os.path.isdir(path):
+            os.makedirs(path)
+    
+        for i,dk in enumerate(poleData[2]):
+            header = ["N","status"] + _getNumHeader(asymCal)
+            rows = []
+            for pole in poleData[0][i]:
+                for j in sorted(pole.keys()):
+                    row = _getPoleRow(nList[j], pole[j][0], pole[j][2], asymCal)
+                    rows.append(row)
+                rows.append(["","","",""])
+    
+            fileName = path+os.sep+"dk"+nu.sciStr(dk)+".dat"
+            with open(fileName, 'w') as f:
+                f.write(_getPoleFileHeaderStr(len(poleData[0][i]), asymCal))
+                f.write(t.tabulate(rows,header))
 
 ##### QI Save #####
 
@@ -127,21 +129,22 @@ def _getQIRow(poleQI, asymCal):
     return _getNumRow(poleQI[0], asymCal) + [str(poleQI[1]), str(poleQI[2])]
 
 def _saveQIdata(nList, QIdat, asymCal):
-    header = _getNumHeader(asymCal) + ["^dk","ENk"]
-    rows = []
-    for poleQI in QIdat[0]:
-        rows.append(_getQIRow(poleQI, asymCal))
-    
-    fileName = _getPoleInfoPath(nList)+os.sep+"QIs.dat"
-    with open(fileName, 'w') as f:
-            f.write(_getQIFileHeaderStr(len(QIdat[0]), asymCal))
-            f.write(t.tabulate(rows,header))
+    if resultsRoot is not None:
+        header = _getNumHeader(asymCal) + ["^dk","ENk"]
+        rows = []
+        for poleQI in QIdat[0]:
+            rows.append(_getQIRow(poleQI, asymCal))
+        
+        fileName = _getPoleInfoPath(nList)+os.sep+"QIs.dat"
+        with open(fileName, 'w') as f:
+                f.write(_getQIFileHeaderStr(len(QIdat[0]), asymCal))
+                f.write(t.tabulate(rows,header))
 
 ##### Public API #####
 
 def getElasticSmat(dMat, N):
     dSmat = dMat.to_dSmat()
-    ris = dSmat.calculateReductionIndices(0,len(dSmat)-1,N)
+    ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
     coeffs = _calculateCoefficients(dSmat, N, ris[0])
     with open(parmaFilePaths[0], 'r') as f:
         config = yaml.load(f.read())
@@ -152,7 +155,7 @@ def getElasticFins(dMat, Nlist):
     dSmat = dMat.to_dSmat()
     cFins = []
     for N in Nlist:
-        ris = dSmat.calculateReductionIndices(0,len(dSmat)-1,N)
+        ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
         coeffs = _calculateCoefficients(dSmat, N, ris[0])
         cFin = psm.getElasticFinFun(coeffs, dSmat.asymCal)
         cFin.fitInfo = (N,ris)

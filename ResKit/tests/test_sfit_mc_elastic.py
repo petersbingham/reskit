@@ -17,7 +17,7 @@ class parentTest(unittest.TestCase):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
         cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dSmat = cSmat.discretise(1.,8.,100)
-        sfit_mc_elastic = rk.getTool(rk.MOD_SFIT_MC_ELASTIC, resultsRoot="test")
+        sfit_mc_elastic = rk.getTool(rk.TOOL_SFIT_MC_ELASTIC, resultsRoot="test")
 
         sfit_mc_elastic.getElasticSmat(dSmat, 6)
         shutil.rmtree("test"+os.sep+nw.getConfigString())
