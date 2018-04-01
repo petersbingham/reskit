@@ -21,9 +21,16 @@ class parentTest(unittest.TestCase):
 
         sfit_mc_elastic.getElasticSmat(dSmat, 6)
         shutil.rmtree("test"+os.sep+nw.getConfigString())
-        cFins = sfit_mc_elastic.getElasticFins(dSmat, range(2,20,2))
-        return sfit_mc_elastic.calculateQIs(cFins)
+        cFins = sfit_mc_elastic.getElasticFins(dSmat, range(2,10,2))
+        sfit_mc_elastic.calculateQIs(cFins)
 
+        self.assertFalse(sfit_mc_elastic.allCoeffsLoaded)
+        self.assertFalse(sfit_mc_elastic.allRootsLoaded)
+        cFins = sfit_mc_elastic.getElasticFins(dSmat, range(2,10,2))
+        self.assertTrue(sfit_mc_elastic.allCoeffsLoaded)
+        self.assertFalse(sfit_mc_elastic.allRootsLoaded)
+        sfit_mc_elastic.calculateQIs(cFins)
+        self.assertTrue(sfit_mc_elastic.allRootsLoaded)
 
 class test_numpy(parentTest):
     def runTest(self):

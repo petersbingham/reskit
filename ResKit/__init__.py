@@ -53,13 +53,13 @@ def useMpmathTypes(dps=nw.dps_default_mpmath):
     nw.useMpmathTypes(dps)
 
 # If overridden, will look for the modules in the site-packages first.
-dependencyOverride = False
+packageOverride = False
 def overridePackages():
-    global dependencyOverride
-    if not dependencyOverride:
+    global packageOverride
+    if not packageOverride:
         sys.path.remove(depPath)
         sys.path.append(depPath)
-        dependencyOverride = True
+        packageOverride = True
         reload(cu)
         reload(tu)
         reload(nw)
