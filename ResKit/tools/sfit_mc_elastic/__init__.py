@@ -1,15 +1,18 @@
 import yaml
 import os
 import io
-import sys
-import copy
-import os.path
 import tabulate as t
 
 resultsRoot = None
-configDir = os.path.dirname(os.path.realpath(__file__))
-configDef = configDir + "/sfit_mc_elastic-default.yml"
-parmaFilePaths = [configDef]
+modeDir = os.path.dirname(os.path.realpath(__file__))
+parmaFilePath = modeDir+os.sep+"default.yml"
+
+toolName = "sfit_mc_elastic"
+coeffDirName = toolName+os.sep+"coeffs"
+rootDirName = toolName+os.sep+"roots"
+poleDirName = toolName+os.sep+"poles"
+
+import tool_helper as th
 
 import pynumwrap as nw
 import parSmat as psm
@@ -45,6 +48,14 @@ def _getkERow(val, asymCal):
 
 ##### Coefficient File #####
 
+def _getCoeffDir(N, ris0):
+    a = resultsRoot+os.sep+coeffDirName+os.sep+th.cfgName(parmaFilePath)
+    b = os.sep+_getInputDescStr(N, ris0)
+    return a + b
+
+def _getCoeffPath(coeffDir, typeStr, i):
+    return coeffDir+os.sep+typeStr+"_"+str(i)+".dat"
+
 def _fixNumpyFile(fileName):
     f1 = _ropen(fileName)
     f2 = _wopen(fileName+"_temp")
@@ -55,29 +66,23 @@ def _fixNumpyFile(fileName):
     os.remove(fileName)
     os.rename(fileName + "_temp", fileName)
 
-def _getCoeffPath(N, ris0):
-    return resultsRoot+"coeffs"+os.sep+_getInputDescStr(N, ris0)
-
-def _getCoeffFileName(path, typeStr, i):
-    return path+os.sep+typeStr+"_"+str(i)+".dat"
-
 def _saveCoeff(coeff, path, typeStr):
     for i,cmat in enumerate(coeff):
-        fileName = _getCoeffFileName(path, typeStr, i)
+        coeffPath = _getCoeffPath(path, typeStr, i)
         if nw.mode == nw.mode_python:
-            np.savetxt(fileName, cmat, delimiter=",", newline='\n')
-            _fixNumpyFile(fileName)
+            np.savetxt(coeffPath, cmat, delimiter=",", newline='\n')
+            _fixNumpyFile(coeffPath)
         else:
-            with _wopen(fileName) as f:
+            with _wopen(coeffPath) as f:
                 _w(f, cmat)
 
 def _saveCoeffs(coeffs, N, ris0):
     if resultsRoot is not None:
-        path = _getCoeffPath(N, ris0)
-        if not os.path.isdir(path):
-            os.makedirs(path)
-        _saveCoeff(coeffs[0], path, "A")
-        _saveCoeff(coeffs[1], path, "B")
+        coeffDir = _getCoeffDir(N, ris0)
+        if not os.path.isdir(coeffDir):
+            os.makedirs(coeffDir)
+        _saveCoeff(coeffs[0], coeffDir, "A")
+        _saveCoeff(coeffs[1], coeffDir, "B")
 
 def _splitmpRows(s):
     if "(" in s:
@@ -91,16 +96,16 @@ def _fixmpMathMatStr(s):
 def _loadCoeff(N, path, typeStr):
     coeffs = []
     for i in range(psm.getNumCoeffForN(N)):
-        fileName = _getCoeffFileName(path, typeStr, i)
-        if not os.path.isfile(fileName):
+        coeffPath = _getCoeffPath(path, typeStr, i)
+        if not os.path.isfile(coeffPath):
             return None
         try:
             if nw.mode == nw.mode_python:
-                coeff = np.asmatrix(np.loadtxt(fileName, dtype=np.complex128,
+                coeff = np.asmatrix(np.loadtxt(coeffPath, dtype=np.complex128,
                                                delimiter=","))
                 coeffs.append(coeff)
             else:
-                with _ropen(fileName) as f:
+                with _ropen(coeffPath) as f:
                     s1 = f.read()
                     l1 = s1.split("\n")
                     l2 = [_splitmpRows(s) for s in l1]
@@ -114,10 +119,10 @@ def _loadCoeff(N, path, typeStr):
 
 def _loadCoeffs(N, ris0):
     if resultsRoot is not None:
-        path = _getCoeffPath(N, ris0)
-        if os.path.isdir(path):
-            coeffA = _loadCoeff(N, path, "A")
-            coeffB = _loadCoeff(N, path, "B")
+        coeffDir = _getCoeffDir(N, ris0)
+        if os.path.isdir(coeffDir):
+            coeffA = _loadCoeff(N, coeffDir, "A")
+            coeffB = _loadCoeff(N, coeffDir, "B")
             if coeffA is not None and coeffB is not None:
                 return coeffA, coeffB
     return None
@@ -135,42 +140,45 @@ def _getCoefficients(dSmat, N, ris0):
 
 ##### Root File #####
 
-def _getRootFileHeaderStr(N, ris, asymCal):
+def _getRootDir():
+    return resultsRoot+os.sep+rootDirName+os.sep+th.cfgName(parmaFilePath)
+
+def _getRootPath(rootDir, N, ris0):
+    return rootDir+os.sep+_getInputDescStr(N, ris0)+".dat"
+
+def _getRootFileHeaderStr(N, ris):
     Nstr = "N="+str(N)
     EminStr = "Emin="+str(ris[0][0])+"("+str(ris[1][0])+")"
     EmaxStr = "Emax="+str(ris[0][1])+"("+str(ris[1][1])+")"
     stepStr = "step="+str(ris[0][2])
     return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
-def _getRootName(path, N, ris0):
-    return path+os.sep+_getInputDescStr(N, ris0)+".dat"
-
 def _saveRoots(N, ris, roots, asymCal):
     if resultsRoot is not None:
-        path = resultsRoot+"roots"
-        if not os.path.isdir(path):
-            os.makedirs(path)
+        rootDir = _getRootDir()
+        if not os.path.isdir(rootDir):
+            os.makedirs(rootDir)
 
         header = _getNumHeader(asymCal)
         rows = []
         for root in roots:
             rows.append(_getkERow(root, asymCal))
 
-        fileName = _getRootName(path, N, ris[0])
-        with _wopen(fileName) as f:
-            _w(f, _getRootFileHeaderStr(N, ris, asymCal))
+        rootPath = _getRootPath(rootDir, N, ris[0])
+        with _wopen(rootPath) as f:
+            _w(f, _getRootFileHeaderStr(N, ris))
             _w(f, t.tabulate(rows,header))
             _w(f, "\ncomplete")
 
 def _loadRoots(N, ris):
     if resultsRoot is not None:
-        path = resultsRoot+"roots"
-        if os.path.isdir(path):
-            fileName = _getRootName(path, N, ris[0])
-            if not os.path.isfile(fileName):
+        rootDir = _getRootDir()
+        if os.path.isdir(rootDir):
+            rootPath = _getRootPath(rootDir, N, ris[0])
+            if not os.path.isfile(rootPath):
                 return None
             try:
-                with _ropen(fileName) as f:
+                with _ropen(rootPath) as f:
                     fndStart = False
                     roots = []
                     for l in f:
@@ -202,8 +210,13 @@ def _getRoots(p, cFin, asymCal):
 
 ##### Pole Save #####
 
-def _getPoleInfoPath(nList):
-    return resultsRoot+"poles"+os.sep+str(nList).replace(' ','')+os.sep
+def _getPoleDir(nList):
+    a = resultsRoot+os.sep+poleDirName+os.sep+th.cfgName(parmaFilePath)
+    b = os.sep+str(nList).replace(' ','')
+    return a + b
+
+def _getPolePath(poleDir, dk):
+    return poleDir+os.sep+"dk"+nu.sciStr(dk)+".dat"
 
 def _getPoleFileHeaderStr(numPoles, asymCal):
     return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
@@ -213,9 +226,9 @@ def _getPoleRow(N, pole, status, asymCal):
 
 def _savePoleData(nList, poleData, asymCal):
     if resultsRoot is not None:
-        path = _getPoleInfoPath(nList)
-        if not os.path.isdir(path):
-            os.makedirs(path)
+        poleDir = _getPoleDir(nList)
+        if not os.path.isdir(poleDir):
+            os.makedirs(poleDir)
 
         for i,dk in enumerate(poleData[2]):
             header = ["N","status"] + _getNumHeader(asymCal)
@@ -226,12 +239,15 @@ def _savePoleData(nList, poleData, asymCal):
                     rows.append(row)
                 rows.append(["","","",""])
 
-            fileName = path+os.sep+"dk"+nu.sciStr(dk)+".dat"
-            with _wopen(fileName) as f:
+            polePath = _getPolePath(poleDir, dk)
+            with _wopen(polePath) as f:
                 _w(f, _getPoleFileHeaderStr(len(poleData[0][i]), asymCal))
                 _w(f, t.tabulate(rows,header))
 
 ##### QI Save #####
+
+def _getQIPath(poleDir):
+    return poleDir+os.sep+"QIs.dat"
 
 def _getQIFileHeaderStr(numPoles, asymCal):
     return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
@@ -246,8 +262,8 @@ def _saveQIdata(nList, QIdat, asymCal):
         for poleQI in QIdat[0]:
             rows.append(_getQIRow(poleQI, asymCal))
         
-        fileName = _getPoleInfoPath(nList)+os.sep+"QIs.dat"
-        with _wopen(fileName) as f:
+        QIPath = _getQIPath(_getPoleDir(nList))
+        with _wopen(QIPath) as f:
                 _w(f, _getQIFileHeaderStr(len(QIdat[0]), asymCal))
                 _w(f, t.tabulate(rows,header))
 
@@ -257,7 +273,7 @@ def getElasticSmat(dMat, N):
     dSmat = dMat.to_dSmat()
     ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
     coeffs = _getCoefficients(dSmat, N, ris[0])
-    with _ropen(parmaFilePaths[0]) as f:
+    with _ropen(parmaFilePath) as f:
         config = yaml.load(f.read())
         return psm.getElasticSmatFun(coeffs, dSmat.asymCal,
                                      **config["getElasticSmat"])
@@ -275,7 +291,7 @@ def getElasticFins(dMat, Nlist):
 
 def calculateQIs(cFins):
     if len(cFins) > 0:
-        with _ropen(parmaFilePaths[0]) as f:
+        with _ropen(parmaFilePath) as f:
             config = yaml.load(f.read())
             p = config["calculateQIs"]
             allRoots = []

@@ -31,7 +31,7 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne,
 
 TOOL_CHART = 0
 TOOL_SFIT_MC_ELASTIC = 1
-def getTool(toolID, resultsRoot=None, parmaFilePaths=None):
+def getTool(toolID, resultsRoot=None, parmaFilePath=None):
     if toolID == TOOL_CHART:
         import chart as mod
     elif toolID == TOOL_SFIT_MC_ELASTIC:
@@ -39,11 +39,9 @@ def getTool(toolID, resultsRoot=None, parmaFilePaths=None):
     else:
         raise Exception("Unrecognised module enum.")
     if resultsRoot is not None:
-        mod.resultsRoot = resultsRoot+os.sep+nw.getConfigString()+os.sep
-    if parmaFilePaths is not None:
-        for i,parmaFilePath in enumerate(parmaFilePaths):
-            if parmaFilePath is not None:
-                mod.parmaFilePaths[i] = parmaFilePath
+        mod.resultsRoot = resultsRoot+os.sep+nw.getConfigString()
+    if parmaFilePath is not None:
+        mod.parmaFilePath = parmaFilePath
     return mod
 
 def usePythonTypes(dps=nw.dps_default_python):

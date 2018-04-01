@@ -1,15 +1,16 @@
 import yaml
 
 import os
-import sys
 resultsRoot = None
-configDef = os.path.dirname(os.path.realpath(__file__)) + "/chart-default.yml"
-parmaFilePaths = [configDef]
+modeDir = os.path.dirname(os.path.realpath(__file__))
+parmaFilePath = modeDir+os.sep+"default.yml"
+
+toolName = "chart"
 
 def _setChartParameters(dMat_plot, title):
     if title is not None:
         dMat_plot.setChartTitle(title)
-    with open(parmaFilePaths[0], 'r') as f:
+    with open(parmaFilePath, 'r') as f:
         config = yaml.load(f.read())
         dMat_plot.setChartParameters(colourCycle=config["colourCycle"])
         dMat_plot.setChartParameters(legPrefix=config["legPrefix"])
@@ -64,7 +65,10 @@ def _plot(dmat, start, end, numPoints, units, row, col, logx, logy, imag, title,
     _setChartParameters(dmat, title)
     savePath = None
     if resultsRoot is not None:
-        savePath = resultsRoot + "/" + dmat.chartTitle
+        saveDir = resultsRoot+os.sep+toolName
+        if not os.path.isdir(saveDir):
+            os.makedirs(saveDir)
+        savePath = saveDir+os.sep+dmat.chartTitle
         savePath += _getSaveString(start, end, numPoints, units, row,
                                    col, logx, logy, imag)
     dmat.plot(logx, logy, imag, show, savePath)

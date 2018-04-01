@@ -35,5 +35,5 @@ dSmat = cSmat.discretise(1.,8.,100)
 chart.plotSmatrix(dSmat)
 
 # Check copy saved on file system
-chart = rk.getTool(rk.TOOL_CHART, "./test", ["chart-test.yml"])
+chart = rk.getTool(rk.TOOL_CHART, "./test", "chart-test.yml")
 chart.plotSmatrix(dSmat)
