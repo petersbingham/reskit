@@ -2,24 +2,28 @@ import yaml
 import os
 import io
 import tabulate as t
-
-resultsRoot = None
-modeDir = os.path.dirname(os.path.realpath(__file__))
-parmaFilePath = modeDir+os.sep+"default.yml"
-
-toolName = "sfit_mc_elastic"
-coeffDirName = toolName+os.sep+"coeffs"
-rootDirName = toolName+os.sep+"roots"
-poleDirName = toolName+os.sep+"poles"
-
-import tool_helper as th
+import numpy as np
 
 import pynumwrap as nw
 import parSmat as psm
 import stelempy as sp
 import pynumutil as nu
 
-import numpy as np
+import tool_helper as th
+
+modeDir = os.path.dirname(os.path.realpath(__file__))
+
+parmaFilePath = modeDir+os.sep+"default.yml"
+data = None
+resultsRoot = None
+toolName = "sfit_mc_elastic"
+
+def _getCoeffDirName():
+    return resultsRoot+"coeffs"+os.sep
+def _getRootDirName():
+    return resultsRoot+"roots"+os.sep
+def _getPoleDirName():
+    return resultsRoot+"poles"+os.sep
 
 ##### Some internal properties (mainly for testing) #####
 
@@ -49,7 +53,7 @@ def _getkERow(val, asymCal):
 ##### Coefficient File #####
 
 def _getCoeffDir(N, ris0):
-    a = resultsRoot+os.sep+coeffDirName+os.sep+th.cfgName(parmaFilePath)
+    a = _getCoeffDirName()+th.cfgName(parmaFilePath)
     b = os.sep+_getInputDescStr(N, ris0)
     return a + b
 
@@ -141,7 +145,7 @@ def _getCoefficients(dSmat, N, ris0):
 ##### Root File #####
 
 def _getRootDir():
-    return resultsRoot+os.sep+rootDirName+os.sep+th.cfgName(parmaFilePath)
+    return _getRootDirName()+th.cfgName(parmaFilePath)
 
 def _getRootPath(rootDir, N, ris0):
     return rootDir+os.sep+_getInputDescStr(N, ris0)+".dat"
@@ -204,14 +208,15 @@ def _getRoots(p, cFin, asymCal):
     if roots is None:
         cVal = cFin.determinant(**p["cPolyMat_determinant"])
         roots = cVal.findRoots(**p["cPolyVal_findRoots"])
-        _saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, asymCal)
+        _saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, 
+                   asymCal)
         allRootsLoaded = False
     return roots
 
 ##### Pole Save #####
 
 def _getPoleDir(nList):
-    a = resultsRoot+os.sep+poleDirName+os.sep+th.cfgName(parmaFilePath)
+    a = _getPoleDirName()+th.cfgName(parmaFilePath)
     b = os.sep+str(nList).replace(' ','')
     return a + b
 
@@ -269,8 +274,8 @@ def _saveQIdata(nList, QIdat, asymCal):
 
 ##### Public API #####
 
-def getElasticSmat(dMat, N):
-    dSmat = dMat.to_dSmat()
+def getElasticSmat(N):
+    dSmat = data.to_dSmat()
     ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
     coeffs = _getCoefficients(dSmat, N, ris[0])
     with _ropen(parmaFilePath) as f:
@@ -278,8 +283,8 @@ def getElasticSmat(dMat, N):
         return psm.getElasticSmatFun(coeffs, dSmat.asymCal,
                                      **config["getElasticSmat"])
 
-def getElasticFins(dMat, Nlist):
-    dSmat = dMat.to_dSmat()
+def getElasticFins(Nlist):
+    dSmat = data.to_dSmat()
     cFins = []
     for N in Nlist:
         ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
@@ -297,19 +302,21 @@ def calculateQIs(cFins):
             allRoots = []
             nList = []
             asymCal = None
-            for cFin in cFins:
-                if asymCal is not None:
-                    assert asymCal == cFin.asymCal
-                asymCal = cFin.asymCal
-                roots = _getRoots(p, cFin, asymCal)
-                allRoots.append(roots)
-                nList.append(cFin.fitInfo[0])
+            if len(cFins) > 0:
+                for cFin in cFins:
+                    if asymCal is not None:
+                        assert asymCal == cFin.asymCal
+                    asymCal = cFin.asymCal
+                    roots = _getRoots(p, cFin, asymCal)
+                    allRoots.append(roots)
+                    nList.append(cFin.fitInfo[0])
 
-            p = p["stelempy"]
-            poleData = sp.calculateConvergenceGroupsRange(allRoots, 
-                            p["startingDistThres"], p["endDistThres"], p["cfSteps"])
-            _savePoleData(nList, poleData, asymCal)
-            QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
-            _saveQIdata(nList, QIdat, asymCal)
-            return QIdat
+                p = p["stelempy"]
+                poleData = sp.calculateConvergenceGroupsRange(allRoots, 
+                                     p["startingDistThres"], p["endDistThres"], 
+                                     p["cfSteps"])
+                _savePoleData(nList, poleData, asymCal)
+                QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
+                _saveQIdata(nList, QIdat, asymCal)
+                return QIdat
         return None, None

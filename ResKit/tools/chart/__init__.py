@@ -1,10 +1,11 @@
 import yaml
-
 import os
-resultsRoot = None
-modeDir = os.path.dirname(os.path.realpath(__file__))
-parmaFilePath = modeDir+os.sep+"default.yml"
 
+modeDir = os.path.dirname(os.path.realpath(__file__))
+
+parmaFilePath = modeDir+os.sep+"default.yml"
+data = None
+resultsRoot = None
 toolName = "chart"
 
 def _setChartParameters(dMat_plot, title):
@@ -34,19 +35,19 @@ def _getSaveString(start, end, numPoints, units, row, col, logx, logy, imag):
         ret += "_imag"
     return ret
 
-def _getdmat(mat, start, end, numPoints, units):
-    if mat.isDiscrete():
+def _getdmat(start, end, numPoints, units):
+    if data.isDiscrete():
         if end is None:
-            end = len(mat)-1
+            end = len(data)-1
         if numPoints is None:
             numPoints = end - start + 1
-        dmat = mat.createReducedLength(start, end, numPoints)
+        dmat = data.createReducedLength(start, end, numPoints)
     else:
         if end is None:
             end = 10.
         if numPoints is None:
             numPoints = 100
-        dmat = mat.discretise(start, end, numPoints)
+        dmat = data.discretise(start, end, numPoints)
 
     if units is not None:
         dmat = dmat.convertUnits(units)
@@ -65,57 +66,54 @@ def _plot(dmat, start, end, numPoints, units, row, col, logx, logy, imag, title,
     _setChartParameters(dmat, title)
     savePath = None
     if resultsRoot is not None:
-        saveDir = resultsRoot+os.sep+toolName
-        if not os.path.isdir(saveDir):
-            os.makedirs(saveDir)
-        savePath = saveDir+os.sep+dmat.chartTitle
-        savePath += _getSaveString(start, end, numPoints, units, row,
-                                   col, logx, logy, imag)
+        savePath = resultsRoot+os.sep+dmat.chartTitle
+        savePath += _getSaveString(start, end, numPoints, units, row,col, logx, 
+                                   logy, imag)
     dmat.plot(logx, logy, imag, show, savePath)
 
-def plotSmatrix(mat, start=0, end=None, numPoints=None, units=None, row=None, 
+def plotSmatrix(start=0, end=None, numPoints=None, units=None, row=None, 
                 col=None, logx=False, logy=False, imag=False, title=None, 
                 show=True):
-    dmat,start,end,numPoints,units = _getdmat(mat, start, end, numPoints, units)
+    dmat,start,end,numPoints,units = _getdmat(start, end, numPoints, units)
     dMat_plot = dmat.to_dSmat()
     _plot(dMat_plot, start, end, numPoints, units, row, col, logx, logy, imag, 
           title, show)
 
-def plotKmatrix(mat, start=0, end=None, numPoints=None, units=None, row=None, 
+def plotKmatrix(start=0, end=None, numPoints=None, units=None, row=None, 
                 col=None, logx=False, logy=False, imag=False, title=None, 
                 show=True):
-    dmat,start,end,numPoints,units = _getdmat(mat, start, end, numPoints, units)
+    dmat,start,end,numPoints,units = _getdmat(start, end, numPoints, units)
     dMat_plot = dmat.to_dKmat()
     _plot(dMat_plot, start, end, numPoints, units, row, col, logx, logy, imag, 
           title, show)
 
-def plotTmatrix(mat, start=0, end=None, numPoints=None, units=None, row=None, 
+def plotTmatrix(start=0, end=None, numPoints=None, units=None, row=None, 
                 col=None, logx=False, logy=False, imag=False, title=None, 
                 show=True):
-    dmat,start,end,numPoints,units = _getdmat(mat, start, end, numPoints, units)
+    dmat,start,end,numPoints,units = _getdmat(start, end, numPoints, units)
     dMat_plot = dmat.to_dTmat()
     _plot(dMat_plot, start, end, numPoints, units, row, col, logx, logy, imag, 
           title, show)
 
-def plotXS(mat, start=0, end=None, numPoints=None, units=None, row=None, 
+def plotXS(start=0, end=None, numPoints=None, units=None, row=None, 
            col=None, logx=False, logy=False, imag=False, title=None, show=True):
-    dmat,start,end,numPoints,units = _getdmat(mat, start, end, numPoints, units)
+    dmat,start,end,numPoints,units = _getdmat(start, end, numPoints, units)
     dMat_plot = dmat.to_dXSmat()
     _plot(dMat_plot, start, end, numPoints, units, row, col, logx, logy, imag, 
           title, show)
 
-def plotEPhase(mat, start=0, end=None, numPoints=None, units=None, row=None, 
+def plotEPhase(start=0, end=None, numPoints=None, units=None, row=None, 
                col=None, logx=False, logy=False, imag=False, title=None, 
                show=True):
-    dmat,start,end,numPoints,units = _getdmat(mat, start, end, numPoints, units)
+    dmat,start,end,numPoints,units = _getdmat(start, end, numPoints, units)
     dMat_plot = dmat.to_dEPhaseMat()
     _plot(dMat_plot, start, end, numPoints, units, row, col, logx, logy, imag, 
           title, show)
 
-def plotUniOpMat(mat, start=0, end=None, numPoints=None, units=None, row=None, 
+def plotUniOpMat(start=0, end=None, numPoints=None, units=None, row=None, 
                  col=None, logx=False, logy=False, imag=False, title=None, 
                  show=True):
-    dmat,start,end,numPoints,units = _getdmat(mat, start, end, numPoints, units)
+    dmat,start,end,numPoints,units = _getdmat(start, end, numPoints, units)
     dMat_plot = dmat.to_dUniOpMat()
     _plot(dMat_plot, start, end, numPoints, units, row, col, logx, logy, imag, 
           title, show)
