@@ -10,6 +10,11 @@ import channelutil as cu
 import tisutil as tu
 import pynumwrap as nw
 
+# Changing the types after a tool has been created renders old tools in an
+# undefined state and they should not be used. safeMode prevents changing type
+# after tools have been created.
+safeMode = True
+
 Smat = tu.Smat
 Kmat = tu.Kmat
 Tmat = tu.Tmat
@@ -29,32 +34,40 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne,
     cMat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal, sourceStr)
     return cMat.discretise(startEne, endEne, numPoints)
 
-TOOL_CHART = 0
-TOOL_SFIT_MC_ELASTIC = 1
+CHART = 0
+SFIT_MC_ELASTIC = 1
 def getTool(toolID, data, resultsRoot=None, parmaFilePath=None):
-    if toolID == TOOL_CHART:
+    if safeMode:
+        nw.lockType()
+    if toolID == CHART:
         import chart as mod
-    elif toolID == TOOL_SFIT_MC_ELASTIC:
+        tool = mod.chart
+    elif toolID == SFIT_MC_ELASTIC:
         import sfit_mc_elastic as mod
+        tool = mod.sfit_mc_elastic
     else:
         raise Exception("Unrecognised module enum.")
-    mod.data = data
     if resultsRoot is not None:
-        mod.resultsRoot = resultsRoot+os.sep
-        mod.resultsRoot += data.getSourceStr()+os.sep+data.getHistStr()+os.sep
-        mod.resultsRoot += nw.getConfigString()+os.sep+mod.toolName+os.sep
-        if not os.path.isdir(mod.resultsRoot):
-            os.makedirs(mod.resultsRoot)
-    if parmaFilePath is not None:
-        mod.parmaFilePath = parmaFilePath
-    return mod
+        resultsRoot = resultsRoot+os.sep
+        resultsRoot += data.getSourceStr()+os.sep+data.getHistStr()+os.sep
+        resultsRoot += nw.getConfigString()+os.sep+mod.toolName+os.sep
+        if not os.path.isdir(resultsRoot):
+            os.makedirs(resultsRoot)
+    return tool(data, resultsRoot, parmaFilePath)
 
-# TODO prevent changing types after getTool
 def usePythonTypes(dps=nw.dps_default_python):
-    nw.usePythonTypes(dps)
+    try:
+        nw.usePythonTypes(dps)
+    except:
+        s = "Types can only be changed at start of session in safeMode."
+        raise Exception(s)
 
 def useMpmathTypes(dps=nw.dps_default_mpmath):
-    nw.useMpmathTypes(dps)
+    try:
+        nw.useMpmathTypes(dps)
+    except:
+        s = "Types can only be changed at start of session in safeMode."
+        raise Exception(s)
 
 # If overridden, will look for the modules in the site-packages first.
 packageOverride = False

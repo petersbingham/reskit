@@ -5,6 +5,7 @@ rkPath = fileDir+'/../..'
 sys.path.insert(0,rkPath)
 
 import ResKit as rk
+rk.safeMode = False
 import channelutil as cu
 import TwoChanRadialWell as rw
 
@@ -13,7 +14,7 @@ cal = cu.asymCal(cu.HARTs, [0,0])
 cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
 dSmat = cSmat.discretise(1.,8.,100)
 
-chart = rk.getTool(rk.TOOL_CHART, dSmat)
+chart = rk.getTool(rk.CHART, dSmat)
 chart.plotSmatrix()
 
 chart.plotSmatrix(len(dSmat)/4,len(dSmat)*3/4)
@@ -30,12 +31,12 @@ cu.useMpmathTypes()
 rw.useMpmathTypes()
 cal = cu.asymCal(cu.HARTs, [0,0])
 cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
-chart = rk.getTool(rk.TOOL_CHART, cSmat)
+chart = rk.getTool(rk.CHART, cSmat)
 chart.plotSmatrix()
 dSmat = cSmat.discretise(1.,8.,100)
-chart = rk.getTool(rk.TOOL_CHART, dSmat)
+chart = rk.getTool(rk.CHART, dSmat)
 chart.plotSmatrix()
 
 # Check copy saved on file system
-chart = rk.getTool(rk.TOOL_CHART, dSmat, "./test", "chart-test.yml")
+chart = rk.getTool(rk.CHART, dSmat, "./test", "chart-test.yml")
 chart.plotSmatrix()
