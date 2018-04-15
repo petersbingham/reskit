@@ -2,7 +2,7 @@ getElasticSmat:
   sym_matrix_inv:
     method: GE
 
-calculateQIs:
+findPoles:
   cPolyMat_determinant:
     sym_matrix_det:
       method: berkowitz

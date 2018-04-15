@@ -1,23 +1,28 @@
 import yaml
 import os
-import copy
 
-modeDir = os.path.dirname(os.path.realpath(__file__))
+import tool_helper as th
+
+toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "chart"
 
-class chart:
+class chart(th.tool):
     def __init__(self, data, resultsRoot, parmaFilePath):
-        self.data = copy.deepcopy(data)
-        self.resultsRoot = resultsRoot
-        self.parmaFilePath = parmaFilePath
-        if self.parmaFilePath is None:
-            self.parmaFilePath = modeDir+os.sep+"default.yml"
+        th.tool.__init__(self, data, resultsRoot, parmaFilePath, toolDir)
+
+    def _writeCall(self, start, end, numPoints, units, row, col, logx, logy, 
+                   imag, title, show, funName):
+        self.log.writeCall(funName+"("+str(start)+","+str(end)+","\
+                           +str(numPoints)+","+str(units)+","+str(row)+","\
+                           +str(col)+","+str(logx)+","+str(logy)+","+str(imag)\
+                           +","+str(title)+","+str(show)+")")
 
     def _setChartParameters(self, dMat_plot, title):
         if title is not None:
             dMat_plot.setChartTitle(title)
         with open(self.parmaFilePath, 'r') as f:
             config = yaml.load(f.read())
+            self.log.writeParameters(config)
             dMat_plot.setChartParameters(colourCycle=config["colourCycle"])
             dMat_plot.setChartParameters(legPrefix=config["legPrefix"])
             dMat_plot.setChartParameters(useMarker=config["useMarker"])
@@ -72,9 +77,10 @@ class chart:
         self._setChartParameters(dmat, title)
         savePath = None
         if self.resultsRoot is not None:
-            savePath = self.resultsRoot+os.sep+dmat.chartTitle
+            savePath = self.resultsRoot+dmat.chartTitle
             savePath += self._getSaveString(start, end, numPoints, units, row,
                                             col, logx, logy, imag)
+            self.log.writeMsg("Chart saved to: "+savePath)
         dmat.plot(logx, logy, imag, show, savePath)
 
     ##### Public API #####
@@ -82,53 +88,72 @@ class chart:
     def plotSmatrix(self, start=0, end=None, numPoints=None, units=None, 
                     row=None, col=None, logx=False, logy=False, imag=False, 
                     title=None, show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy, 
+                        imag, title, show, "plotSmatrix")
         dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints, 
                                                        units)
         dMat_plot = dmat.to_dSmat()
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx,
                    logy, imag, title, show)
+        self.log.writeCallEnd("plotSmatrix")
 
     def plotKmatrix(self, start=0, end=None, numPoints=None, units=None, 
                     row=None, col=None, logx=False, logy=False, imag=False, 
                     title=None, show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy, 
+                        imag, title, show, "plotKmatrix")
         dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints, 
                                                        units)
         dMat_plot = dmat.to_dKmat()
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx, 
                    logy, imag, title, show)
+        self.log.writeCallEnd("plotKmatrix")
 
     def plotTmatrix(self, start=0, end=None, numPoints=None, units=None, 
                     row=None, col=None, logx=False, logy=False, imag=False, 
                     title=None, show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy, 
+                        imag, title, show, "plotTmatrix")
         dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints, 
                                                        units)
         dMat_plot = dmat.to_dTmat()
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx, 
                    logy, imag, title, show)
+        self.log.writeCallEnd("plotTmatrix")
 
     def plotXS(self, start=0, end=None, numPoints=None, units=None, row=None, 
                col=None, logx=False, logy=False, imag=False, title=None, 
                show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy, 
+                        imag, title, show, "plotXS")
         dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints, 
                                                        units)
         dMat_plot = dmat.to_dXSmat()
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx, 
                    logy, imag, title, show)
+        self.log.writeCallEnd("plotXS")
 
     def plotEPhase(self, start=0, end=None, numPoints=None, units=None, 
                    row=None, col=None, logx=False, logy=False, imag=False, 
                    title=None, show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy, 
+                        imag, title, show, "plotEPhase")
         dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints, 
                                                        units)
         dMat_plot = dmat.to_dEPhaseMat()
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx, 
                    logy, imag, title, show)
+        self.log.writeCallEnd("plotEPhase")
 
     def plotUniOpMat(self, start=0, end=None, numPoints=None, units=None, 
                      row=None, col=None, logx=False, logy=False, imag=False, 
                      title=None, show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy, 
+                        imag, title, show, "plotUniOpMat")
         dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints, 
                                                        units)
         dMat_plot = dmat.to_dUniOpMat()
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx, 
                    logy, imag, title, show)
+        self.log.writeCallEnd("plotUniOpMat")
+

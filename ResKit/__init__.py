@@ -35,22 +35,22 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne,
     return cMat.discretise(startEne, endEne, numPoints)
 
 CHART = 0
-SFIT_MC_ELASTIC = 1
+SFIT_MC_RAK = 1
 def getTool(toolID, data, resultsRoot=None, parmaFilePath=None):
     if safeMode:
         nw.lockType()
     if toolID == CHART:
         import chart as mod
         tool = mod.chart
-    elif toolID == SFIT_MC_ELASTIC:
-        import sfit_mc_elastic as mod
-        tool = mod.sfit_mc_elastic
+    elif toolID == SFIT_MC_RAK:
+        import sfit_mc_rak as mod
+        tool = mod.sfit_mc_rak
     else:
-        raise Exception("Unrecognised module enum.")
+        raise Exception("Unrecognised module.")
     if resultsRoot is not None:
         resultsRoot = resultsRoot+os.sep
-        resultsRoot += data.getSourceStr()+os.sep+data.getHistStr()+os.sep
-        resultsRoot += nw.getConfigString()+os.sep+mod.toolName+os.sep
+        resultsRoot += data.getSourceStr()+os.sep+nw.getConfigString()+os.sep
+        resultsRoot += data.getHistStr()+os.sep+mod.toolName+os.sep
         if not os.path.isdir(resultsRoot):
             os.makedirs(resultsRoot)
     return tool(data, resultsRoot, parmaFilePath)

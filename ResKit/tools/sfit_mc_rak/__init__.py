@@ -1,7 +1,5 @@
 import yaml
 import os
-import copy
-import io
 import tabulate as t
 import numpy as np
 
@@ -12,17 +10,13 @@ import pynumutil as nu
 
 import tool_helper as th
 
-modeDir = os.path.dirname(os.path.realpath(__file__))
-toolName = "sfit_mc_elastic"
+toolDir = os.path.dirname(os.path.realpath(__file__))
+toolName = "sfit_mc_rak"
 
-class sfit_mc_elastic:
+class sfit_mc_rak(th.tool):
     def __init__(self, data, resultsRoot, parmaFilePath):
-        self.data = copy.deepcopy(data)
-        self.resultsRoot = resultsRoot
-        self.parmaFilePath = parmaFilePath
-        if self.parmaFilePath is None:
-            self.parmaFilePath = modeDir+os.sep+"default.yml"
-        #Some internal properties (mainly for testing)
+        th.tool.__init__(self, data, resultsRoot, parmaFilePath, toolDir)
+        #Two internal properties (mainly for testing):
         self.allCoeffsLoaded = False
         self.allRootsLoaded = False
 
@@ -35,13 +29,6 @@ class sfit_mc_elastic:
     def _getPoleDirName(self):
         return self.resultsRoot+"poles"+os.sep
 
-    def _ropen(self, fileName):
-        return io.open(fileName, 'r', newline='\n', encoding="utf-8")
-    def _wopen(self, fileName):
-        return io.open(fileName, 'w', newline='\n', encoding="utf-8")
-    def _w(self, f, o):
-        f.write(unicode(o))
-
     def _getInputDescStr(self, N, ris0):
         return "N="+str(N)+"_"+"S="+str(ris0[0])+"_E="+str(ris0[1])
 
@@ -53,7 +40,7 @@ class sfit_mc_elastic:
         Estr = str(asymCal.ke(val)).replace('(','').replace(')','')
         Estr = Estr.replace(' ','')
         return [kstr, Estr]
-
+        
     ##### Coefficient File #####
 
     def _getCoeffDir(self, N, ris0):
@@ -65,10 +52,10 @@ class sfit_mc_elastic:
         return coeffDir+os.sep+typeStr+"_"+str(i)+".dat"
 
     def _fixNumpyFile(self, fileName):
-        f1 = self._ropen(fileName)
-        f2 = self._wopen(fileName+"_temp")
+        f1 = th.fropen(fileName)
+        f2 = th.fwopen(fileName+"_temp")
         for line in f1:
-            self._w(f2, line.replace("+-", '-').replace("\r\n", '\n'))
+            th.fw(f2, line.replace("+-", '-').replace("\r\n", '\n'))
         f1.close()
         f2.close()
         os.remove(fileName)
@@ -81,8 +68,8 @@ class sfit_mc_elastic:
                 np.savetxt(coeffPath, cmat, delimiter=",", newline='\n')
                 self._fixNumpyFile(coeffPath)
             else:
-                with self._wopen(coeffPath) as f:
-                    self._w(f, cmat)
+                with th.fwopen(coeffPath) as f:
+                    th.fw(f, cmat)
 
     def _saveCoeffs(self, coeffs, N, ris0):
         if self.resultsRoot is not None:
@@ -91,6 +78,7 @@ class sfit_mc_elastic:
                 os.makedirs(coeffDir)
             self._saveCoeff(coeffs[0], coeffDir, "A")
             self._saveCoeff(coeffs[1], coeffDir, "B")
+            self.log.writeMsg("Coeffs saved to: "+coeffDir)
 
     def _splitmpRows(self, s):
         if "(" in s:
@@ -114,7 +102,7 @@ class sfit_mc_elastic:
                                                    delimiter=","))
                     coeffs.append(coeff)
                 else:
-                    with self._ropen(coeffPath) as f:
+                    with th.fropen(coeffPath) as f:
                         s1 = f.read()
                         l1 = s1.split("\n")
                         l2 = [self._splitmpRows(s) for s in l1]
@@ -122,7 +110,7 @@ class sfit_mc_elastic:
                         coeff = nw.mpmath.matrix(l3)
                         coeffs.append(coeff)
             except Exception as inst:
-                # TODO log
+                self.log.writeErr(str(inst))
                 return None
         return coeffs
 
@@ -133,15 +121,16 @@ class sfit_mc_elastic:
                 coeffA = self._loadCoeff(N, coeffDir, "A")
                 coeffB = self._loadCoeff(N, coeffDir, "B")
                 if coeffA is not None and coeffB is not None:
+                    self.log.writeMsg("Coefficients loaded from: "+coeffDir)
                     return coeffA, coeffB
         return None
 
     def _getCoefficients(self, dSmat, N, ris0):
-        self.allCoeffsLoaded = True
         dSmat2 = dSmat[ris0[0]:ris0[1]:ris0[2]]
         coeffs = self._loadCoeffs(N, ris0)
         if coeffs is None:
             coeffs = psm.calculateCoefficients(dSmat2, dSmat2.asymCal)
+            self.log.writeMsg("Coefficients calculated")
             self._saveCoeffs(coeffs, N, ris0)
             self.allCoeffsLoaded = False
         return coeffs
@@ -173,10 +162,11 @@ class sfit_mc_elastic:
                 rows.append(self._getkERow(root, asymCal))
 
             rootPath = self._getRootPath(rootDir, N, ris[0])
-            with self._wopen(rootPath) as f:
-                self._w(f, self._getRootFileHeaderStr(N, ris))
-                self._w(f, t.tabulate(rows,header))
-                self._w(f, "\ncomplete")
+            with th.fwopen(rootPath) as f:
+                th.fw(f, self._getRootFileHeaderStr(N, ris))
+                th.fw(f, t.tabulate(rows,header))
+                th.fw(f, "\ncomplete")
+                self.log.writeMsg("Roots saved to: "+rootPath)
 
     def _loadRoots(self, N, ris):
         if self.resultsRoot is not None:
@@ -186,7 +176,7 @@ class sfit_mc_elastic:
                 if not os.path.isfile(rootPath):
                     return None
                 try:
-                    with self._ropen(rootPath) as f:
+                    with th.fropen(rootPath) as f:
                         fndStart = False
                         roots = []
                         for l in f:
@@ -197,20 +187,21 @@ class sfit_mc_elastic:
                             elif "complete" not in l:
                                 roots.append(nw.complex(l.split()[0]))
                         if "complete" not in l:
-                            # TODO log
+                            self.log.writeErr("Incomplete root file")
                             return None
+                        self.log.writeMsg("Roots loaded from: "+rootPath)
                         return roots
                 except Exception as inst:
-                    # TODO log
+                    self.log.writeErr(str(inst))
                     return None
         return None
 
     def _getRoots(self, p, cFin, asymCal):
-        self.allRootsLoaded = True
         roots = self._loadRoots(cFin.fitInfo[0], cFin.fitInfo[1])
         if roots is None:
             cVal = cFin.determinant(**p["cPolyMat_determinant"])
             roots = cVal.findRoots(**p["cPolyVal_findRoots"])
+            self.log.writeMsg("Roots calculated")
             self._saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, 
                        asymCal)
             self.allRootsLoaded = False
@@ -249,10 +240,11 @@ class sfit_mc_elastic:
                     rows.append(["","","",""])
     
                 polePath = self._getPolePath(poleDir, dk)
-                with self._wopen(polePath) as f:
-                    self._w(f, self._getPoleFileHeaderStr(len(poleData[0][i]), 
+                with th.fwopen(polePath) as f:
+                    th.fw(f, self._getPoleFileHeaderStr(len(poleData[0][i]), 
                                                           asymCal))
-                    self._w(f, t.tabulate(rows,header))
+                    th.fw(f, t.tabulate(rows,header))
+                    self.log.writeMsg("Poles saved to: "+polePath)
 
     ##### QI Save #####
 
@@ -263,7 +255,7 @@ class sfit_mc_elastic:
         return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
 
     def _getQIRow(self, poleQI, asymCal):
-        return self._getkERow(poleQI[0], asymCal) + [str(poleQI[1]), 
+        return self._getkERow(poleQI[0], asymCal) + [str(poleQI[1]),
                                                      str(poleQI[2])]
 
     def _saveQIdata(self, nList, QIdat, asymCal):
@@ -274,42 +266,58 @@ class sfit_mc_elastic:
                 rows.append(self._getQIRow(poleQI, asymCal))
             
             QIPath = self._getQIPath(self._getPoleDir(nList))
-            with self._wopen(QIPath) as f:
-                    self._w(f, self._getQIFileHeaderStr(len(QIdat[0]), 
-                                                        asymCal))
-                    self._w(f, t.tabulate(rows,header))
+            with th.fwopen(QIPath) as f:
+                th.fw(f, self._getQIFileHeaderStr(len(QIdat[0]), asymCal))
+                th.fw(f, t.tabulate(rows,header))
+                self.log.writeMsg("QI data saved to: "+QIPath)
 
     ##### Public API #####
 
     def getElasticSmat(self, N):
+        self.log.writeCall("getElasticSmat("+str(N)+")")
         dSmat = self.data.to_dSmat()
         ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
+        self.log.writeMsg("Calculating for slice:"+str(ris))
+        self.allCoeffsLoaded = True
         coeffs = self._getCoefficients(dSmat, N, ris[0])
-        with self._ropen(self.parmaFilePath) as f:
+        with th.fropen(self.parmaFilePath) as f:
             config = yaml.load(f.read())
-            return psm.getElasticSmatFun(coeffs, dSmat.asymCal,
-                                         **config["getElasticSmat"])
+            self.log.writeParameters(config["getElasticSmat"])
+            ret = psm.getElasticSmatFun(coeffs, dSmat.asymCal,
+                                        **config["getElasticSmat"])
+            self.log.writeMsg("Calculation completed")
+            self.log.writeCallEnd("getElasticSmat")
+            return ret
 
     def getElasticFins(self, Nlist):
+        self.log.writeCall("getElasticFins("+str(Nlist)+")")
         dSmat = self.data.to_dSmat()
         cFins = []
         for N in Nlist:
             ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
+            self.log.writeMsg("Calculating for N="+str(N)+",slice:"+str(ris))
+            self.allCoeffsLoaded = True
             coeffs = self._getCoefficients(dSmat, N, ris[0])
             cFin = psm.getElasticFinFun(coeffs, dSmat.asymCal)
+            self.log.writeMsg("CFins calculated")
             cFin.fitInfo = (N,ris)
             cFins.append(cFin)
+        self.log.writeCallEnd("getElasticFins")
         return cFins
 
-    def calculateQIs(self, cFins):
+    def findPoles(self, cFins):
+        self.log.writeCall("findPoles("+str(map(lambda x: x.fitInfo[0],
+                                                cFins))+")")
         if len(cFins) > 0:
-            with self._ropen(self.parmaFilePath) as f:
+            with th.fropen(self.parmaFilePath) as f:
                 config = yaml.load(f.read())
-                p = config["calculateQIs"]
+                p = config["findPoles"]
                 allRoots = []
                 nList = []
                 asymCal = None
                 if len(cFins) > 0:
+                    self.log.writeParameters(config["findPoles"])
+                    self.allRootsLoaded = True
                     for cFin in cFins:
                         if asymCal is not None:
                             assert asymCal == cFin.asymCal
@@ -322,8 +330,12 @@ class sfit_mc_elastic:
                     poleData = sp.calculateConvergenceGroupsRange(allRoots, 
                                          p["startingDistThres"], 
                                          p["endDistThres"], p["cfSteps"])
+                    self.log.writeMsg("Convergence groups calculated")
                     self._savePoleData(nList, poleData, asymCal)
                     QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
+                    self.log.writeMsg("QIs calculated")
                     self._saveQIdata(nList, QIdat, asymCal)
+                    self.log.writeCallEnd("findPoles")
                     return QIdat
+            self.log.writeCallEnd("findPoles")
             return None, None
