@@ -36,7 +36,8 @@ class parentTest(unittest.TestCase):
         # False because we haven't called findPoles yet
         self.assertFalse(sfit_mc_rak.allRootsLoaded)
 
-        sfit_mc_rak.findPoles(cFins)
+        roots = sfit_mc_rak.findRoots(cFins)
+        sfit_mc_rak.findPoles(roots)
         self.assertTrue(sfit_mc_rak.allRootsLoaded)
 
 class test_numpy(parentTest):

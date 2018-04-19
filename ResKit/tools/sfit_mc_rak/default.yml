@@ -2,7 +2,7 @@ getElasticSmat:
   sym_matrix_inv:
     method: GE
 
-findPoles:
+findRoots:
   cPolyMat_determinant:
     sym_matrix_det:
       method: berkowitz
@@ -14,6 +14,7 @@ findPoles:
         maxsteps: 500
         cleanup: True
 
+findPoles:
   stelempy:
     startingDistThres: 0.0001
     endDistThres: null

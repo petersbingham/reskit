@@ -28,8 +28,11 @@ class logger:
             with faopen(self.logFilePath) as f:
                 fw(f,msg)
 
-    def writeCall(self, funStr):
-        msg = "\n" + getDateTimeString() + ": " + funStr + "\n"
+    def writeCall(self, funStr, internal=False):
+        start = ""
+        if not internal:
+            start = "\n"
+        msg = start + getDateTimeString() + ": " + funStr + "\n"
         self.write(msg)
 
     def writeCallEnd(self, funStr):

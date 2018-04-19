@@ -305,37 +305,61 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("getElasticFins")
         return cFins
 
-    def findPoles(self, cFins):
-        self.log.writeCall("findPoles("+str(map(lambda x: x.fitInfo[0],
-                                                cFins))+")")
+    def findRoots(self, cFins, internal=False):
+        self.log.writeCall("findRoots("+str(map(lambda x: x.fitInfo[0],
+                                                cFins))+")", internal)
+        class RootsList(list):
+            def __init__(self):
+                list.__init__(self)
+                self.nList = []
+                self.asymCal = None
+
+        allRoots = RootsList()
         if len(cFins) > 0:
             with th.fropen(self.parmaFilePath) as f:
                 config = yaml.load(f.read())
-                p = config["findPoles"]
-                allRoots = []
-                nList = []
-                asymCal = None
-                if len(cFins) > 0:
-                    self.log.writeParameters(config["findPoles"])
-                    self.allRootsLoaded = True
-                    for cFin in cFins:
-                        if asymCal is not None:
-                            assert asymCal == cFin.asymCal
-                        asymCal = cFin.asymCal
-                        roots = self._getRoots(p, cFin, asymCal)
-                        allRoots.append(roots)
-                        nList.append(cFin.fitInfo[0])
+                p = config["findRoots"]
+                self.log.writeParameters(p)
+                self.allRootsLoaded = True
+                for cFin in cFins:
+                    if allRoots.asymCal is not None:
+                        assert allRoots.asymCal == cFin.asymCal
+                    allRoots.asymCal = cFin.asymCal
+                    roots = self._getRoots(p, cFin, allRoots.asymCal)
+                    allRoots.append(roots)
+                    allRoots.nList.append(cFin.fitInfo[0])
+        self.log.writeCallEnd("findRoots")
+        return allRoots
 
+    def findPoles(self, cFinsOrRoots):
+        try:
+            paramStr = str(map(lambda x: x.fitInfo[0], cFinsOrRoots))
+        except AttributeError:
+            paramStr = str(cFinsOrRoots.nList)
+
+        self.log.writeCall("findPoles("+paramStr+")")        
+        if len(cFinsOrRoots) > 0:
+            try:
+                cFinsOrRoots.nList
+                allRoots = cFinsOrRoots
+            except AttributeError:
+                allRoots = self.findRoots(cFinsOrRoots, True)
+            if len(allRoots) > 0:
+                with th.fropen(self.parmaFilePath) as f:
+                    config = yaml.load(f.read())
+                    p = config["findPoles"]
+                    self.log.writeParameters(p)
                     p = p["stelempy"]
                     poleData = sp.calculateConvergenceGroupsRange(allRoots, 
                                          p["startingDistThres"], 
                                          p["endDistThres"], p["cfSteps"])
                     self.log.writeMsg("Convergence groups calculated")
-                    self._savePoleData(nList, poleData, asymCal)
+                    self._savePoleData(allRoots.nList, poleData,
+                                       allRoots.asymCal)
                     QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
                     self.log.writeMsg("QIs calculated")
-                    self._saveQIdata(nList, QIdat, asymCal)
+                    self._saveQIdata(allRoots.nList, QIdat, allRoots.asymCal)
                     self.log.writeCallEnd("findPoles")
                     return QIdat
-            self.log.writeCallEnd("findPoles")
-            return None, None
+        self.log.writeCallEnd("findPoles")
+        return None, None
