@@ -5,7 +5,7 @@ import copy
 import yaml
 
 class tool:
-    def __init__(self, data, resultsRoot, paramFilePath, toolDir):
+    def __init__(self, data, resultsRoot, paramFilePath, toolDir, silent):
         self.data = copy.deepcopy(data)
         self.resultsRoot = resultsRoot
         self.paramFilePath = paramFilePath
@@ -13,7 +13,8 @@ class tool:
             self.paramFilePath = toolDir+os.sep+"default.yml"
         if self.resultsRoot is not None:
             self.log = logger(self._getLogFilePath())
-            print self._getLogFilePath()
+            if not silent:
+                print self._getLogFilePath()
         else:
             self.log = logger(None)
 
@@ -23,7 +24,7 @@ class tool:
     def _getConfigCacheName(self):
         return "config.yml"
 
-    def _verifyParamCache(self, cacheDir, paramKey):
+    def _doesParamCacheMatch(self, cacheDir, paramKey):
         with fropen(self.paramFilePath) as f:
             config = yaml.load(f.read())
 
@@ -34,10 +35,15 @@ class tool:
                         p_findRoots = config[paramKey]
                         p_findRoots_str = str(p_findRoots)
                         p_findRoots_cache_str = f_findRoots.read()
-                        if p_findRoots_cache_str != p_findRoots_str:
-                            self._configError()
+                        return p_findRoots_cache_str == p_findRoots_str
                 except Exception as inst:
                     self._fileError(str(inst))
+        return False
+
+    def _verifyParamCache(self, cacheDir, paramKey):
+        if os.path.isdir(cacheDir) and\
+        not self._doesParamCacheMatch(cacheDir, paramKey):
+            self._configError()
 
     def _configError(self):
         eStr = "Error. Configuration at paramFilePath conflicts with a prior "
@@ -96,3 +102,6 @@ def cfgName(path):
 
 def getDateTimeString():
     return str(datetime.datetime.now())[:-3]
+
+def getSubDirs(directory):
+    return os.listdir(directory)

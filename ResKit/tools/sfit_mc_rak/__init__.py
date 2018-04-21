@@ -14,8 +14,9 @@ toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "sfit_mc_rak"
 
 class sfit_mc_rak(th.tool):
-    def __init__(self, data, resultsRoot, paramFilePath):
-        th.tool.__init__(self, data, resultsRoot, paramFilePath, toolDir)
+    def __init__(self, data, resultsRoot, paramFilePath, silent):
+        th.tool.__init__(self, data, resultsRoot, paramFilePath, toolDir,
+                         silent)
         #Two internal properties (mainly for testing):
         self.allCoeffsLoaded = False
         self.allRootsLoaded = False
@@ -55,7 +56,7 @@ class sfit_mc_rak(th.tool):
         Estr = str(asymCal.ke(val)).replace('(','').replace(')','')
         Estr = Estr.replace(' ','')
         return [kstr, Estr]
-        
+
     ##### Coefficient File #####
 
     def _getCoeffDir(self, N, ris0):
@@ -112,7 +113,7 @@ class sfit_mc_rak(th.tool):
                 return None
             try:
                 if nw.mode == nw.mode_python:
-                    coeff = np.asmatrix(np.loadtxt(coeffPath, 
+                    coeff = np.asmatrix(np.loadtxt(coeffPath,
                                                    dtype=np.complex128,
                                                    delimiter=","))
                     coeffs.append(coeff)
@@ -129,15 +130,29 @@ class sfit_mc_rak(th.tool):
                 return None
         return coeffs
 
+    def _loadCoeffSet(self, N, coeffDir):
+        coeffA = self._loadCoeff(N, coeffDir, "A")
+        coeffB = self._loadCoeff(N, coeffDir, "B")
+        if coeffA is not None and coeffB is not None:
+            self.log.writeMsg("Coefficients loaded from: "+coeffDir)
+            return coeffA, coeffB
+        return None
+
     def _loadCoeffs(self, N, ris0):
         if self.resultsRoot is not None:
+            # First try the supplied config.
             coeffDir = self._getCoeffDir(N, ris0)
             if os.path.isdir(coeffDir):
-                coeffA = self._loadCoeff(N, coeffDir, "A")
-                coeffB = self._loadCoeff(N, coeffDir, "B")
-                if coeffA is not None and coeffB is not None:
-                    self.log.writeMsg("Coefficients loaded from: "+coeffDir)
-                    return coeffA, coeffB
+                return self._loadCoeffSet(N, coeffDir)
+            # Now look for other configs that have compatible coeffs.
+            coeffBaseDir = self._getCoeffDirBase()
+            if os.path.isdir(coeffBaseDir):
+                for coeffConfigDirName in th.getSubDirs(coeffBaseDir):
+                    coeffConfigDir = coeffBaseDir+os.sep+coeffConfigDirName
+                    for coeffDirName in th.getSubDirs(coeffConfigDir):
+                        if "N="+str(N)+"_" in coeffDirName:
+                            coeffDir = coeffConfigDir+os.sep+coeffDirName
+                            return self._loadCoeffSet(N, coeffDir)
         return None
 
     def _getCoefficients(self, dSmat, N, ris0):
@@ -186,13 +201,35 @@ class sfit_mc_rak(th.tool):
 
             self._saveRootConfig(p)
 
-    def _loadRoots(self, N, ris):
+    def _getRootPathIfExists(self, rootDir, N, ris0):
+        rootPath = self._getRootPath(rootDir, N, ris0)
+        if os.path.isfile(rootPath):
+            return rootPath
+        return None
+
+    def _findCompatibleRootDir(self, N, ris):
+        # First try the supplied config.
+        rootConfigDir = self._getRootConfigDir()
+        if os.path.isdir(rootConfigDir):
+            rootPath = self._getRootPathIfExists(rootConfigDir, N, ris[0])
+            if rootPath is not None:
+                return rootPath
+        # Now look for other configs that have compatible roots.
+        rootBaseDir = self._getRootConfigDirBase()
+        if os.path.isdir(rootBaseDir):
+            for rootConfigDirName in th.getSubDirs(rootBaseDir):
+                rootConfigDir = rootBaseDir+os.sep+rootConfigDirName
+                if self._doesParamCacheMatch(rootConfigDir, "findRoots"):
+                    rootPath = self._getRootPathIfExists(rootConfigDir, N,
+                                                         ris[0])
+                    if rootPath is not None:
+                        return rootPath
+        return None
+
+    def _loadRoots(self, N, ris, p):
         if self.resultsRoot is not None:
-            rootDir = self._getRootConfigDir()
-            if os.path.isdir(rootDir):
-                rootPath = self._getRootPath(rootDir, N, ris[0])
-                if not os.path.isfile(rootPath):
-                    return None
+            rootPath = self._findCompatibleRootDir(N, ris)
+            if rootPath is not None:
                 try:
                     with th.fropen(rootPath) as f:
                         fndStart = False
@@ -215,7 +252,7 @@ class sfit_mc_rak(th.tool):
         return None
 
     def _getRoots(self, p, cFin, asymCal):
-        roots = self._loadRoots(cFin.fitInfo[0], cFin.fitInfo[1])
+        roots = self._loadRoots(cFin.fitInfo[0], cFin.fitInfo[1], p)
         if roots is None:
             cVal = cFin.determinant(**p["cPolyMat_determinant"])
             roots = cVal.findRoots(**p["cPolyVal_findRoots"])
@@ -253,14 +290,14 @@ class sfit_mc_rak(th.tool):
                 rows = []
                 for pole in poleData[0][i]:
                     for j in sorted(pole.keys()):
-                        row = self._getPoleRow(nList[j], pole[j][0], 
+                        row = self._getPoleRow(nList[j], pole[j][0],
                                                pole[j][2], asymCal)
                         rows.append(row)
                     rows.append(["","","",""])
 
                 polePath = self._getPolePath(poleDir, dk)
                 with th.fwopen(polePath) as f:
-                    th.fw(f, self._getPoleFileHeaderStr(len(poleData[0][i]), 
+                    th.fw(f, self._getPoleFileHeaderStr(len(poleData[0][i]),
                                                           asymCal))
                     th.fw(f, t.tabulate(rows,header))
                     self.log.writeMsg("Poles saved to: "+polePath)
@@ -284,7 +321,7 @@ class sfit_mc_rak(th.tool):
             rows = []
             for poleQI in QIdat[0]:
                 rows.append(self._getQIRow(poleQI, asymCal))
-            
+
             QIPath = self._getQIPath(self._getPoleDir(nList))
             with th.fwopen(QIPath) as f:
                 th.fw(f, self._getQIFileHeaderStr(len(QIdat[0]), asymCal))
@@ -357,7 +394,7 @@ class sfit_mc_rak(th.tool):
         except AttributeError:
             paramStr = str(cFinsOrRoots.nList)
 
-        self.log.writeCall("findPoles("+paramStr+")")        
+        self.log.writeCall("findPoles("+paramStr+")")
         if len(cFinsOrRoots) > 0:
             try:
                 cFinsOrRoots.nList # Test for the parameter type.

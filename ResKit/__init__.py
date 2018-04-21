@@ -36,7 +36,7 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne,
 
 CHART = 0
 SFIT_MC_RAK = 1
-def getTool(toolID, data, resultsRoot=None, paramFilePath=None):
+def getTool(toolID, data, resultsRoot=None, paramFilePath=None, silent=False):
     if safeMode:
         nw.lockType()
     if toolID == CHART:
@@ -53,7 +53,7 @@ def getTool(toolID, data, resultsRoot=None, paramFilePath=None):
         resultsRoot += data.getHistStr()+os.sep+mod.toolName+os.sep
         if not os.path.isdir(resultsRoot):
             os.makedirs(resultsRoot)
-    return tool(data, resultsRoot, paramFilePath)
+    return tool(data, resultsRoot, paramFilePath, silent)
 
 def usePythonTypes(dps=nw.dps_default_python):
     try:

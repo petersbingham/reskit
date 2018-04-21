@@ -21,28 +21,34 @@ class parentTest(unittest.TestCase):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
         cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dSmat = cSmat.discretise(1.,8.,100)
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT)
 
-        sfit_mc_rak.getElasticSmat(6)
-
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT,
+                                 silent=True)
         cFins = sfit_mc_rak.getElasticFins(range(2,4,2))
         sfit_mc_rak.findPoles(cFins)
 
         # Import again with same config and check no exception
-        rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT)
+        rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT, silent=True)
 
         testPath = fileDir+os.sep+"test_sfit_mc_rak_data1"+os.sep+"default.yml"
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat, 
-                          resultsRoot=TEST_ROOT, paramFilePath=testPath)
+        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat,
+                          resultsRoot=TEST_ROOT, paramFilePath=testPath,
+                          silent=True)
 
         testPath = fileDir+os.sep+"test_sfit_mc_rak_data2"+os.sep+"default.yml"
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat, 
-                          resultsRoot=TEST_ROOT, paramFilePath=testPath)
+        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat,
+                          resultsRoot=TEST_ROOT, paramFilePath=testPath,
+                          silent=True)
 
 
 class test_numpy(parentTest):
     def runTest(self):
         rk.usePythonTypes()
+        self.findPoles()
+
+class test_mpmath(parentTest):
+    def runTest(self):
+        rk.useMpmathTypes()
         self.findPoles()
 
 if __name__ == "__main__":
