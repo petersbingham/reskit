@@ -9,6 +9,10 @@ rk.safeMode = False
 import channelutil as cu
 import TwoChanRadialWell as rw
 
+TEST_ROOT = "chart_demo"
+if os.path.isdir(TEST_ROOT):
+    shutil.rmtree(TEST_ROOT)
+    
 #### python Types ####
 cal = cu.asymCal(cu.HARTs, [0,0])
 cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
@@ -38,5 +42,5 @@ chart = rk.getTool(rk.CHART, dSmat)
 chart.plotSmatrix()
 
 # Check copy saved on file system
-chart = rk.getTool(rk.CHART, dSmat, "./test", "chart-test.yml")
+chart = rk.getTool(rk.CHART, dSmat, TEST_ROOT, "chart-test.yml")
 chart.plotSmatrix()

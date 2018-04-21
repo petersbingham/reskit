@@ -2,14 +2,15 @@ import os
 import datetime
 import io
 import copy
+import yaml
 
 class tool:
-    def __init__(self, data, resultsRoot, parmaFilePath, toolDir):
+    def __init__(self, data, resultsRoot, paramFilePath, toolDir):
         self.data = copy.deepcopy(data)
         self.resultsRoot = resultsRoot
-        self.parmaFilePath = parmaFilePath
-        if self.parmaFilePath is None:
-            self.parmaFilePath = toolDir+os.sep+"default.yml"
+        self.paramFilePath = paramFilePath
+        if self.paramFilePath is None:
+            self.paramFilePath = toolDir+os.sep+"default.yml"
         if self.resultsRoot is not None:
             self.log = logger(self._getLogFilePath())
             print self._getLogFilePath()
@@ -18,6 +19,36 @@ class tool:
 
     def _getLogFilePath(self):
         return self.resultsRoot+"calc.log"
+
+    def _getConfigCacheName(self):
+        return "config.yml"
+
+    def _verifyParamCache(self, cacheDir, paramKey):
+        with fropen(self.paramFilePath) as f:
+            config = yaml.load(f.read())
+
+            if os.path.isdir(cacheDir):
+                try:
+                    cachePath = cacheDir+os.sep+self._getConfigCacheName()
+                    with fropen(cachePath) as f_findRoots:
+                        p_findRoots = config[paramKey]
+                        p_findRoots_str = str(p_findRoots)
+                        p_findRoots_cache_str = f_findRoots.read()
+                        if p_findRoots_cache_str != p_findRoots_str:
+                            self._configError()
+                except Exception as inst:
+                    self._fileError(str(inst))
+
+    def _configError(self):
+        eStr = "Error. Configuration at paramFilePath conflicts with a prior "
+        eStr += "config with the same file name. Rename your parameter file."
+        self.log.writeErr(eStr)
+        raise Exception(eStr)
+
+    def _fileError(self, eStr):
+        self.log.writeErr(eStr)
+        raise Exception("Error. Exception opening cache config: " + eStr)
+
 
 class logger:
     def __init__(self, logFilePath):

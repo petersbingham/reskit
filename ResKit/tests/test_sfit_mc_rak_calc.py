@@ -1,5 +1,6 @@
 import os
 import sys
+from base64 import test
 fileDir = os.path.dirname(os.path.realpath(__file__))
 rkPath = fileDir+'/../..'
 sys.path.insert(0,rkPath)
@@ -13,16 +14,16 @@ import pynumwrap as nw
 import unittest
 import shutil
 
-if os.path.isdir("test"):
-    shutil.rmtree("test")
+TEST_ROOT = "test_sfit_mc_rak_calc"
+if os.path.isdir(TEST_ROOT):
+    shutil.rmtree(TEST_ROOT)
 
 class parentTest(unittest.TestCase):
     def findPoles(self):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
         cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dSmat = cSmat.discretise(1.,8.,100)
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat,
-                                     resultsRoot="test")
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT)
 
         sfit_mc_rak.getElasticSmat(6)
 

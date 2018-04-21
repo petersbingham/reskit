@@ -7,8 +7,8 @@ toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "chart"
 
 class chart(th.tool):
-    def __init__(self, data, resultsRoot, parmaFilePath):
-        th.tool.__init__(self, data, resultsRoot, parmaFilePath, toolDir)
+    def __init__(self, data, resultsRoot, paramFilePath):
+        th.tool.__init__(self, data, resultsRoot, paramFilePath, toolDir)
 
     def _writeCall(self, start, end, numPoints, units, row, col, logx, logy, 
                    imag, title, show, funName):
@@ -20,7 +20,7 @@ class chart(th.tool):
     def _setChartParameters(self, dMat_plot, title):
         if title is not None:
             dMat_plot.setChartTitle(title)
-        with open(self.parmaFilePath, 'r') as f:
+        with open(self.paramFilePath, 'r') as f:
             config = yaml.load(f.read())
             self.log.writeParameters(config)
             dMat_plot.setChartParameters(colourCycle=config["colourCycle"])

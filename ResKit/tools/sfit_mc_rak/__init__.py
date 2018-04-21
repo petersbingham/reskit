@@ -14,20 +14,35 @@ toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "sfit_mc_rak"
 
 class sfit_mc_rak(th.tool):
-    def __init__(self, data, resultsRoot, parmaFilePath):
-        th.tool.__init__(self, data, resultsRoot, parmaFilePath, toolDir)
+    def __init__(self, data, resultsRoot, paramFilePath):
+        th.tool.__init__(self, data, resultsRoot, paramFilePath, toolDir)
         #Two internal properties (mainly for testing):
         self.allCoeffsLoaded = False
         self.allRootsLoaded = False
+        self._verifyParamCaches()
+
+    def _verifyParamCaches(self):
+        self._verifyParamCache(self._getRootConfigDir(), "findRoots")
+        self._verifyParamCache(self._getPoleConfigDir(), "findPoles")
 
     ##### General file and string Functions #####
 
-    def _getCoeffDirName(self):
+    def _getCoeffDirBase(self):
         return self.resultsRoot+"coeffs"+os.sep
-    def _getRootDirName(self):
+    def _getRootConfigDirBase(self):
         return self.resultsRoot+"roots"+os.sep
-    def _getPoleDirName(self):
+    def _getPoleDirBase(self):
         return self.resultsRoot+"poles"+os.sep
+
+    def _getRootConfigDir(self):
+        return self._getRootConfigDirBase()+th.cfgName(self.paramFilePath)
+    def _getPoleConfigDir(self):
+        return self._getPoleDirBase()+th.cfgName(self.paramFilePath)
+
+    def _getRootConfigPath(self):
+        return self._getRootConfigDir()+os.sep+self._getConfigCacheName()
+    def _getPoleConfigPath(self):
+        return self._getPoleConfigDir()+os.sep+self._getConfigCacheName()
 
     def _getInputDescStr(self, N, ris0):
         return "N="+str(N)+"_"+"S="+str(ris0[0])+"_E="+str(ris0[1])
@@ -44,7 +59,7 @@ class sfit_mc_rak(th.tool):
     ##### Coefficient File #####
 
     def _getCoeffDir(self, N, ris0):
-        a = self._getCoeffDirName()+th.cfgName(self.parmaFilePath)
+        a = self._getCoeffDirBase()+th.cfgName(self.paramFilePath)
         b = os.sep+self._getInputDescStr(N, ris0)
         return a + b
 
@@ -137,11 +152,12 @@ class sfit_mc_rak(th.tool):
 
     ##### Root File #####
 
-    def _getRootDir(self):
-        return self._getRootDirName()+th.cfgName(self.parmaFilePath)
-
     def _getRootPath(self, rootDir, N, ris0):
         return rootDir+os.sep+self._getInputDescStr(N, ris0)+".dat"
+
+    def _saveRootConfig(self, p):
+        with th.fwopen(self._getRootConfigPath()) as f:
+            th.fw(f, str(p))
 
     def _getRootFileHeaderStr(self, N, ris):
         Nstr = "N="+str(N)
@@ -150,9 +166,9 @@ class sfit_mc_rak(th.tool):
         stepStr = "step="+str(ris[0][2])
         return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
-    def _saveRoots(self, N, ris, roots, asymCal):
+    def _saveRoots(self, N, ris, roots, asymCal, p):
         if self.resultsRoot is not None:
-            rootDir = self._getRootDir()
+            rootDir = self._getRootConfigDir()
             if not os.path.isdir(rootDir):
                 os.makedirs(rootDir)
 
@@ -168,9 +184,11 @@ class sfit_mc_rak(th.tool):
                 th.fw(f, "\ncomplete")
                 self.log.writeMsg("Roots saved to: "+rootPath)
 
+            self._saveRootConfig(p)
+
     def _loadRoots(self, N, ris):
         if self.resultsRoot is not None:
-            rootDir = self._getRootDir()
+            rootDir = self._getRootConfigDir()
             if os.path.isdir(rootDir):
                 rootPath = self._getRootPath(rootDir, N, ris[0])
                 if not os.path.isfile(rootPath):
@@ -202,20 +220,21 @@ class sfit_mc_rak(th.tool):
             cVal = cFin.determinant(**p["cPolyMat_determinant"])
             roots = cVal.findRoots(**p["cPolyVal_findRoots"])
             self.log.writeMsg("Roots calculated")
-            self._saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, 
-                       asymCal)
+            self._saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, asymCal, p)
             self.allRootsLoaded = False
         return roots
 
     ##### Pole Save #####
 
     def _getPoleDir(self, nList):
-        a = self._getPoleDirName()+th.cfgName(self.parmaFilePath)
-        b = os.sep+str(nList).replace(' ','')
-        return a + b
+        return self._getPoleConfigDir() + os.sep+str(nList).replace(' ','')
 
     def _getPolePath(self, poleDir, dk):
         return poleDir+os.sep+"dk"+nu.sciStr(dk)+".dat"
+
+    def _savePoleConfig(self, p):
+        with th.fwopen(self._getPoleConfigPath()) as f:
+            th.fw(f, str(p))
 
     def _getPoleFileHeaderStr(self, numPoles, asymCal):
         return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
@@ -223,12 +242,12 @@ class sfit_mc_rak(th.tool):
     def _getPoleRow(N, pole, status, asymCal):
         return [str(N), status] + self._getkERow(pole, asymCal)
 
-    def _savePoleData(self, nList, poleData, asymCal):
+    def _savePoleData(self, nList, poleData, asymCal, p):
         if self.resultsRoot is not None:
             poleDir = self._getPoleDir(nList)
             if not os.path.isdir(poleDir):
                 os.makedirs(poleDir)
-    
+
             for i,dk in enumerate(poleData[2]):
                 header = ["N","status"] + self._getNumHeader(asymCal)
                 rows = []
@@ -238,13 +257,14 @@ class sfit_mc_rak(th.tool):
                                                pole[j][2], asymCal)
                         rows.append(row)
                     rows.append(["","","",""])
-    
+
                 polePath = self._getPolePath(poleDir, dk)
                 with th.fwopen(polePath) as f:
                     th.fw(f, self._getPoleFileHeaderStr(len(poleData[0][i]), 
                                                           asymCal))
                     th.fw(f, t.tabulate(rows,header))
                     self.log.writeMsg("Poles saved to: "+polePath)
+            self._savePoleConfig(p)
 
     ##### QI Save #####
 
@@ -280,7 +300,7 @@ class sfit_mc_rak(th.tool):
         self.log.writeMsg("Calculating for slice:"+str(ris))
         self.allCoeffsLoaded = True
         coeffs = self._getCoefficients(dSmat, N, ris[0])
-        with th.fropen(self.parmaFilePath) as f:
+        with th.fropen(self.paramFilePath) as f:
             config = yaml.load(f.read())
             self.log.writeParameters(config["getElasticSmat"])
             ret = psm.getElasticSmatFun(coeffs, dSmat.asymCal,
@@ -316,7 +336,7 @@ class sfit_mc_rak(th.tool):
 
         allRoots = RootsList()
         if len(cFins) > 0:
-            with th.fropen(self.parmaFilePath) as f:
+            with th.fropen(self.paramFilePath) as f:
                 config = yaml.load(f.read())
                 p = config["findRoots"]
                 self.log.writeParameters(p)
@@ -340,23 +360,23 @@ class sfit_mc_rak(th.tool):
         self.log.writeCall("findPoles("+paramStr+")")        
         if len(cFinsOrRoots) > 0:
             try:
-                cFinsOrRoots.nList
+                cFinsOrRoots.nList # Test for the parameter type.
                 allRoots = cFinsOrRoots
             except AttributeError:
                 allRoots = self.findRoots(cFinsOrRoots, True)
             if len(allRoots) > 0:
-                with th.fropen(self.parmaFilePath) as f:
+                with th.fropen(self.paramFilePath) as f:
                     config = yaml.load(f.read())
                     p = config["findPoles"]
                     self.log.writeParameters(p)
-                    p = p["stelempy"]
+                    pp = p["stelempy"]
                     poleData = sp.calculateConvergenceGroupsRange(allRoots, 
-                                         p["startingDistThres"], 
-                                         p["endDistThres"], p["cfSteps"])
+                                         pp["startingDistThres"], 
+                                         pp["endDistThres"], pp["cfSteps"])
                     self.log.writeMsg("Convergence groups calculated")
                     self._savePoleData(allRoots.nList, poleData,
-                                       allRoots.asymCal)
-                    QIdat = sp.calculateQIsFromRange(poleData, p["amalgThres"])
+                                       allRoots.asymCal, p)
+                    QIdat = sp.calculateQIsFromRange(poleData, pp["amalgThres"])
                     self.log.writeMsg("QIs calculated")
                     self._saveQIdata(allRoots.nList, QIdat, allRoots.asymCal)
                     self.log.writeCallEnd("findPoles")
