@@ -8,14 +8,14 @@ import parSmat as psm
 import stelempy as sp
 import pynumutil as nu
 
-import tool_helper as th
+import toolhelper as th
 
 toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "sfit_mc_rak"
 
 class sfit_mc_rak(th.tool):
-    def __init__(self, data, resultsRoot, paramFilePath, silent):
-        th.tool.__init__(self, data, resultsRoot, paramFilePath, toolDir,
+    def __init__(self, data, archiveRoot, paramFilePath, silent):
+        th.tool.__init__(self, data, archiveRoot, paramFilePath, toolDir,
                          silent)
         #Two internal properties (mainly for testing):
         self.allCoeffsLoaded = False
@@ -29,11 +29,11 @@ class sfit_mc_rak(th.tool):
     ##### General file and string Functions #####
 
     def _getCoeffDirBase(self):
-        return self.resultsRoot+"coeffs"+os.sep
+        return self.archiveRoot+"coeffs"+os.sep
     def _getRootConfigDirBase(self):
-        return self.resultsRoot+"roots"+os.sep
+        return self.archiveRoot+"roots"+os.sep
     def _getPoleDirBase(self):
-        return self.resultsRoot+"poles"+os.sep
+        return self.archiveRoot+"poles"+os.sep
 
     def _getRootConfigDir(self):
         return self._getRootConfigDirBase()+th.cfgName(self.paramFilePath)
@@ -88,7 +88,7 @@ class sfit_mc_rak(th.tool):
                     th.fw(f, cmat)
 
     def _saveCoeffs(self, coeffs, N, ris0):
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             coeffDir = self._getCoeffDir(N, ris0)
             if not os.path.isdir(coeffDir):
                 os.makedirs(coeffDir)
@@ -139,7 +139,7 @@ class sfit_mc_rak(th.tool):
         return None
 
     def _loadCoeffs(self, N, ris0):
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             # First try the supplied config.
             coeffDir = self._getCoeffDir(N, ris0)
             if os.path.isdir(coeffDir):
@@ -182,7 +182,7 @@ class sfit_mc_rak(th.tool):
         return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
     def _saveRoots(self, N, ris, roots, asymCal, p):
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             rootDir = self._getRootConfigDir()
             if not os.path.isdir(rootDir):
                 os.makedirs(rootDir)
@@ -227,7 +227,7 @@ class sfit_mc_rak(th.tool):
         return None
 
     def _loadRoots(self, N, ris, p):
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             rootPath = self._findCompatibleRootDir(N, ris)
             if rootPath is not None:
                 try:
@@ -280,7 +280,7 @@ class sfit_mc_rak(th.tool):
         return [str(N), status] + self._getkERow(pole, asymCal)
 
     def _savePoleData(self, nList, poleData, asymCal, p):
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             poleDir = self._getPoleDir(nList)
             if not os.path.isdir(poleDir):
                 os.makedirs(poleDir)
@@ -316,7 +316,7 @@ class sfit_mc_rak(th.tool):
                                                      str(poleQI[2])]
 
     def _saveQIdata(self, nList, QIdat, asymCal):
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             header = self._getNumHeader(asymCal) + ["^dk","ENk"]
             rows = []
             for poleQI in QIdat[0]:

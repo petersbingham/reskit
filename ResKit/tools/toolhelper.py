@@ -5,13 +5,13 @@ import copy
 import yaml
 
 class tool:
-    def __init__(self, data, resultsRoot, paramFilePath, toolDir, silent):
+    def __init__(self, data, archiveRoot, paramFilePath, toolDir, silent):
         self.data = copy.deepcopy(data)
-        self.resultsRoot = resultsRoot
+        self.archiveRoot = archiveRoot
         self.paramFilePath = paramFilePath
         if self.paramFilePath is None:
             self.paramFilePath = toolDir+os.sep+"default.yml"
-        if self.resultsRoot is not None:
+        if self.archiveRoot is not None:
             self.log = logger(self._getLogFilePath())
             if not silent:
                 print self._getLogFilePath()
@@ -19,7 +19,7 @@ class tool:
             self.log = logger(None)
 
     def _getLogFilePath(self):
-        return self.resultsRoot+"calc.log"
+        return self.archiveRoot+"calc.log"
 
     def _getConfigCacheName(self):
         return "config.yml"

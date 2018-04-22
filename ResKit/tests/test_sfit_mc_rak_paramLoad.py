@@ -22,17 +22,17 @@ class parentTest(unittest.TestCase):
         cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dSmat = cSmat.discretise(1.,8.,100)
 
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT,
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT,
                                  silent=True)
         cFins = sfit_mc_rak.getElasticFins(range(2,4,2))
         sfit_mc_rak.findPoles(cFins)
 
         # Import again with same config and check no exception
-        rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT, silent=True)
+        rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT, silent=True)
 
         testPath = fileDir+os.sep+"test_sfit_mc_rak_data1"+os.sep
         testPath += "changedRoots.yml"
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT,
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT,
                                  paramFilePath=testPath, silent=True)
         cFins = sfit_mc_rak.getElasticFins(range(2,4,2))
         sfit_mc_rak.findRoots(cFins)
@@ -41,7 +41,7 @@ class parentTest(unittest.TestCase):
 
         testPath = fileDir+os.sep+"test_sfit_mc_rak_data2"+os.sep
         testPath += "changedPoles.yml"
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, resultsRoot=TEST_ROOT,
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT,
                                  paramFilePath=testPath, silent=True)
         cFins = sfit_mc_rak.getElasticFins(range(2,4,2))
         sfit_mc_rak.findRoots(cFins)

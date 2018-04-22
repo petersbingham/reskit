@@ -12,7 +12,7 @@ import TwoChanRadialWell as rw
 import unittest
 import shutil
 
-TEST_ROOT = "test_sfit_mc_rak_config"
+TEST_ROOT = "test_sfit_mc_rak_dataValidate"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
@@ -22,24 +22,12 @@ class parentTest(unittest.TestCase):
         cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dSmat = cSmat.discretise(1.,8.,100)
 
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT,
-                                 silent=True)
-        cFins = sfit_mc_rak.getElasticFins(range(2,4,2))
-        sfit_mc_rak.findPoles(cFins)
-
-        # Import again with same config and check no exception
         rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT, silent=True)
-
-        testPath = fileDir+os.sep+"test_sfit_mc_rak_data1"+os.sep+"default.yml"
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat,
-                          archiveRoot=TEST_ROOT, paramFilePath=testPath,
-                          silent=True)
-
-        testPath = fileDir+os.sep+"test_sfit_mc_rak_data2"+os.sep+"default.yml"
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat,
-                          archiveRoot=TEST_ROOT, paramFilePath=testPath,
-                          silent=True)
-
+        rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT, silent=True)
+        
+        dSmat.asymCal.units = cu.RYDs
+        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat, 
+                          archiveRoot=TEST_ROOT, silent=True)
 
 class test_numpy(parentTest):
     def runTest(self):

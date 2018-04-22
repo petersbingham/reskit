@@ -1,14 +1,14 @@
 import yaml
 import os
 
-import tool_helper as th
+import toolhelper as th
 
 toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "chart"
 
 class chart(th.tool):
-    def __init__(self, data, resultsRoot, paramFilePath, silent):
-        th.tool.__init__(self, data, resultsRoot, paramFilePath, toolDir,
+    def __init__(self, data, archiveRoot, paramFilePath, silent):
+        th.tool.__init__(self, data, archiveRoot, paramFilePath, toolDir,
                          silent)
 
     def _writeCall(self, start, end, numPoints, units, row, col, logx, logy,
@@ -77,8 +77,8 @@ class chart(th.tool):
             dmat = dmat.createReducedDim(row, True)
         self._setChartParameters(dmat, title)
         savePath = None
-        if self.resultsRoot is not None:
-            savePath = self.resultsRoot+dmat.chartTitle
+        if self.archiveRoot is not None:
+            savePath = self.archiveRoot+dmat.chartTitle
             savePath += self._getSaveString(start, end, numPoints, units, row,
                                             col, logx, logy, imag)
             self.log.writeMsg("Chart saved to: "+savePath)

@@ -9,6 +9,7 @@ sys.path.insert(0,depPath)
 import channelutil as cu
 import tisutil as tu
 import pynumwrap as nw
+import toolhelper as th
 
 # Changing the types after a tool has been created renders old tools in an
 # undefined state and they should not be used. safeMode prevents changing type
@@ -29,14 +30,14 @@ def getAsymCalc(units, ls=None):
 def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
     return tu.getDiscreteScatteringMatrix(matType, matDict, asymCal, sourceStr)
 
-def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne,
-                          numPoints, sourceStr):
+def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
+                          sourceStr):
     cMat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal, sourceStr)
     return cMat.discretise(startEne, endEne, numPoints)
 
 CHART = 0
 SFIT_MC_RAK = 1
-def getTool(toolID, data, resultsRoot=None, paramFilePath=None, silent=False):
+def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
     if safeMode:
         nw.lockType()
     if toolID == CHART:
@@ -47,13 +48,28 @@ def getTool(toolID, data, resultsRoot=None, paramFilePath=None, silent=False):
         tool = mod.sfit_mc_rak
     else:
         raise Exception("Unrecognised module.")
-    if resultsRoot is not None:
-        resultsRoot = resultsRoot+os.sep
-        resultsRoot += data.getSourceStr()+os.sep+nw.getConfigString()+os.sep
-        resultsRoot += data.getHistStr()+os.sep+mod.toolName+os.sep
-        if not os.path.isdir(resultsRoot):
-            os.makedirs(resultsRoot)
-    return tool(data, resultsRoot, paramFilePath, silent)
+    if archiveRoot is not None:
+        dataRoot = archiveRoot+os.sep+data.getSourceStr()+os.sep
+        dataRoot += nw.getConfigString()+os.sep+data.getHistStr()+os.sep
+        archiveRoot = dataRoot+mod.toolName+os.sep
+        if not os.path.isdir(dataRoot):
+            os.makedirs(dataRoot)
+            with th.fwopen(dataRoot+"checkdata.dat") as f:
+                th.fw(f, data.getCheckStr())
+        else:
+            if os.path.isfile(dataRoot+"checkdata.dat"):
+                with th.fropen(dataRoot+"checkdata.dat") as f:
+                    if f.read() != data.getCheckStr():
+                        s = "Supplied data does not correspond to that used "
+                        s += "to originally create the dataRoot."
+                        raise Exception(s)
+            else:
+                s = "Invalid archive state: data dir with no checkdata.dat."
+                raise Exception(s)
+        if not os.path.isdir(archiveRoot):
+            os.makedirs(archiveRoot)
+
+    return tool(data, archiveRoot, paramFilePath, silent)
 
 def usePythonTypes(dps=nw.dps_default_python):
     try:
