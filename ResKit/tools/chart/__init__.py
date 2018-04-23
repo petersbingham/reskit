@@ -30,11 +30,10 @@ class chart(th.tool):
             dMat_plot.setChartParameters(xsize=config["xsize"])
             dMat_plot.setChartParameters(ysize=config["ysize"])
 
-    def _getSaveString(self, start, end, numPoints, units, row, col, logx, logy,
-                       imag):
+    def _getSaveString(self, start, end, numPoints, row, col, logx, logy, imag,
+                       units):
         ret = "_" + str(start) + "_" + str(end) + "_" + str(numPoints) +\
               "_" + units
-    
         if row:
             ret += "_row" + str(row)
         if col:
@@ -45,7 +44,7 @@ class chart(th.tool):
             ret += "_logy"
         if imag:
             ret += "_imag"
-        return ret
+        return ret + ".png"
 
     def _getdmat(self, start, end, numPoints, units):
         if self.data.isDiscrete():
@@ -79,8 +78,8 @@ class chart(th.tool):
         savePath = None
         if self.archiveRoot is not None:
             savePath = self.archiveRoot+dmat.chartTitle
-            savePath += self._getSaveString(start, end, numPoints, units, row,
-                                            col, logx, logy, imag)
+            savePath += self._getSaveString(start, end, numPoints, row, col, 
+                                            logx, logy, imag, dMat_plot.units)
             self.log.writeMsg("Chart saved to: "+savePath)
         dmat.plot(logx, logy, imag, show, savePath)
 
@@ -157,3 +156,14 @@ class chart(th.tool):
         self._plot(dMat_plot, start, end, numPoints, units, row, col, logx,
                    logy, imag, title, show)
         self.log.writeCallEnd("plotUniOpMat")
+
+    def plotRaw(self, start=0, end=None, numPoints=None, units=None, row=None, 
+                col=None, logx=False, logy=False, imag=False, title=None, 
+                show=True):
+        self._writeCall(start, end, numPoints, units, row, col, logx, logy,
+                        imag, title, show, "plotRaw")
+        dmat,start,end,numPoints,units = self._getdmat(start, end, numPoints,
+                                                       units)
+        self._plot(dmat, start, end, numPoints, units, row, col, logx, logy, 
+                   imag, title, show)
+        self.log.writeCallEnd("plotRaw")

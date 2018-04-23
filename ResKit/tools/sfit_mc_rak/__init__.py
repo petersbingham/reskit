@@ -328,6 +328,13 @@ class sfit_mc_rak(th.tool):
                 th.fw(f, t.tabulate(rows,header))
                 self.log.writeMsg("QI data saved to: "+QIPath)
 
+    def _updateContainerStrings(self, cont, hist, chartTitle=None):
+        cont.setSourceStr(self.data.getSourceStr())
+        cont.appendHistStr(self.data.getHistStr())
+        cont.appendHistStr(hist)
+        if chartTitle is not None:
+            cFin.setChartTitle("Fin")
+
     ##### Public API #####
 
     def getElasticSmat(self, N):
@@ -340,11 +347,12 @@ class sfit_mc_rak(th.tool):
         with th.fropen(self.paramFilePath) as f:
             config = yaml.load(f.read())
             self.log.writeParameters(config["getElasticSmat"])
-            ret = psm.getElasticSmatFun(coeffs, dSmat.asymCal,
+            cSMat = psm.getElasticSmatFun(coeffs, dSmat.asymCal,
                                         **config["getElasticSmat"])
+            self._updateContainerStrings(cSMat, "sfit_mc_rat_S_N="+str(N))
             self.log.writeMsg("Calculation completed")
             self.log.writeCallEnd("getElasticSmat")
-            return ret
+            return cSMat
 
     def getElasticFins(self, Nlist):
         self.log.writeCall("getElasticFins("+str(Nlist)+")")
@@ -356,7 +364,8 @@ class sfit_mc_rak(th.tool):
             self.allCoeffsLoaded = True
             coeffs = self._getCoefficients(dSmat, N, ris[0])
             cFin = psm.getElasticFinFun(coeffs, dSmat.asymCal)
-            self.log.writeMsg("CFins calculated")
+            self._updateContainerStrings(cFin, "sfit_mc_rat_Fin_N="+str(N), Fin)
+            self.log.writeMsg("cFins calculated")
             cFin.fitInfo = (N,ris)
             cFins.append(cFin)
         self.log.writeCallEnd("getElasticFins")

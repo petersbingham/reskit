@@ -59,7 +59,7 @@ def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
         else:
             if os.path.isfile(dataRoot+"checkdata.dat"):
                 with th.fropen(dataRoot+"checkdata.dat") as f:
-                    if f.read() != data.getCheckStr():
+                    if str(f.read()) != str(data.getCheckStr()):
                         s = "Supplied data does not correspond to that used "
                         s += "to originally create the dataRoot."
                         raise Exception(s)
