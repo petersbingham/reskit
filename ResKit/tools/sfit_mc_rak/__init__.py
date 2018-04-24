@@ -276,7 +276,7 @@ class sfit_mc_rak(th.tool):
     def _getPoleFileHeaderStr(self, numPoles, asymCal):
         return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
 
-    def _getPoleRow(N, pole, status, asymCal):
+    def _getPoleRow(self, N, pole, status, asymCal):
         return [str(N), status] + self._getkERow(pole, asymCal)
 
     def _savePoleData(self, nList, poleData, asymCal, p):
@@ -328,12 +328,12 @@ class sfit_mc_rak(th.tool):
                 th.fw(f, t.tabulate(rows,header))
                 self.log.writeMsg("QI data saved to: "+QIPath)
 
-    def _updateContainerStrings(self, cont, hist, chartTitle=None):
+    def _updateContainerStrings(self, N, cont, chartTitle=None):
         cont.setSourceStr(self.data.getSourceStr())
         cont.appendHistStr(self.data.getHistStr())
-        cont.appendHistStr(hist)
+        cont.appendHistStr("sfit_mc_rat_N="+str(N))
         if chartTitle is not None:
-            cFin.setChartTitle("Fin")
+            cont.setChartTitle("Fin")
 
     ##### Public API #####
 
@@ -349,7 +349,7 @@ class sfit_mc_rak(th.tool):
             self.log.writeParameters(config["getElasticSmat"])
             cSMat = psm.getElasticSmatFun(coeffs, dSmat.asymCal,
                                         **config["getElasticSmat"])
-            self._updateContainerStrings(cSMat, "sfit_mc_rat_S_N="+str(N))
+            self._updateContainerStrings(N, cSMat)
             self.log.writeMsg("Calculation completed")
             self.log.writeCallEnd("getElasticSmat")
             return cSMat
@@ -364,7 +364,7 @@ class sfit_mc_rak(th.tool):
             self.allCoeffsLoaded = True
             coeffs = self._getCoefficients(dSmat, N, ris[0])
             cFin = psm.getElasticFinFun(coeffs, dSmat.asymCal)
-            self._updateContainerStrings(cFin, "sfit_mc_rat_Fin_N="+str(N), Fin)
+            self._updateContainerStrings(N, cFin, "Fin")
             self.log.writeMsg("cFins calculated")
             cFin.fitInfo = (N,ris)
             cFins.append(cFin)
