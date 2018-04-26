@@ -3,6 +3,7 @@ import os
 import tabulate as t
 import numpy as np
 import matplotlib.pyplot as plt
+from cycler import cycler
 
 import pynumwrap as nw
 import parSmat as psm
@@ -157,9 +158,9 @@ class sfit_mc_rak(th.tool):
         return None
 
     def _getCoefficients(self, N, ris0):
-        dSmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
         coeffs = self._loadCoeffs(N, ris0)
         if coeffs is None:
+            dSmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
             coeffs = psm.calculateCoefficients(dSmat, dSmat.asymCal)
             self.log.writeMsg("Coefficients calculated")
             self._saveCoeffs(coeffs, N, ris0)
@@ -427,7 +428,7 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("getElasticSmat")
         return cSMat
 
-    def plotSmatFit(self, cSMat, m, n, numPoints=None):
+    def plotSmatFit(self, cSMat, row, col, numPoints=None, show=True):
         N = cSMat.fitInfo[0]
         self.log.writeCall("plotSmatFit("+str(N)+")")
         err = False
@@ -440,30 +441,55 @@ class sfit_mc_rak(th.tool):
         if not err:    
             with th.fropen(self.paramFilePath) as f:
                 config = yaml.load(f.read())
-                p = config["plotSmatFit"]
+                p = config["fitCharts"]
                 self.log.writeParameters(p)
                 xsize = p["xsize"]
                 ysize = p["ysize"]
 
-                fig = plt.figure()
-                fig.suptitle("Smat fit for N="+str(N))
+                fig = plt.figure(facecolor="white")
+                title = "S matrix fit for N="+str(N)
+                title += ", row"+str(row)+", col"+str(col)
+                fig.suptitle(title)
                 fig.set_size_inches(xsize, ysize, forward=True)
 
                 if numPoints is None:
                     ln = len(self.data)
                 else:
                     ln = numPoints
-                rng = self.data.getRange()
-                dSmat = cSMat.discretise(rng[0], rng[1], ln)
-                
-                oEl = self.data.createReducedDim(m).createReducedDim(n)
-                if numPoints is not None:
-                    oEl = oEl.createReducedLength(numPoints=ln)
-                fEl = dSmat.createReducedDim(m).createReducedDim(n)
-                    
-                oPlt = oEl.getPlotInfo()
-                fPlt = fEl.getPlotInfo()
 
-                plt.Show()
+                plt.gca().set_prop_cycle(cycler('color', p["colourCycle"]))
+                oEl = self.data
+                if numPoints is not None:
+                    oEl = oEl.createReducedLength(numPoints=ln, forceEnd=True)
+                oEl = oEl.to_dSmat()
+                oEl = oEl.createReducedDim(row).createReducedDim(col)
+                ls1,_ = oEl.getPlotInfo()
+
+                ris0 = cSMat.fitInfo[1][0]
+                fpEl = self.data[ris0[0]:ris0[1]:ris0[2]]
+                fpEl = fpEl.to_dSmat()
+                fpEl = fpEl.createReducedDim(row).createReducedDim(col)
+                fpEl.setChartParameters(useMarker=True)
+                ls2,_ = fpEl.getPlotInfo()
+
+                rng = oEl.getRange()
+                dSmat = cSMat.discretise(rng[0], rng[1], ln)
+                fEl = dSmat.createReducedDim(row).createReducedDim(col)
+                ls3,_ = fEl.getPlotInfo()
+
+                plt.legend([ls1[0],ls2[0],ls3[0]], 
+                           ["Original","Fit points","Fitted"], 
+                           prop={'size': 12})
+                plt.xlabel(self.data.units, fontsize=12)
+                if self.archiveRoot is not None:
+                    savePath = self.archiveRoot+"charts"+os.sep
+                    if not os.path.isdir(savePath):
+                        os.makedirs(savePath)
+                    savePath += "SMatFit_N="+str(N)+"_row"+str(row)
+                    savePath += "_col"+str(col)+".png"
+                    self.log.writeMsg("Chart saved to: "+savePath)
+                    plt.savefig(savePath, bbox_inches='tight')
+                if show:
+                    plt.show()
 
         self.log.writeCallEnd("plotSmatFit")

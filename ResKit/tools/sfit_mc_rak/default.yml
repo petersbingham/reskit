@@ -17,6 +17,10 @@ findPoles:
     cfSteps: 2
     amalgThres: null
 
-plotSmatFit:
+fitCharts:
+  colourCycle:
+    - green
+    - red
+    - blue
   xsize: 8
-  ysize: 6
+  ysize: 7
