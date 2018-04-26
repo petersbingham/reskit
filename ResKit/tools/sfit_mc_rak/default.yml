@@ -1,7 +1,3 @@
-getElasticSmat:
-  sym_matrix_inv:
-    method: GE
-
 findRoots:
   cPolyMat_determinant:
     sym_matrix_det:
@@ -21,3 +17,6 @@ findPoles:
     cfSteps: 2
     amalgThres: null
 
+plotSmatFit:
+  xsize: 8
+  ysize: 6

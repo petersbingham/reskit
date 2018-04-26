@@ -2,6 +2,7 @@ import yaml
 import os
 import tabulate as t
 import numpy as np
+import matplotlib.pyplot as plt
 
 import pynumwrap as nw
 import parSmat as psm
@@ -155,11 +156,11 @@ class sfit_mc_rak(th.tool):
                             return self._loadCoeffSet(N, coeffDir)
         return None
 
-    def _getCoefficients(self, dSmat, N, ris0):
-        dSmat2 = dSmat[ris0[0]:ris0[1]:ris0[2]]
+    def _getCoefficients(self, N, ris0):
+        dSmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
         coeffs = self._loadCoeffs(N, ris0)
         if coeffs is None:
-            coeffs = psm.calculateCoefficients(dSmat2, dSmat2.asymCal)
+            coeffs = psm.calculateCoefficients(dSmat, dSmat.asymCal)
             self.log.writeMsg("Coefficients calculated")
             self._saveCoeffs(coeffs, N, ris0)
             self.allCoeffsLoaded = False
@@ -337,36 +338,18 @@ class sfit_mc_rak(th.tool):
 
     ##### Public API #####
 
-    def getElasticSmat(self, N):
-        self.log.writeCall("getElasticSmat("+str(N)+")")
-        dSmat = self.data.to_dSmat()
-        ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
-        self.log.writeMsg("Calculating for slice:"+str(ris))
-        self.allCoeffsLoaded = True
-        coeffs = self._getCoefficients(dSmat, N, ris[0])
-        with th.fropen(self.paramFilePath) as f:
-            config = yaml.load(f.read())
-            self.log.writeParameters(config["getElasticSmat"])
-            cSMat = psm.getElasticSmatFun(coeffs, dSmat.asymCal,
-                                        **config["getElasticSmat"])
-            self._updateContainerStrings(N, cSMat)
-            self.log.writeMsg("Calculation completed")
-            self.log.writeCallEnd("getElasticSmat")
-            return cSMat
-
     def getElasticFins(self, Nlist):
         self.log.writeCall("getElasticFins("+str(Nlist)+")")
-        dSmat = self.data.to_dSmat()
         cFins = []
         for N in Nlist:
-            ris = dSmat.getSliceIndices(0,len(dSmat)-1,N)
+            ris = self.data.getSliceIndices(numPoints=N)
             self.log.writeMsg("Calculating for N="+str(N)+",slice:"+str(ris))
             self.allCoeffsLoaded = True
-            coeffs = self._getCoefficients(dSmat, N, ris[0])
-            cFin = psm.getElasticFinFun(coeffs, dSmat.asymCal)
-            self._updateContainerStrings(N, cFin, "Fin")
-            self.log.writeMsg("cFins calculated")
+            coeffs = self._getCoefficients(N, ris[0])
+            cFin = psm.getElasticFinFun(coeffs, self.data.asymCal)
             cFin.fitInfo = (N,ris)
+            self._updateContainerStrings(N, cFin, "Fin")
+            self.log.writeMsg("cFin calculated")
             cFins.append(cFin)
         self.log.writeCallEnd("getElasticFins")
         return cFins
@@ -429,3 +412,58 @@ class sfit_mc_rak(th.tool):
                     return QIdat
         self.log.writeCallEnd("findPoles")
         return None, None
+
+    def getElasticSmat(self, N):
+        self.log.writeCall("getElasticSmat("+str(N)+")")
+        ris = self.data.getSliceIndices(numPoints=N)
+        self.log.writeMsg("Calculating for slice:"+str(ris))
+        self.allCoeffsLoaded = True
+        coeffs = self._getCoefficients(N, ris[0])
+        cSMat = psm.getElasticSmatFun(coeffs, self.data.asymCal)
+        cSMat.fitInfo = (N,ris)
+        cSMat.sfit_mc_rak_SplotCompatible = True
+        self._updateContainerStrings(N, cSMat)
+        self.log.writeMsg("Calculation completed")
+        self.log.writeCallEnd("getElasticSmat")
+        return cSMat
+
+    def plotSmatFit(self, cSMat, m, n, numPoints=None):
+        N = cSMat.fitInfo[0]
+        self.log.writeCall("plotSmatFit("+str(N)+")")
+        err = False
+        try:
+            cSMat.sfit_mc_rak_SplotCompatible
+        except Exception:
+            self.log.writeErr("Not a cSMat")
+            err = True
+
+        if not err:    
+            with th.fropen(self.paramFilePath) as f:
+                config = yaml.load(f.read())
+                p = config["plotSmatFit"]
+                self.log.writeParameters(p)
+                xsize = p["xsize"]
+                ysize = p["ysize"]
+
+                fig = plt.figure()
+                fig.suptitle("Smat fit for N="+str(N))
+                fig.set_size_inches(xsize, ysize, forward=True)
+
+                if numPoints is None:
+                    ln = len(self.data)
+                else:
+                    ln = numPoints
+                rng = self.data.getRange()
+                dSmat = cSMat.discretise(rng[0], rng[1], ln)
+                
+                oEl = self.data.createReducedDim(m).createReducedDim(n)
+                if numPoints is not None:
+                    oEl = oEl.createReducedLength(numPoints=ln)
+                fEl = dSmat.createReducedDim(m).createReducedDim(n)
+                    
+                oPlt = oEl.getPlotInfo()
+                fPlt = fEl.getPlotInfo()
+
+                plt.Show()
+
+        self.log.writeCallEnd("plotSmatFit")
