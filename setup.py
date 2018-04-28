@@ -3,12 +3,12 @@
 from distutils.core import setup
 
 setup(name='ResKit',
-      version='0.21',
+      version='0.22',
       description='Python Package to assist with the identification and characterisation of quantum scattering resonances.',
       author="Peter Bingham",
       author_email="petersbingham@hotmail.co.uk",
       packages=['ResKit'],
-      package_data={'ResKit': ['packages/get.sh',
+      package_data={'ResKit': ['utilities/get.sh',
                                'tools/toolhelper.py',
                                'tools/chart/__init__.py',
                                'tools/chart/default.yml',

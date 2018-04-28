@@ -1,9 +1,9 @@
 import os
 import sys
 fileDir = os.path.dirname(os.path.realpath(__file__))
-modPath = fileDir+'/tools' # Keep tools before packages
+modPath = fileDir+'/tools' # Keep tools before utilities
 sys.path.insert(0,modPath)
-depPath = fileDir+'/packages'
+depPath = fileDir+'/utilities'
 sys.path.insert(0,depPath)
 
 import channelutil as cu
@@ -85,14 +85,14 @@ def useMpmathTypes(dps=nw.dps_default_mpmath):
         s = "Types can only be changed at start of session in safeMode."
         raise Exception(s)
 
-# If overridden, will look for the modules in the site-packages first.
-packageOverride = False
-def overridePackages():
-    global packageOverride
-    if not packageOverride:
+# If overridden, will look for the modules in the site-utilities first.
+utilityOverride = False
+def overrideUtilities():
+    global utilityOverride
+    if not utilityOverride:
         sys.path.remove(depPath)
         sys.path.append(depPath)
-        packageOverride = True
+        utilityOverride = True
         reload(cu)
         reload(tu)
         reload(nw)
