@@ -19,24 +19,24 @@ if os.path.isdir(TEST_ROOT):
 class parentTest(unittest.TestCase):
     def findPoles(self):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
-        cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
-        dSmat = cSmat.discretise(1.,8.,100)
+        csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
+        dsmat = csmat.discretise(1.,8.,100)
 
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT,
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT,
                                  silent=True)
-        cFins = sfit_mc_rak.getElasticFins(range(2,4,2))
-        sfit_mc_rak.findPoles(cFins)
+        cfins = sfit_mc_rak.getElasticFins(range(2,4,2))
+        sfit_mc_rak.findPoles(cfins)
 
         # Import again with same config and check no exception
-        rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT, silent=True)
+        rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
 
         testPath = fileDir+os.sep+"test_sfit_mc_rak_data1"+os.sep+"default.yml"
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat,
+        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dsmat,
                           archiveRoot=TEST_ROOT, paramFilePath=testPath,
                           silent=True)
 
         testPath = fileDir+os.sep+"test_sfit_mc_rak_data2"+os.sep+"default.yml"
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat,
+        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dsmat,
                           archiveRoot=TEST_ROOT, paramFilePath=testPath,
                           silent=True)
 

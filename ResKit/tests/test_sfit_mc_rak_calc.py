@@ -21,24 +21,24 @@ if os.path.isdir(TEST_ROOT):
 class parentTest(unittest.TestCase):
     def findPoles(self):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
-        cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
-        dSmat = cSmat.discretise(1.,8.,100)
-        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT,
+        csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
+        dsmat = csmat.discretise(1.,8.,100)
+        sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT,
                                  silent=True)
 
         sfit_mc_rak.getElasticSmat(6)
 
-        cFins = sfit_mc_rak.getElasticFins(range(2,10,2))
-        sfit_mc_rak.findPoles(cFins)
+        cfins = sfit_mc_rak.getElasticFins(range(2,10,2))
+        sfit_mc_rak.findPoles(cfins)
         self.assertFalse(sfit_mc_rak.allCoeffsLoaded)
         self.assertFalse(sfit_mc_rak.allRootsLoaded)
 
-        cFins = sfit_mc_rak.getElasticFins(range(2,10,2))
+        cfins = sfit_mc_rak.getElasticFins(range(2,10,2))
         self.assertTrue(sfit_mc_rak.allCoeffsLoaded)
         # False because we haven't called findPoles yet
         self.assertFalse(sfit_mc_rak.allRootsLoaded)
 
-        roots = sfit_mc_rak.findRoots(cFins)
+        roots = sfit_mc_rak.findRoots(cfins)
         sfit_mc_rak.findPoles(roots)
         self.assertTrue(sfit_mc_rak.allRootsLoaded)
 

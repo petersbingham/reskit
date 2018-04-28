@@ -400,10 +400,14 @@ class sfit_mc_rak(th.tool):
                     p = config["findPoles"]
                     self.log.writeParameters(p)
                     pp = p["stelempy"]
+                    endDistThres = None
+                    try:
+                        endDistThres = float(pp["endDistThres"])
+                    except TypeError:
+                        pass
                     poleData = sp.calculateConvergenceGroupsRange(allRoots,
                                          float(pp["startingDistThres"]),
-                                         float(pp["endDistThres"]),
-                                         int(pp["cfSteps"]))
+                                         endDistThres, int(pp["cfSteps"]))
                     self.log.writeMsg("Convergence groups calculated")
                     self._savePoleData(allRoots.nList, poleData,
                                        allRoots.asymCal, p)

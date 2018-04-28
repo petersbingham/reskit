@@ -19,14 +19,14 @@ if os.path.isdir(TEST_ROOT):
 class parentTest(unittest.TestCase):
     def findPoles(self):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
-        cSmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
-        dSmat = cSmat.discretise(1.,8.,100)
+        csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
+        dsmat = csmat.discretise(1.,8.,100)
 
-        rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT, silent=True)
-        rk.getTool(rk.SFIT_MC_RAK, dSmat, archiveRoot=TEST_ROOT, silent=True)
+        rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
+        rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
         
-        dSmat.asymCal.units = cu.RYDs
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dSmat, 
+        dsmat.asymCal.units = cu.RYDs
+        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dsmat, 
                           archiveRoot=TEST_ROOT, silent=True)
 
 class test_numpy(parentTest):
