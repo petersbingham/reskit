@@ -31,11 +31,11 @@ class tool:
             if os.path.isdir(cacheDir):
                 try:
                     cachePath = cacheDir+os.sep+self._getConfigCacheName()
-                    with fropen(cachePath) as f_findRoots:
-                        p_findRoots = config[paramKey]
-                        p_findRoots_str = str(p_findRoots)
-                        p_findRoots_cache_str = f_findRoots.read()
-                        return p_findRoots_cache_str == p_findRoots_str
+                    with fropen(cachePath) as f:
+                        p = config[paramKey]
+                        p_str = str(p)
+                        p_cache_str = f.read()
+                        return p_cache_str == p_str
                 except Exception as inst:
                     self._fileError(str(inst))
         return False

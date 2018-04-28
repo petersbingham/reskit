@@ -25,8 +25,8 @@ class sfit_mc_rak(th.tool):
         self._verifyParamCaches()
 
     def _verifyParamCaches(self):
-        self._verifyParamCache(self._getRootConfigDir(), "findRoots")
-        self._verifyParamCache(self._getPoleConfigDir(), "findPoles")
+        self._verifyParamCache(self._getRootConfigDir(), "findFinRoots")
+        self._verifyParamCache(self._getPoleConfigDir(), "findStableSmatPoles")
 
     ##### General file and string Functions #####
 
@@ -221,7 +221,7 @@ class sfit_mc_rak(th.tool):
         if os.path.isdir(rootBaseDir):
             for rootConfigDirName in th.getSubDirs(rootBaseDir):
                 rootConfigDir = rootBaseDir+os.sep+rootConfigDirName
-                if self._doesParamCacheMatch(rootConfigDir, "findRoots"):
+                if self._doesParamCacheMatch(rootConfigDir, "findFinRoots"):
                     rootPath = self._getRootPathIfExists(rootConfigDir, N,
                                                          ris[0])
                     if rootPath is not None:
@@ -339,25 +339,30 @@ class sfit_mc_rak(th.tool):
 
     ##### Public API #####
 
+    def getElasticFin(self, N):
+        self.log.writeCall("getElasticFin("+str(N)+")")
+        ris = self.data.getSliceIndices(numPoints=N)
+        self.log.writeMsg("Calculating for N="+str(N)+",slice:"+str(ris))
+        self.allCoeffsLoaded = True
+        coeffs = self._getCoefficients(N, ris[0])
+        cfin = psm.getElasticFinFun(coeffs, self.data.asymCal)
+        cfin.fitInfo = (N,ris)
+        self._updateContainerStrings(N, cfin, "Fin")
+        self.log.writeMsg("cfin calculated")
+        self.log.writeCallEnd("getElasticFin")
+        return cfin
+
     def getElasticFins(self, Nlist):
         self.log.writeCall("getElasticFins("+str(Nlist)+")")
         cfins = []
         for N in Nlist:
-            ris = self.data.getSliceIndices(numPoints=N)
-            self.log.writeMsg("Calculating for N="+str(N)+",slice:"+str(ris))
-            self.allCoeffsLoaded = True
-            coeffs = self._getCoefficients(N, ris[0])
-            cfin = psm.getElasticFinFun(coeffs, self.data.asymCal)
-            cfin.fitInfo = (N,ris)
-            self._updateContainerStrings(N, cfin, "Fin")
-            self.log.writeMsg("cfin calculated")
-            cfins.append(cfin)
+            cfins.append(self.getElasticFin(N))
         self.log.writeCallEnd("getElasticFins")
         return cfins
 
-    def findRoots(self, cfins, internal=False):
-        self.log.writeCall("findRoots("+str(map(lambda x: x.fitInfo[0],
-                                                cfins))+")", internal)
+    def findFinRoots(self, cfins, internal=False):
+        self.log.writeCall("findFinRoots("+str(map(lambda x: x.fitInfo[0],
+                                                   cfins))+")", internal)
         class RootsList(list):
             def __init__(self):
                 list.__init__(self)
@@ -368,7 +373,7 @@ class sfit_mc_rak(th.tool):
         if len(cfins) > 0:
             with th.fropen(self.paramFilePath) as f:
                 config = yaml.load(f.read())
-                p = config["findRoots"]
+                p = config["findFinRoots"]
                 self.log.writeParameters(p)
                 self.allRootsLoaded = True
                 for cfin in cfins:
@@ -378,26 +383,26 @@ class sfit_mc_rak(th.tool):
                     roots = self._getRoots(p, cfin, allRoots.asymCal)
                     allRoots.append(roots)
                     allRoots.nList.append(cfin.fitInfo[0])
-        self.log.writeCallEnd("findRoots")
+        self.log.writeCallEnd("findFinRoots")
         return allRoots
 
-    def findPoles(self, cfinsOrRoots):
+    def findStableSmatPoles(self, cfinsOrRoots):
         try:
             paramStr = str(map(lambda x: x.fitInfo[0], cfinsOrRoots))
         except AttributeError:
             paramStr = str(cfinsOrRoots.nList)
 
-        self.log.writeCall("findPoles("+paramStr+")")
+        self.log.writeCall("findStableSmatPoles("+paramStr+")")
         if len(cfinsOrRoots) > 0:
             try:
                 cfinsOrRoots.nList # Test for the parameter type.
                 allRoots = cfinsOrRoots
             except AttributeError:
-                allRoots = self.findRoots(cfinsOrRoots, True)
+                allRoots = self.findFinRoots(cfinsOrRoots, True)
             if len(allRoots) > 0:
                 with th.fropen(self.paramFilePath) as f:
                     config = yaml.load(f.read())
-                    p = config["findPoles"]
+                    p = config["findStableSmatPoles"]
                     self.log.writeParameters(p)
                     pp = p["stelempy"]
                     endDistThres = None
@@ -415,9 +420,9 @@ class sfit_mc_rak(th.tool):
                                                      float(pp["amalgThres"]))
                     self.log.writeMsg("QIs calculated")
                     self._saveQIdata(allRoots.nList, QIdat, allRoots.asymCal)
-                    self.log.writeCallEnd("findPoles")
+                    self.log.writeCallEnd("findStableSmatPoles")
                     return QIdat
-        self.log.writeCallEnd("findPoles")
+        self.log.writeCallEnd("findStableSmatPoles")
         return None, None
 
     def getElasticSmat(self, N):

@@ -19,7 +19,7 @@ if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
 class parentTest(unittest.TestCase):
-    def findPoles(self):
+    def findStableSmatPoles(self):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
         csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
@@ -29,28 +29,28 @@ class parentTest(unittest.TestCase):
         sfit_mc_rak.getElasticSmat(6)
 
         cfins = sfit_mc_rak.getElasticFins(range(2,10,2))
-        sfit_mc_rak.findPoles(cfins)
+        sfit_mc_rak.findStableSmatPoles(cfins)
         self.assertFalse(sfit_mc_rak.allCoeffsLoaded)
         self.assertFalse(sfit_mc_rak.allRootsLoaded)
 
         cfins = sfit_mc_rak.getElasticFins(range(2,10,2))
         self.assertTrue(sfit_mc_rak.allCoeffsLoaded)
-        # False because we haven't called findPoles yet
+        # False because we haven't called findStableSmatPoles yet
         self.assertFalse(sfit_mc_rak.allRootsLoaded)
 
-        roots = sfit_mc_rak.findRoots(cfins)
-        sfit_mc_rak.findPoles(roots)
+        roots = sfit_mc_rak.findFinRoots(cfins)
+        sfit_mc_rak.findStableSmatPoles(roots)
         self.assertTrue(sfit_mc_rak.allRootsLoaded)
 
 class test_numpy(parentTest):
     def runTest(self):
         rk.usePythonTypes()
-        self.findPoles()
+        self.findStableSmatPoles()
 
 class test_mpmath(parentTest):
     def runTest(self):
         rk.useMpmathTypes()
-        self.findPoles()
+        self.findStableSmatPoles()
 
 if __name__ == "__main__":
     #Just for debug

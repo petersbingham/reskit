@@ -1,4 +1,4 @@
-findRoots:
+findFinRoots:
   cPolyMat_determinant:
     sym_matrix_det:
       method: berkowitz
@@ -10,7 +10,7 @@ findRoots:
         maxsteps: 500
         cleanup: True
 
-findPoles:
+findStableSmatPoles:
   stelempy:
     startingDistThres: 0.0001
     endDistThres: null

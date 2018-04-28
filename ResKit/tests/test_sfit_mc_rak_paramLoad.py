@@ -17,7 +17,7 @@ if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
 class parentTest(unittest.TestCase):
-    def findPoles(self):
+    def findStableSmatPoles(self):
         cal = rk.getAsymCalc(cu.HARTs, [0,0])
         csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
@@ -25,7 +25,7 @@ class parentTest(unittest.TestCase):
         sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT,
                                  silent=True)
         cfins = sfit_mc_rak.getElasticFins(range(2,4,2))
-        sfit_mc_rak.findPoles(cfins)
+        sfit_mc_rak.findStableSmatPoles(cfins)
 
         # Import again with same config and check no exception
         rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
@@ -35,7 +35,7 @@ class parentTest(unittest.TestCase):
         sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT,
                                  paramFilePath=testPath, silent=True)
         cfins = sfit_mc_rak.getElasticFins(range(2,4,2))
-        sfit_mc_rak.findRoots(cfins)
+        sfit_mc_rak.findFinRoots(cfins)
         self.assertTrue(sfit_mc_rak.allCoeffsLoaded)
         self.assertFalse(sfit_mc_rak.allRootsLoaded)
 
@@ -44,19 +44,19 @@ class parentTest(unittest.TestCase):
         sfit_mc_rak = rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT,
                                  paramFilePath=testPath, silent=True)
         cfins = sfit_mc_rak.getElasticFins(range(2,4,2))
-        sfit_mc_rak.findRoots(cfins)
+        sfit_mc_rak.findFinRoots(cfins)
         self.assertTrue(sfit_mc_rak.allCoeffsLoaded)
         self.assertTrue(sfit_mc_rak.allRootsLoaded)
 
 class test_numpy(parentTest):
     def runTest(self):
         rk.usePythonTypes()
-        self.findPoles()
+        self.findStableSmatPoles()
 
 class test_mpmath(parentTest):
     def runTest(self):
         rk.useMpmathTypes()
-        self.findPoles()
+        self.findStableSmatPoles()
 
 if __name__ == "__main__":
     #Just for debug
