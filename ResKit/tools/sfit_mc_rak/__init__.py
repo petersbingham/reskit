@@ -400,13 +400,15 @@ class sfit_mc_rak(th.tool):
                     p = config["findPoles"]
                     self.log.writeParameters(p)
                     pp = p["stelempy"]
-                    poleData = sp.calculateConvergenceGroupsRange(allRoots, 
-                                         pp["startingDistThres"], 
-                                         pp["endDistThres"], pp["cfSteps"])
+                    poleData = sp.calculateConvergenceGroupsRange(allRoots,
+                                         float(pp["startingDistThres"]),
+                                         float(pp["endDistThres"]),
+                                         int(pp["cfSteps"]))
                     self.log.writeMsg("Convergence groups calculated")
                     self._savePoleData(allRoots.nList, poleData,
                                        allRoots.asymCal, p)
-                    QIdat = sp.calculateQIsFromRange(poleData, pp["amalgThres"])
+                    QIdat = sp.calculateQIsFromRange(poleData,
+                                                     float(pp["amalgThres"]))
                     self.log.writeMsg("QIs calculated")
                     self._saveQIdata(allRoots.nList, QIdat, allRoots.asymCal)
                     self.log.writeCallEnd("findPoles")
@@ -458,24 +460,24 @@ class sfit_mc_rak(th.tool):
                     ln = numPoints
 
                 plt.gca().set_prop_cycle(cycler('color', p["colourCycle"]))
-                oEl = self.data
+                orig = self.data
                 if numPoints is not None:
-                    oEl = oEl.createReducedLength(numPoints=ln, forceEnd=True)
-                oEl = oEl.to_dSmat()
-                oEl = oEl.createReducedDim(row).createReducedDim(col)
-                ls1,_ = oEl.getPlotInfo()
+                    orig = orig.createReducedLength(numPoints=ln)
+                orig = orig.to_dSmat()
+                orig = orig.createReducedDim(row).createReducedDim(col)
+                ls1,_ = orig.getPlotInfo()
 
                 ris0 = cSMat.fitInfo[1][0]
-                fpEl = self.data[ris0[0]:ris0[1]:ris0[2]]
-                fpEl = fpEl.to_dSmat()
-                fpEl = fpEl.createReducedDim(row).createReducedDim(col)
-                fpEl.setChartParameters(useMarker=True)
-                ls2,_ = fpEl.getPlotInfo()
+                fitPnt = self.data[ris0[0]:ris0[1]:ris0[2]]
+                fitPnt = fitPnt.to_dSmat()
+                fitPnt = fitPnt.createReducedDim(row).createReducedDim(col)
+                fitPnt.setChartParameters(useMarker=True)
+                ls2,_ = fitPnt.getPlotInfo()
 
-                rng = oEl.getRange()
+                rng = orig.getRange()
                 dSmat = cSMat.discretise(rng[0], rng[1], ln)
-                fEl = dSmat.createReducedDim(row).createReducedDim(col)
-                ls3,_ = fEl.getPlotInfo()
+                fit = dSmat.createReducedDim(row).createReducedDim(col)
+                ls3,_ = fit.getPlotInfo()
 
                 plt.legend([ls1[0],ls2[0],ls3[0]], 
                            ["Original","Fit points","Fitted"], 
