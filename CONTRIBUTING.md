@@ -3,4 +3,8 @@
 ### Matrix indices
  - When annotating results: One based with i,j for subscripts.
  - When indexing in code: Zero based with m,n for index reference.
+ 
+### matfuncutil and tisutil Containers
+ - Class definitions use the format dVal, dVec, dMat, dSmat, dKmat etc. ie. First letter after d or c is capitalised.
+ - Instances of these classes are all lower case. eg dmat, dsmat etc.
 

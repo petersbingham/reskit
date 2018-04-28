@@ -160,8 +160,8 @@ class sfit_mc_rak(th.tool):
     def _getCoefficients(self, N, ris0):
         coeffs = self._loadCoeffs(N, ris0)
         if coeffs is None:
-            dSmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
-            coeffs = psm.calculateCoefficients(dSmat, dSmat.asymCal)
+            dsmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
+            coeffs = psm.calculateCoefficients(dsmat, dsmat.asymCal)
             self.log.writeMsg("Coefficients calculated")
             self._saveCoeffs(coeffs, N, ris0)
             self.allCoeffsLoaded = False
@@ -253,13 +253,13 @@ class sfit_mc_rak(th.tool):
                     return None
         return None
 
-    def _getRoots(self, p, cFin, asymCal):
-        roots = self._loadRoots(cFin.fitInfo[0], cFin.fitInfo[1], p)
+    def _getRoots(self, p, cfin, asymCal):
+        roots = self._loadRoots(cfin.fitInfo[0], cfin.fitInfo[1], p)
         if roots is None:
-            cVal = cFin.determinant(**p["cPolyMat_determinant"])
+            cVal = cfin.determinant(**p["cPolyMat_determinant"])
             roots = cVal.findRoots(**p["cPolyVal_findRoots"])
             self.log.writeMsg("Roots calculated")
-            self._saveRoots(cFin.fitInfo[0], cFin.fitInfo[1], roots, asymCal, p)
+            self._saveRoots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymCal, p)
             self.allRootsLoaded = False
         return roots
 
@@ -341,23 +341,23 @@ class sfit_mc_rak(th.tool):
 
     def getElasticFins(self, Nlist):
         self.log.writeCall("getElasticFins("+str(Nlist)+")")
-        cFins = []
+        cfins = []
         for N in Nlist:
             ris = self.data.getSliceIndices(numPoints=N)
             self.log.writeMsg("Calculating for N="+str(N)+",slice:"+str(ris))
             self.allCoeffsLoaded = True
             coeffs = self._getCoefficients(N, ris[0])
-            cFin = psm.getElasticFinFun(coeffs, self.data.asymCal)
-            cFin.fitInfo = (N,ris)
-            self._updateContainerStrings(N, cFin, "Fin")
-            self.log.writeMsg("cFin calculated")
-            cFins.append(cFin)
+            cfin = psm.getElasticFinFun(coeffs, self.data.asymCal)
+            cfin.fitInfo = (N,ris)
+            self._updateContainerStrings(N, cfin, "Fin")
+            self.log.writeMsg("cfin calculated")
+            cfins.append(cfin)
         self.log.writeCallEnd("getElasticFins")
-        return cFins
+        return cfins
 
-    def findRoots(self, cFins, internal=False):
+    def findRoots(self, cfins, internal=False):
         self.log.writeCall("findRoots("+str(map(lambda x: x.fitInfo[0],
-                                                cFins))+")", internal)
+                                                cfins))+")", internal)
         class RootsList(list):
             def __init__(self):
                 list.__init__(self)
@@ -365,35 +365,35 @@ class sfit_mc_rak(th.tool):
                 self.asymCal = None
 
         allRoots = RootsList()
-        if len(cFins) > 0:
+        if len(cfins) > 0:
             with th.fropen(self.paramFilePath) as f:
                 config = yaml.load(f.read())
                 p = config["findRoots"]
                 self.log.writeParameters(p)
                 self.allRootsLoaded = True
-                for cFin in cFins:
+                for cfin in cfins:
                     if allRoots.asymCal is not None:
-                        assert allRoots.asymCal == cFin.asymCal
-                    allRoots.asymCal = cFin.asymCal
-                    roots = self._getRoots(p, cFin, allRoots.asymCal)
+                        assert allRoots.asymCal == cfin.asymCal
+                    allRoots.asymCal = cfin.asymCal
+                    roots = self._getRoots(p, cfin, allRoots.asymCal)
                     allRoots.append(roots)
-                    allRoots.nList.append(cFin.fitInfo[0])
+                    allRoots.nList.append(cfin.fitInfo[0])
         self.log.writeCallEnd("findRoots")
         return allRoots
 
-    def findPoles(self, cFinsOrRoots):
+    def findPoles(self, cfinsOrRoots):
         try:
-            paramStr = str(map(lambda x: x.fitInfo[0], cFinsOrRoots))
+            paramStr = str(map(lambda x: x.fitInfo[0], cfinsOrRoots))
         except AttributeError:
-            paramStr = str(cFinsOrRoots.nList)
+            paramStr = str(cfinsOrRoots.nList)
 
         self.log.writeCall("findPoles("+paramStr+")")
-        if len(cFinsOrRoots) > 0:
+        if len(cfinsOrRoots) > 0:
             try:
-                cFinsOrRoots.nList # Test for the parameter type.
-                allRoots = cFinsOrRoots
+                cfinsOrRoots.nList # Test for the parameter type.
+                allRoots = cfinsOrRoots
             except AttributeError:
-                allRoots = self.findRoots(cFinsOrRoots, True)
+                allRoots = self.findRoots(cfinsOrRoots, True)
             if len(allRoots) > 0:
                 with th.fropen(self.paramFilePath) as f:
                     config = yaml.load(f.read())
@@ -422,22 +422,22 @@ class sfit_mc_rak(th.tool):
         self.log.writeMsg("Calculating for slice:"+str(ris))
         self.allCoeffsLoaded = True
         coeffs = self._getCoefficients(N, ris[0])
-        cSMat = psm.getElasticSmatFun(coeffs, self.data.asymCal)
-        cSMat.fitInfo = (N,ris)
-        cSMat.sfit_mc_rak_SplotCompatible = True
-        self._updateContainerStrings(N, cSMat)
+        csmat = psm.getElasticSmatFun(coeffs, self.data.asymCal)
+        csmat.fitInfo = (N,ris)
+        csmat.sfit_mc_rak_SplotCompatible = True
+        self._updateContainerStrings(N, csmat)
         self.log.writeMsg("Calculation completed")
         self.log.writeCallEnd("getElasticSmat")
-        return cSMat
+        return csmat
 
-    def plotSmatFit(self, cSMat, m, n, numPoints=None, show=True):
-        N = cSMat.fitInfo[0]
+    def plotSmatFit(self, csmat, m, n, numPoints=None, show=True):
+        N = csmat.fitInfo[0]
         self.log.writeCall("plotSmatFit("+str(N)+")")
         err = False
         try:
-            cSMat.sfit_mc_rak_SplotCompatible
+            csmat.sfit_mc_rak_SplotCompatible
         except Exception:
-            self.log.writeErr("Not a cSMat")
+            self.log.writeErr("Not a csmat")
             err = True
 
         if not err:    
@@ -467,7 +467,7 @@ class sfit_mc_rak(th.tool):
                 orig = orig.createReducedDim(m).createReducedDim(n)
                 ls1,_ = orig.getPlotInfo()
 
-                ris0 = cSMat.fitInfo[1][0]
+                ris0 = csmat.fitInfo[1][0]
                 fitPnt = self.data[ris0[0]:ris0[1]:ris0[2]]
                 fitPnt = fitPnt.to_dSmat()
                 fitPnt = fitPnt.createReducedDim(m).createReducedDim(n)
@@ -475,8 +475,8 @@ class sfit_mc_rak(th.tool):
                 ls2,_ = fitPnt.getPlotInfo()
 
                 rng = orig.getRange()
-                dSmat = cSMat.discretise(rng[0], rng[1], ln)
-                fit = dSmat.createReducedDim(m).createReducedDim(n)
+                dsmat = csmat.discretise(rng[0], rng[1], ln)
+                fit = dsmat.createReducedDim(m).createReducedDim(n)
                 ls3,_ = fit.getPlotInfo()
 
                 plt.legend([ls1[0],ls2[0],ls3[0]], 
