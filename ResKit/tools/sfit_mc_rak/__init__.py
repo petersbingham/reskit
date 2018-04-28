@@ -292,9 +292,9 @@ class sfit_mc_rak(th.tool):
                 rows = []
                 for pole in poleData[0][i]:
                     for j in sorted(pole.keys()):
-                        row = self._getPoleRow(nList[j], pole[j][0],
+                        m = self._getPoleRow(nList[j], pole[j][0],
                                                pole[j][2], asymCal)
-                        rows.append(row)
+                        rows.append(m)
                     rows.append(["","","",""])
 
                 polePath = self._getPolePath(poleDir, dk)
@@ -430,7 +430,7 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("getElasticSmat")
         return cSMat
 
-    def plotSmatFit(self, cSMat, row, col, numPoints=None, show=True):
+    def plotSmatFit(self, cSMat, m, n, numPoints=None, show=True):
         N = cSMat.fitInfo[0]
         self.log.writeCall("plotSmatFit("+str(N)+")")
         err = False
@@ -450,7 +450,7 @@ class sfit_mc_rak(th.tool):
 
                 fig = plt.figure(facecolor="white")
                 title = "S matrix fit for N="+str(N)
-                title += ", row"+str(row)+", col"+str(col)
+                title += ", i="+str(m+1)+", j="+str(n+1)
                 fig.suptitle(title)
                 fig.set_size_inches(xsize, ysize, forward=True)
 
@@ -464,19 +464,19 @@ class sfit_mc_rak(th.tool):
                 if numPoints is not None:
                     orig = orig.createReducedLength(numPoints=ln)
                 orig = orig.to_dSmat()
-                orig = orig.createReducedDim(row).createReducedDim(col)
+                orig = orig.createReducedDim(m).createReducedDim(n)
                 ls1,_ = orig.getPlotInfo()
 
                 ris0 = cSMat.fitInfo[1][0]
                 fitPnt = self.data[ris0[0]:ris0[1]:ris0[2]]
                 fitPnt = fitPnt.to_dSmat()
-                fitPnt = fitPnt.createReducedDim(row).createReducedDim(col)
+                fitPnt = fitPnt.createReducedDim(m).createReducedDim(n)
                 fitPnt.setChartParameters(useMarker=True)
                 ls2,_ = fitPnt.getPlotInfo()
 
                 rng = orig.getRange()
                 dSmat = cSMat.discretise(rng[0], rng[1], ln)
-                fit = dSmat.createReducedDim(row).createReducedDim(col)
+                fit = dSmat.createReducedDim(m).createReducedDim(n)
                 ls3,_ = fit.getPlotInfo()
 
                 plt.legend([ls1[0],ls2[0],ls3[0]], 
@@ -487,8 +487,7 @@ class sfit_mc_rak(th.tool):
                     savePath = self.archiveRoot+"charts"+os.sep
                     if not os.path.isdir(savePath):
                         os.makedirs(savePath)
-                    savePath += "SMatFit_N="+str(N)+"_row"+str(row)
-                    savePath += "_col"+str(col)+".png"
+                    savePath += title + " " + str(numPoints) + ".png"
                     self.log.writeMsg("Chart saved to: "+savePath)
                     plt.savefig(savePath, bbox_inches='tight')
                 if show:
