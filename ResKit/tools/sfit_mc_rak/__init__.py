@@ -47,8 +47,8 @@ class sfit_mc_rak(th.tool):
     def _getPoleConfigPath(self):
         return self._getPoleConfigDir()+os.sep+self._getConfigCacheName()
 
-    def _getInputDescStr(self, N, ris0):
-        return "N="+str(N)+"_"+"S="+str(ris0[0])+"_E="+str(ris0[1])
+    def _getInputDescStr(self, Npts, ris0):
+        return "Npts="+str(Npts)+"_"+"S="+str(ris0[0])+"_E="+str(ris0[1]-1)
 
     def _getNumHeader(self, asymCal):
         return ["k","E ("+asymCal.getUnits()+")"]
@@ -61,9 +61,9 @@ class sfit_mc_rak(th.tool):
 
     ##### Coefficient File #####
 
-    def _getCoeffDir(self, N, ris0):
+    def _getCoeffDir(self, Npts, ris0):
         a = self._getCoeffDirBase()+th.cfgName(self.paramFilePath)
-        b = os.sep+self._getInputDescStr(N, ris0)
+        b = os.sep+self._getInputDescStr(Npts, ris0)
         return a + b
 
     def _getCoeffPath(self, coeffDir, typeStr, i):
@@ -89,9 +89,9 @@ class sfit_mc_rak(th.tool):
                 with th.fwopen(coeffPath) as f:
                     th.fw(f, cmat)
 
-    def _saveCoeffs(self, coeffs, N, ris0):
+    def _saveCoeffs(self, coeffs, Npts, ris0):
         if self.archiveRoot is not None:
-            coeffDir = self._getCoeffDir(N, ris0)
+            coeffDir = self._getCoeffDir(Npts, ris0)
             if not os.path.isdir(coeffDir):
                 os.makedirs(coeffDir)
             self._saveCoeff(coeffs[0], coeffDir, "A")
@@ -107,9 +107,9 @@ class sfit_mc_rak(th.tool):
     def _fixmpMatStr(self, s):
         return s.replace("[","").replace("]","").replace("[","").replace(")","")
 
-    def _loadCoeff(self, N, path, typeStr):
+    def _loadCoeff(self, Npts, path, typeStr):
         coeffs = []
-        for i in range(psm.getNumCoeffForN(N)):
+        for i in range(psm.getNumCoeffForN(Npts)):
             coeffPath = self._getCoeffPath(path, typeStr, i)
             if not os.path.isfile(coeffPath):
                 return None
@@ -132,58 +132,58 @@ class sfit_mc_rak(th.tool):
                 return None
         return coeffs
 
-    def _loadCoeffSet(self, N, coeffDir):
-        coeffA = self._loadCoeff(N, coeffDir, "A")
-        coeffB = self._loadCoeff(N, coeffDir, "B")
+    def _loadCoeffSet(self, Npts, coeffDir):
+        coeffA = self._loadCoeff(Npts, coeffDir, "A")
+        coeffB = self._loadCoeff(Npts, coeffDir, "B")
         if coeffA is not None and coeffB is not None:
             self.log.writeMsg("Coefficients loaded from: "+coeffDir)
             return coeffA, coeffB
         return None
 
-    def _loadCoeffs(self, N, ris0):
+    def _loadCoeffs(self, Npts, ris0):
         if self.archiveRoot is not None:
             # First try the supplied config.
-            coeffDir = self._getCoeffDir(N, ris0)
+            coeffDir = self._getCoeffDir(Npts, ris0)
             if os.path.isdir(coeffDir):
-                return self._loadCoeffSet(N, coeffDir)
+                return self._loadCoeffSet(Npts, coeffDir)
             # Now look for other configs that have compatible coeffs.
             coeffBaseDir = self._getCoeffDirBase()
             if os.path.isdir(coeffBaseDir):
                 for coeffConfigDirName in th.getSubDirs(coeffBaseDir):
                     coeffConfigDir = coeffBaseDir+os.sep+coeffConfigDirName
                     for coeffDirName in th.getSubDirs(coeffConfigDir):
-                        if "N="+str(N)+"_" in coeffDirName:
+                        if "Npts="+str(Npts)+"_" in coeffDirName:
                             coeffDir = coeffConfigDir+os.sep+coeffDirName
-                            return self._loadCoeffSet(N, coeffDir)
+                            return self._loadCoeffSet(Npts, coeffDir)
         return None
 
-    def _getCoefficients(self, N, ris0):
-        coeffs = self._loadCoeffs(N, ris0)
+    def _getCoefficients(self, Npts, ris0):
+        coeffs = self._loadCoeffs(Npts, ris0)
         if coeffs is None:
             dsmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
             coeffs = psm.calculateCoefficients(dsmat, dsmat.asymCal)
             self.log.writeMsg("Coefficients calculated")
-            self._saveCoeffs(coeffs, N, ris0)
+            self._saveCoeffs(coeffs, Npts, ris0)
             self.allCoeffsLoaded = False
         return coeffs
 
     ##### Root File #####
 
-    def _getRootPath(self, rootDir, N, ris0):
-        return rootDir+os.sep+self._getInputDescStr(N, ris0)+".dat"
+    def _getRootPath(self, rootDir, Npts, ris0):
+        return rootDir+os.sep+self._getInputDescStr(Npts, ris0)+".dat"
 
     def _saveRootConfig(self, p):
         with th.fwopen(self._getRootConfigPath()) as f:
             th.fw(f, str(p))
 
-    def _getRootFileHeaderStr(self, N, ris):
-        Nstr = "N="+str(N)
+    def _getRootFileHeaderStr(self, Npts, ris):
+        Nstr = "Npts="+str(Npts)
         EminStr = "Emin="+str(ris[0][0])+"("+str(ris[1][0])+")"
-        EmaxStr = "Emax="+str(ris[0][1])+"("+str(ris[1][1])+")"
+        EmaxStr = "Emax="+str(ris[0][1]-1)+"("+str(ris[1][1])+")"
         stepStr = "step="+str(ris[0][2])
         return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
-    def _saveRoots(self, N, ris, roots, asymCal, p):
+    def _saveRoots(self, Npts, ris, roots, asymCal, p):
         if self.archiveRoot is not None:
             rootDir = self._getRootConfigDir()
             if not os.path.isdir(rootDir):
@@ -194,26 +194,26 @@ class sfit_mc_rak(th.tool):
             for root in roots:
                 rows.append(self._getkERow(root, asymCal))
 
-            rootPath = self._getRootPath(rootDir, N, ris[0])
+            rootPath = self._getRootPath(rootDir, Npts, ris[0])
             with th.fwopen(rootPath) as f:
-                th.fw(f, self._getRootFileHeaderStr(N, ris))
+                th.fw(f, self._getRootFileHeaderStr(Npts, ris))
                 th.fw(f, t.tabulate(rows,header))
                 th.fw(f, "\ncomplete")
                 self.log.writeMsg("Roots saved to: "+rootPath)
 
             self._saveRootConfig(p)
 
-    def _getRootPathIfExists(self, rootDir, N, ris0):
-        rootPath = self._getRootPath(rootDir, N, ris0)
+    def _getRootPathIfExists(self, rootDir, Npts, ris0):
+        rootPath = self._getRootPath(rootDir, Npts, ris0)
         if os.path.isfile(rootPath):
             return rootPath
         return None
 
-    def _findCompatibleRootDir(self, N, ris):
+    def _findCompatibleRootDir(self, Npts, ris):
         # First try the supplied config.
         rootConfigDir = self._getRootConfigDir()
         if os.path.isdir(rootConfigDir):
-            rootPath = self._getRootPathIfExists(rootConfigDir, N, ris[0])
+            rootPath = self._getRootPathIfExists(rootConfigDir, Npts, ris[0])
             if rootPath is not None:
                 return rootPath
         # Now look for other configs that have compatible roots.
@@ -222,15 +222,15 @@ class sfit_mc_rak(th.tool):
             for rootConfigDirName in th.getSubDirs(rootBaseDir):
                 rootConfigDir = rootBaseDir+os.sep+rootConfigDirName
                 if self._doesParamCacheMatch(rootConfigDir, "findFinRoots"):
-                    rootPath = self._getRootPathIfExists(rootConfigDir, N,
+                    rootPath = self._getRootPathIfExists(rootConfigDir, Npts,
                                                          ris[0])
                     if rootPath is not None:
                         return rootPath
         return None
 
-    def _loadRoots(self, N, ris, p):
+    def _loadRoots(self, Npts, ris, p):
         if self.archiveRoot is not None:
-            rootPath = self._findCompatibleRootDir(N, ris)
+            rootPath = self._findCompatibleRootDir(Npts, ris)
             if rootPath is not None:
                 try:
                     with th.fropen(rootPath) as f:
@@ -278,8 +278,8 @@ class sfit_mc_rak(th.tool):
     def _getPoleFileHeaderStr(self, numPoles, asymCal):
         return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
 
-    def _getPoleRow(self, N, pole, status, asymCal):
-        return [str(N), status] + self._getkERow(pole, asymCal)
+    def _getPoleRow(self, Npts, pole, status, asymCal):
+        return [str(Npts), status] + self._getkERow(pole, asymCal)
 
     def _savePoleData(self, nList, poleData, asymCal, p):
         if self.archiveRoot is not None:
@@ -288,7 +288,7 @@ class sfit_mc_rak(th.tool):
                 os.makedirs(poleDir)
 
             for i,dk in enumerate(poleData[2]):
-                header = ["N","status"] + self._getNumHeader(asymCal)
+                header = ["Npts","status"] + self._getNumHeader(asymCal)
                 rows = []
                 for pole in poleData[0][i]:
                     for j in sorted(pole.keys()):
@@ -330,24 +330,24 @@ class sfit_mc_rak(th.tool):
                 th.fw(f, t.tabulate(rows,header))
                 self.log.writeMsg("QI data saved to: "+QIPath)
 
-    def _updateContainerStrings(self, N, cont, chartTitle=None):
+    def _updateContainerStrings(self, Npts, cont, chartTitle=None):
         cont.setSourceStr(self.data.getSourceStr())
         cont.appendHistStr(self.data.getHistStr())
-        cont.appendHistStr("sfit_mc_rat_N="+str(N))
+        cont.appendHistStr("sfit_mc_rat_N="+str(Npts))
         if chartTitle is not None:
             cont.setChartTitle("Fin")
 
     ##### Public API #####
 
-    def getElasticFin(self, N):
-        self.log.writeCall("getElasticFin("+str(N)+")")
-        ris = self.data.getSliceIndices(numPoints=N)
-        self.log.writeMsg("Calculating for N="+str(N)+",slice:"+str(ris))
+    def getElasticFin(self, Npts):
+        self.log.writeCall("getElasticFin("+str(Npts)+")")
+        ris = self.data.getSliceIndices(numPoints=Npts)
+        self.log.writeMsg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
         self.allCoeffsLoaded = True
-        coeffs = self._getCoefficients(N, ris[0])
+        coeffs = self._getCoefficients(Npts, ris[0])
         cfin = psm.getElasticFinFun(coeffs, self.data.asymCal)
-        cfin.fitInfo = (N,ris)
-        self._updateContainerStrings(N, cfin, "Fin")
+        cfin.fitInfo = (Npts,ris)
+        self._updateContainerStrings(Npts, cfin, "Fin")
         self.log.writeMsg("cfin calculated")
         self.log.writeCallEnd("getElasticFin")
         return cfin
@@ -355,8 +355,8 @@ class sfit_mc_rak(th.tool):
     def getElasticFins(self, Nlist):
         self.log.writeCall("getElasticFins("+str(Nlist)+")")
         cfins = []
-        for N in Nlist:
-            cfins.append(self.getElasticFin(N))
+        for Npts in Nlist:
+            cfins.append(self.getElasticFin(Npts))
         self.log.writeCallEnd("getElasticFins")
         return cfins
 
@@ -425,23 +425,23 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("findStableSmatPoles")
         return None, None
 
-    def getElasticSmat(self, N):
-        self.log.writeCall("getElasticSmat("+str(N)+")")
-        ris = self.data.getSliceIndices(numPoints=N)
+    def getElasticSmat(self, Npts):
+        self.log.writeCall("getElasticSmat("+str(Npts)+")")
+        ris = self.data.getSliceIndices(numPoints=Npts)
         self.log.writeMsg("Calculating for slice:"+str(ris))
         self.allCoeffsLoaded = True
-        coeffs = self._getCoefficients(N, ris[0])
+        coeffs = self._getCoefficients(Npts, ris[0])
         csmat = psm.getElasticSmatFun(coeffs, self.data.asymCal)
-        csmat.fitInfo = (N,ris)
+        csmat.fitInfo = (Npts,ris)
         csmat.sfit_mc_rak_SplotCompatible = True
-        self._updateContainerStrings(N, csmat)
+        self._updateContainerStrings(Npts, csmat)
         self.log.writeMsg("Calculation completed")
         self.log.writeCallEnd("getElasticSmat")
         return csmat
 
-    def plotSmatFit(self, csmat, m, n, numPoints=None, show=True):
-        N = csmat.fitInfo[0]
-        self.log.writeCall("plotSmatFit("+str(N)+")")
+    def plotSmatFit(self, csmat, m, n, numPlotPoints=None, show=True):
+        Npts = csmat.fitInfo[0]
+        self.log.writeCall("plotSmatFit("+str(Npts)+")")
         err = False
         try:
             csmat.sfit_mc_rak_SplotCompatible
@@ -458,19 +458,19 @@ class sfit_mc_rak(th.tool):
                 ysize = p["ysize"]
 
                 fig = plt.figure(facecolor="white")
-                title = "S matrix fit for N="+str(N)
+                title = "S matrix fit for Npts="+str(Npts)
                 title += ", i="+str(m+1)+", j="+str(n+1)
                 fig.suptitle(title)
                 fig.set_size_inches(xsize, ysize, forward=True)
 
-                if numPoints is None:
+                if numPlotPoints is None:
                     ln = len(self.data)
                 else:
-                    ln = numPoints
+                    ln = numPlotPoints
 
                 plt.gca().set_prop_cycle(cycler('color', p["colourCycle"]))
                 orig = self.data
-                if numPoints is not None:
+                if numPlotPoints is not None:
                     orig = orig.createReducedLength(numPoints=ln)
                 orig = orig.to_dSmat()
                 orig = orig.createReducedDim(m).createReducedDim(n)
@@ -496,7 +496,7 @@ class sfit_mc_rak(th.tool):
                     savePath = self.archiveRoot+"charts"+os.sep
                     if not os.path.isdir(savePath):
                         os.makedirs(savePath)
-                    savePath += title + " " + str(numPoints) + ".png"
+                    savePath += title + " " + str(numPlotPoints) + ".png"
                     self.log.writeMsg("Chart saved to: "+savePath)
                     plt.savefig(savePath, bbox_inches='tight')
                 if show:
