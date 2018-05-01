@@ -439,7 +439,7 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("getElasticSmat")
         return csmat
 
-    def plotSmatFit(self, csmat, m, n, numPlotPoints=None, show=True):
+    def plotSmatFit(self, csmat, i, j, numPlotPoints=None, show=True):
         Npts = csmat.fitInfo[0]
         self.log.writeCall("plotSmatFit("+str(Npts)+")")
         err = False
@@ -459,7 +459,7 @@ class sfit_mc_rak(th.tool):
 
                 fig = plt.figure(facecolor="white")
                 title = "S matrix fit for Npts="+str(Npts)
-                title += ", i="+str(m+1)+", j="+str(n+1)
+                title += ", m="+str(i+1)+", n="+str(j+1)
                 fig.suptitle(title)
                 fig.set_size_inches(xsize, ysize, forward=True)
 
@@ -473,19 +473,19 @@ class sfit_mc_rak(th.tool):
                 if numPlotPoints is not None:
                     orig = orig.createReducedLength(numPoints=ln)
                 orig = orig.to_dSmat()
-                orig = orig.createReducedDim(m).createReducedDim(n)
+                orig = orig.createReducedDim(i).createReducedDim(j)
                 ls1,_ = orig.getPlotInfo()
 
                 ris0 = csmat.fitInfo[1][0]
                 fitPnt = self.data[ris0[0]:ris0[1]:ris0[2]]
                 fitPnt = fitPnt.to_dSmat()
-                fitPnt = fitPnt.createReducedDim(m).createReducedDim(n)
+                fitPnt = fitPnt.createReducedDim(i).createReducedDim(j)
                 fitPnt.setChartParameters(useMarker=True)
                 ls2,_ = fitPnt.getPlotInfo()
 
                 rng = orig.getRange()
                 dsmat = csmat.discretise(rng[0], rng[1], ln)
-                fit = dsmat.createReducedDim(m).createReducedDim(n)
+                fit = dsmat.createReducedDim(i).createReducedDim(j)
                 ls3,_ = fit.getPlotInfo()
 
                 plt.legend([ls1[0],ls2[0],ls3[0]], 
@@ -503,3 +503,6 @@ class sfit_mc_rak(th.tool):
                     plt.show()
 
         self.log.writeCallEnd("plotSmatFit")
+
+    def plotXSFit(self, csmat, numPlotPoints=None, show=True):
+        pass
