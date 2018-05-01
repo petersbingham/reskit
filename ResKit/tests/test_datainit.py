@@ -20,7 +20,7 @@ class test_numpyDiscreteInit(unittest.TestCase):
         data[2.] = np.matrix([[2.,2.],[2.,2.]], dtype=np.complex128)
         rk.usePythonTypes()
         cal = rk.getAsymCalc(cu.RYDs, [0,0])
-        dmat = rk.getdmatFromDiscrete(rk.Smat, data, cal, "dum1")
+        dmat = rk.getdMatFromDiscrete(rk.Smat, data, cal, "dum1")
         self.assertEqual(nw.mode, nw.mode_python)
         self.assertEqual(nw.dps, nw.dps_default_python)
         for mat in dmat.values():
@@ -33,7 +33,7 @@ class test_mpmathDiscreteInit(unittest.TestCase):
         data[2.] = mpmath.matrix([[2.,2.],[2.,2.]])
         rk.useMpmathTypes()
         cal = rk.getAsymCalc(cu.RYDs, [0,0])
-        dmat = rk.getdmatFromDiscrete(rk.Smat, data, cal, "dum2")
+        dmat = rk.getdMatFromDiscrete(rk.Smat, data, cal, "dum2")
         self.assertEqual(nw.mode, nw.mode_mpmath)
         self.assertEqual(nw.dps, nw.dps_default_mpmath)
         for mat in dmat.values():
@@ -44,7 +44,7 @@ class test_numpyContinuousInit(unittest.TestCase):
         fp = lambda e: np.matrix([[e,e],[e,e]], dtype=np.complex128)
         rk.usePythonTypes()
         cal = rk.getAsymCalc(cu.RYDs, [0,0])
-        dmat = rk.getdmatFromContinuous(rk.Smat, fp, cal, 1.,5.,10, "dum3")
+        dmat = rk.getdMatFromContinuous(rk.Smat, fp, cal, 1.,5.,10, "dum3")
         self.assertEqual(nw.mode, nw.mode_python)
         self.assertEqual(nw.dps, nw.dps_default_python)
         for mat in dmat.values():
@@ -55,7 +55,7 @@ class test_mpmathContinuousInit(unittest.TestCase):
         fp = lambda e: mpmath.matrix([[e,e],[e,e]])
         rk.useMpmathTypes()
         cal = rk.getAsymCalc(cu.RYDs, [0,0])
-        dmat = rk.getdmatFromContinuous(rk.Smat, fp, cal, 1., 5., 10, "dum4")
+        dmat = rk.getdMatFromContinuous(rk.Smat, fp, cal, 1., 5., 10, "dum4")
         self.assertEqual(nw.mode, nw.mode_mpmath)
         self.assertEqual(nw.dps, nw.dps_default_mpmath)
         for mat in dmat.values():

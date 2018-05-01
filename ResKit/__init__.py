@@ -27,10 +27,10 @@ eVs = cu.eVs
 def getAsymCalc(units, ls=None):
     return cu.asymCal(units, ls)
 
-def getdmatFromDiscrete(matType, matDict, asymCal, sourceStr):
+def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
     return tu.getDiscreteScatteringMatrix(matType, matDict, asymCal, sourceStr)
 
-def getdmatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
+def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
                           sourceStr):
     cmat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal, sourceStr)
     return cmat.discretise(startEne, endEne, numPoints)

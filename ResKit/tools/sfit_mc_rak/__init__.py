@@ -109,7 +109,7 @@ class sfit_mc_rak(th.tool):
 
     def _loadCoeff(self, Npts, path, typeStr):
         coeffs = []
-        for i in range(psm.getNumCoeffForN(Npts)):
+        for i in range(psm.getNumCoeffForNpts(Npts)):
             coeffPath = self._getCoeffPath(path, typeStr, i)
             if not os.path.isfile(coeffPath):
                 return None
