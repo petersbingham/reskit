@@ -7,7 +7,7 @@ findFinRoots:
     nw_rootsSym:
       symPoly_nroots:
         n: dps # use mpmath dps. Specify a value to override.
-        maxsteps: 500
+        maxsteps: 5000
         cleanup: True
 
 findStableSmatPoles:
@@ -15,7 +15,7 @@ findStableSmatPoles:
     startingDistThres: 0.0001
     endDistThres: null
     cfSteps: 3
-    amalgThres: null
+    amalgThres: 0.
 
 fitCharts:
   colourCycle:

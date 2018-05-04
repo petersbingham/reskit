@@ -3,6 +3,8 @@ import datetime
 import io
 import copy
 import yaml
+import matplotlib.pyplot as plt
+from cycler import cycler
 
 class tool:
     def __init__(self, data, archiveRoot, paramFilePath, toolDir, silent):
@@ -55,6 +57,53 @@ class tool:
         self.log.writeErr(eStr)
         raise Exception("Error. Exception opening cache config: " + eStr)
 
+    def _prepareForFitPlot(self, csmat, numPlotPoints):
+        try:
+            csmat.sfit_mc_rak_SplotCompatible
+        except Exception:
+            self.log.writeErr("Not a csmat")
+            return None
+        with th.fropen(self.paramFilePath) as f:
+            config = yaml.load(f.read())
+            p = config["fitCharts"]
+            self.log.writeParameters(p)
+    
+            if numPlotPoints is None:
+                ln = len(self.data)
+            else:
+                ln = numPlotPoints
+
+            orig = self.data
+            if numPlotPoints is not None:
+                orig = orig.createReducedLength(numPoints=ln)
+            return p, ln, orig
+
+    def _plotFit(self, p, title, orig, fitPnts, fit, numPlotPoints, show):
+        xsize = p["xsize"]
+        ysize = p["ysize"]
+
+        fig = plt.figure(facecolor="white")
+        fig.suptitle(title)
+        fig.set_size_inches(xsize, ysize, forward=True)
+
+        ls1,_ = orig.getPlotInfo()
+        fitPnts.setChartParameters(useMarker=True)
+        ls2,_ = fitPnts.getPlotInfo()
+        ls3,_ = fit.getPlotInfo()
+        
+        plt.gca().set_prop_cycle(cycler('color', p["colourCycle"]))
+        plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fit points","Fitted"], 
+                   prop={'size': 12})
+        plt.xlabel(self.data.units, fontsize=12)
+        if self.archiveRoot is not None:
+            savePath = self.archiveRoot+"charts"+os.sep
+            if not os.path.isdir(savePath):
+                os.makedirs(savePath)
+            savePath += title + " " + str(numPlotPoints) + ".png"
+            self.log.writeMsg("Chart saved to: "+savePath)
+            plt.savefig(savePath, bbox_inches='tight')
+        if show:
+            plt.show()
 
 class logger:
     def __init__(self, logFilePath):

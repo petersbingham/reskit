@@ -2,8 +2,6 @@ import yaml
 import os
 import tabulate as t
 import numpy as np
-import matplotlib.pyplot as plt
-from cycler import cycler
 
 import pynumwrap as nw
 import parSmat as psm
@@ -442,67 +440,48 @@ class sfit_mc_rak(th.tool):
     def plotSmatFit(self, csmat, i, j, numPlotPoints=None, show=True):
         Npts = csmat.fitInfo[0]
         self.log.writeCall("plotSmatFit("+str(Npts)+")")
-        err = False
-        try:
-            csmat.sfit_mc_rak_SplotCompatible
-        except Exception:
-            self.log.writeErr("Not a csmat")
-            err = True
+        ret = self._prepareForFitPlot(csmat, numPlotPoints)  
+        if ret is not None:
+            p, ln, orig = ret
 
-        if not err:    
-            with th.fropen(self.paramFilePath) as f:
-                config = yaml.load(f.read())
-                p = config["fitCharts"]
-                self.log.writeParameters(p)
-                xsize = p["xsize"]
-                ysize = p["ysize"]
+            orig = orig.to_dSmat()
+            orig = orig.createReducedDim(i).createReducedDim(j)
 
-                fig = plt.figure(facecolor="white")
-                title = "S matrix fit for Npts="+str(Npts)
-                title += ", m="+str(i+1)+", n="+str(j+1)
-                fig.suptitle(title)
-                fig.set_size_inches(xsize, ysize, forward=True)
+            ris0 = csmat.fitInfo[1][0]
+            fitPnts = self.data[ris0[0]:ris0[1]:ris0[2]]
+            fitPnts = fitPnts.to_dSmat()
+            fitPnts = fitPnts.createReducedDim(i).createReducedDim(j)
 
-                if numPlotPoints is None:
-                    ln = len(self.data)
-                else:
-                    ln = numPlotPoints
+            rng = orig.getRange()
+            dsmat = csmat.discretise(rng[0], rng[1], ln)
+            fit = dsmat.createReducedDim(i).createReducedDim(j)
 
-                plt.gca().set_prop_cycle(cycler('color', p["colourCycle"]))
-                orig = self.data
-                if numPlotPoints is not None:
-                    orig = orig.createReducedLength(numPoints=ln)
-                orig = orig.to_dSmat()
-                orig = orig.createReducedDim(i).createReducedDim(j)
-                ls1,_ = orig.getPlotInfo()
+            title = "S matrix fit for Npts="+str(Npts)
+            title += ", m="+str(i+1)+", n="+str(j+1)
 
-                ris0 = csmat.fitInfo[1][0]
-                fitPnt = self.data[ris0[0]:ris0[1]:ris0[2]]
-                fitPnt = fitPnt.to_dSmat()
-                fitPnt = fitPnt.createReducedDim(i).createReducedDim(j)
-                fitPnt.setChartParameters(useMarker=True)
-                ls2,_ = fitPnt.getPlotInfo()
-
-                rng = orig.getRange()
-                dsmat = csmat.discretise(rng[0], rng[1], ln)
-                fit = dsmat.createReducedDim(i).createReducedDim(j)
-                ls3,_ = fit.getPlotInfo()
-
-                plt.legend([ls1[0],ls2[0],ls3[0]], 
-                           ["Original","Fit points","Fitted"], 
-                           prop={'size': 12})
-                plt.xlabel(self.data.units, fontsize=12)
-                if self.archiveRoot is not None:
-                    savePath = self.archiveRoot+"charts"+os.sep
-                    if not os.path.isdir(savePath):
-                        os.makedirs(savePath)
-                    savePath += title + " " + str(numPlotPoints) + ".png"
-                    self.log.writeMsg("Chart saved to: "+savePath)
-                    plt.savefig(savePath, bbox_inches='tight')
-                if show:
-                    plt.show()
+            self._plotFit(p, title, orig, fitPnts, fit, numPlotPoints, show)
 
         self.log.writeCallEnd("plotSmatFit")
 
     def plotXSFit(self, csmat, numPlotPoints=None, show=True):
-        pass
+        Npts = csmat.fitInfo[0]
+        self.log.writeCall("plotXSFit("+str(Npts)+")")
+        ret = self._prepareForFitPlot(csmat, numPlotPoints)  
+        if ret is not None:
+            p, ln, orig = ret
+
+            orig = orig.to_dXSmat().to_dTotXSval()
+
+            ris0 = csmat.fitInfo[1][0]
+            fitPnts = self.data[ris0[0]:ris0[1]:ris0[2]]
+            fitPnts = fitPnts.to_dXSmat().to_dTotXSval()
+
+            rng = orig.getRange()
+            dsmat = csmat.discretise(rng[0], rng[1], ln)
+            fit = dsmat.to_dXSmat().to_dTotXSval()
+
+            title = "Cross Section fit for Npts="+str(Npts)
+
+            self._plotFit(p, title, orig, fitPnts, fit, numPlotPoints, show)
+
+        self.log.writeCallEnd("plotXSFit")
