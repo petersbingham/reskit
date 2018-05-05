@@ -29,8 +29,7 @@ chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,5,cu.eVs)
 chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4)
 chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4,imag=True)
 
-# Failing due to change in T-matrix. Remove if change permanent:
-chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
+chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
                   imag=True)
 
 #### mpmath types ####

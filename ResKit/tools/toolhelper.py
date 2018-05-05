@@ -63,7 +63,7 @@ class tool:
         except Exception:
             self.log.writeErr("Not a csmat")
             return None
-        with th.fropen(self.paramFilePath) as f:
+        with fropen(self.paramFilePath) as f:
             config = yaml.load(f.read())
             p = config["fitCharts"]
             self.log.writeParameters(p)
