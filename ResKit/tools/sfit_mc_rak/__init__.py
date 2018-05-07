@@ -315,16 +315,16 @@ class sfit_mc_rak(th.tool):
         return self._getkERow(poleQI[0], asymCal) + [str(poleQI[1]),
                                                      str(poleQI[2])]
 
-    def _saveQIdata(self, nList, QIdat, asymCal):
+    def _savePoledata(self, nList, poleDat, asymCal):
         if self.archiveRoot is not None:
             header = self._getNumHeader(asymCal) + ["^dk","ENk"]
             rows = []
-            for poleQI in QIdat[0]:
+            for poleQI in poleDat[0]:
                 rows.append(self._getQIRow(poleQI, asymCal))
 
             QIPath = self._getQIPath(self._getPoleDir(nList))
             with th.fwopen(QIPath) as f:
-                th.fw(f, self._getQIFileHeaderStr(len(QIdat[0]), asymCal))
+                th.fw(f, self._getQIFileHeaderStr(len(poleDat[0]), asymCal))
                 th.fw(f, t.tabulate(rows,header))
                 self.log.writeMsg("QI data saved to: "+QIPath)
 
@@ -335,9 +335,30 @@ class sfit_mc_rak(th.tool):
         if chartTitle is not None:
             cont.setChartTitle("Fin")
 
+    ##### Plots #####
+
+    def _checkForFitPlot(self, csmat):
+        try:
+            csmat.sfit_mc_rak_SplotCompatible
+        except Exception:
+            self.log.writeErr("Not a csmat")
+            return None
+
     ##### Public API #####
 
     def getElasticFin(self, Npts):
+        """
+        Performs an Fin fit using the specified number of fit points.
+
+        Parameters
+        ----------
+        Npts : int
+            Number of points to use in the fit. Must be an even number.
+
+        Returns
+        -------
+        cfin : tisutil.cPolykmat
+        """
         self.log.writeCall("getElasticFin("+str(Npts)+")")
         ris = self.data.getSliceIndices(numPoints=Npts)
         self.log.writeMsg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
@@ -350,15 +371,39 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("getElasticFin")
         return cfin
 
-    def getElasticFins(self, Nlist):
-        self.log.writeCall("getElasticFins("+str(Nlist)+")")
+    def getElasticFins(self, NptsList):
+        """
+        Performs Fin fits using the specified list of fit points.
+
+        Parameters
+        ----------
+        NptsList : list of ints
+            List of fit points, each of which will be used to produce a fit.
+
+        Returns
+        -------
+        cfins : list of tisutil.cPolykmat
+        """
+        self.log.writeCall("getElasticFins("+str(NptsList)+")")
         cfins = []
-        for Npts in Nlist:
+        for Npts in NptsList:
             cfins.append(self.getElasticFin(Npts))
         self.log.writeCallEnd("getElasticFins")
         return cfins
 
     def findFinRoots(self, cfins, internal=False):
+        """
+        Finds the roots of a list of parameterised Fins.
+
+        Parameters
+        ----------
+        cfins : list of tisutil.cPolykmat
+            Container representing the parameterised Fins.
+
+        Returns
+        -------
+        allRoots : list of float or mpmath.mpcs
+        """
         self.log.writeCall("findFinRoots("+str(map(lambda x: x.fitInfo[0],
                                                    cfins))+")", internal)
         class RootsList(list):
@@ -385,6 +430,23 @@ class sfit_mc_rak(th.tool):
         return allRoots
 
     def findStableSmatPoles(self, cfinsOrRoots):
+        """
+        Finds the S-matrix poles as the stable roots of the Fins from either
+        a list of Fins or from a list of Fin roots.
+
+        Parameters
+        ----------
+        cfinsOrRoots : list of either cfins or list of floats
+            As returned from either getElasticFins or findFinRoots.
+
+        Returns
+        -------
+        poleDat : list of lists.
+            List of poles and their calculated quality indicators.
+        amalgPoleDat : list of lists.
+            List of poles that had been combined according to the amalgamation
+            threshold specified in the paramFile.
+        """
         try:
             paramStr = str(map(lambda x: x.fitInfo[0], cfinsOrRoots))
         except AttributeError:
@@ -414,16 +476,28 @@ class sfit_mc_rak(th.tool):
                     self.log.writeMsg("Convergence groups calculated")
                     self._savePoleData(allRoots.nList, poleData,
                                        allRoots.asymCal, p)
-                    QIdat = sp.calculateQIsFromRange(poleData,
+                    poleDat = sp.calculateQIsFromRange(poleData,
                                                      float(pp["amalgThres"]))
                     self.log.writeMsg("QIs calculated")
-                    self._saveQIdata(allRoots.nList, QIdat, allRoots.asymCal)
+                    self._savePoledata(allRoots.nList, poleDat, allRoots.asymCal)
                     self.log.writeCallEnd("findStableSmatPoles")
-                    return QIdat
+                    return poleDat
         self.log.writeCallEnd("findStableSmatPoles")
         return None, None
 
     def getElasticSmat(self, Npts):
+        """
+        Performs S-matrix fits using the specified number of fit points.
+
+        Parameters
+        ----------
+        Npts : int
+            Number of points to use in the fit. Must be an even number.
+
+        Returns
+        -------
+        csmat : tisutil.cPolySmat
+        """
         self.log.writeCall("getElasticSmat("+str(Npts)+")")
         ris = self.data.getSliceIndices(numPoints=Npts)
         self.log.writeMsg("Calculating for slice:"+str(ris))
@@ -437,10 +511,23 @@ class sfit_mc_rak(th.tool):
         self.log.writeCallEnd("getElasticSmat")
         return csmat
 
-    def plotSmatFit(self, csmat, i, j, numPlotPoints=None, show=True):
+    def plotSmatFit(self, csmat, numPlotPoints=None, units=None, i=None, j=None,
+                    logx=False, logy=False, imag=False, show=True):
+        """
+        Plots the original data, the fit points used and the resultant S-matrix
+        for the specified element/s.
+
+        Parameters
+        ----------
+        csmat : tisutil.cPolySmat
+            Fitted S-matrix returned from getElasticSmat.
+        numPlotPoints, units, i, j, logx, logy, imag, show
+            Refer to the chart tool for description.
+        """
         Npts = csmat.fitInfo[0]
         self.log.writeCall("plotSmatFit("+str(Npts)+")")
-        ret = self._prepareForFitPlot(csmat, numPlotPoints)  
+        self._checkForFitPlot(csmat)
+        ret = self._prepareForFitPlot(numPlotPoints)  
         if ret is not None:
             p, ln, orig = ret
 
@@ -459,14 +546,29 @@ class sfit_mc_rak(th.tool):
             title = "S matrix fit for Npts="+str(Npts)
             title += ", m="+str(i+1)+", n="+str(j+1)
 
-            self._plotFit(p, title, orig, fitPnts, fit, numPlotPoints, show)
+            self._plotFit(p, title, orig, fitPnts, fit, numPlotPoints, units,
+                          logx, logy, imag, show)
 
         self.log.writeCallEnd("plotSmatFit")
 
-    def plotXSFit(self, csmat, numPlotPoints=None, show=True):
+    def plotTotalXSFit(self, csmat, numPlotPoints=None, units=None, logx=False,
+                       logy=False, show=True):
+        """
+        Plots total cross section conversions from the original S-matrix data,
+        the fit points used and the resultant S-matrix. Refer to the chart tool
+        for a description of the parameters.
+
+        Parameters
+        ----------
+        csmat : tisutil.cPolySmat
+            Fitted S-matrix returned from getElasticSmat.
+        numPlotPoints, units, logx, logy, show
+            Refer to the chart tool for description.
+        """
         Npts = csmat.fitInfo[0]
-        self.log.writeCall("plotXSFit("+str(Npts)+")")
-        ret = self._prepareForFitPlot(csmat, numPlotPoints)  
+        self.log.writeCall("plotTotalXSFit("+str(Npts)+")")
+        self._checkForFitPlot(csmat)
+        ret = self._prepareForFitPlot(numPlotPoints)  
         if ret is not None:
             p, ln, orig = ret
 
@@ -480,8 +582,9 @@ class sfit_mc_rak(th.tool):
             dsmat = csmat.discretise(rng[0], rng[1], ln)
             fit = dsmat.to_dXSmat().to_dTotXSval()
 
-            title = "Cross Section fit for Npts="+str(Npts)
+            title = "Total Cross Section fit for Npts="+str(Npts)
 
-            self._plotFit(p, title, orig, fitPnts, fit, numPlotPoints, show)
+            self._plotFit(p, title, orig, fitPnts, fit, numPlotPoints, units,
+                          logx, logy, False, show)
 
-        self.log.writeCallEnd("plotXSFit")
+        self.log.writeCallEnd("plotTotalXSFit")

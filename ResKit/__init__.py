@@ -25,19 +25,105 @@ HARTs = cu.HARTs
 eVs = cu.eVs
 
 def getAsymCalc(units, ls=None):
+    """
+    Returns an asymCal for converting from wavenumber to energy.
+
+    Parameters
+    ----------
+    units : int
+        Specification of the energy units. Available options are ResKit.RYDs,
+        ResKit.HARTs and ResKit.eVs.
+    ls : list of ints, optional
+        Specification of the angular momenta in each of the channels. Defaults 
+        to zero in all channels.
+
+    Returns
+    -------
+    asymcal : channelutil.asymCal
+    """
     return cu.asymCal(units, ls)
 
 def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
+    """
+    Converts energy dependent scattering data into a ResKit compatible container.
+
+    Parameters
+    ----------
+    matType : int 
+        Specification of the scattering matrix type. Available options are
+        ResKit.Smat, ResKit.Kmat and ResKit.Tmat.
+    matDict :  dict of scattering matrices keyed by energy.
+        Scattering data to be used in the calculation. Can be either floats or
+        mpmath types.
+    asymCal : asymCal
+        As returned from the getAsymCalc function.
+    sourceStr : str
+        String provided to uniquely identify the scattering data. Will be used
+        in the archiving of results.
+
+    Returns
+    -------
+    dmat : tisutil.dBase
+    """
     return tu.getDiscreteScatteringMatrix(matType, matDict, asymCal, sourceStr)
 
 def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
                           sourceStr):
+    """
+    Discretises continuous energy dependent scattering data into a ResKit
+    compatible container. 
+
+    Parameters
+    ----------
+    matType : int 
+        Specification of the scattering matrix type. Available options are
+        ResKit.Smat, ResKit.Kmat and ResKit.Tmat.
+    funPtr : function reference with energy parameter
+        A function of energy that will calculate the scattering matrix. Can be
+        either floats or mpmath types.
+    asymCal : asymCal
+        As returned from the getAsymCalc function.
+    startEne : float
+        Start energy for the discretisation.
+    endEne : float
+        End energy for the discretisation.
+    numPoints : float
+        Number of energy points for the discretisation.
+    sourceStr : str
+        String provided to uniquely identify the scattering data. Will be used
+        in the archiving of results.
+
+    Returns
+    -------
+    dmat : tisutil.dBase
+    """
     cmat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal, sourceStr)
     return cmat.discretise(startEne, endEne, numPoints)
 
 CHART = 0
 SFIT_MC_RAK = 1
 def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
+    """
+    Initialises and returns a tool.
+
+    Parameters
+    ----------
+    toolID : int 
+        Specification of the tool. Available options are ResKit.CHART and
+        ResKit.SFIT_MC_RAK.
+    archiveRoot : str, optional
+        Specification of the root location into which ResKit will write it's
+        results.
+    paramFilePath : str, optional
+        Location of an existing yml file containing overrides for the more
+        advanced routine parameters.
+    silent : bool, optional
+        Switch determining whether to suppress output to console.
+
+    Returns
+    -------
+    tool : Tool
+    """
     if safeMode:
         nw.lockType()
     if toolID == CHART:
@@ -72,6 +158,9 @@ def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
     return tool(data, archiveRoot, paramFilePath, silent)
 
 def usePythonTypes(dps=nw.dps_default_python):
+    """
+    Specifies to use python types.
+    """
     try:
         nw.usePythonTypes(dps)
     except:
@@ -79,6 +168,14 @@ def usePythonTypes(dps=nw.dps_default_python):
         raise Exception(s)
 
 def useMpmathTypes(dps=nw.dps_default_mpmath):
+    """
+    Specifies to use mpmath types.
+
+    Parameters
+    ----------
+    dps : int 
+        Specifies the mpmath precision.
+    """
     try:
         nw.useMpmathTypes(dps)
     except:

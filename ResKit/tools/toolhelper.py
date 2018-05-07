@@ -57,12 +57,7 @@ class tool:
         self.log.writeErr(eStr)
         raise Exception("Error. Exception opening cache config: " + eStr)
 
-    def _prepareForFitPlot(self, csmat, numPlotPoints):
-        try:
-            csmat.sfit_mc_rak_SplotCompatible
-        except Exception:
-            self.log.writeErr("Not a csmat")
-            return None
+    def _prepareForFitPlot(self, numPlotPoints):
         with fropen(self.paramFilePath) as f:
             config = yaml.load(f.read())
             p = config["fitCharts"]
@@ -78,18 +73,24 @@ class tool:
                 orig = orig.createReducedLength(numPoints=ln)
             return p, ln, orig
 
-    def _plotFit(self, p, title, orig, fitPnts, fit, numPlotPoints, show):
+    def _plotFit(self, p, title, orig, fitPnts, fit, numPlotPoints, units,
+                 logx, logy, imag, show):
         xsize = p["xsize"]
         ysize = p["ysize"]
 
         fig = plt.figure(facecolor="white")
         fig.suptitle(title)
         fig.set_size_inches(xsize, ysize, forward=True)
+        
+        if units is not None:
+            orig = orig.convertUnits(units)
+            fitPnts = fitPnts.convertUnits(units)
+            fit = fit.convertUnits(units)
 
-        ls1,_ = orig.getPlotInfo()
+        ls1,_ = orig.getPlotInfo(logx, logy, imag)
         fitPnts.setChartParameters(useMarker=True)
-        ls2,_ = fitPnts.getPlotInfo()
-        ls3,_ = fit.getPlotInfo()
+        ls2,_ = fitPnts.getPlotInfo(logx, logy, imag)
+        ls3,_ = fit.getPlotInfo(logx, logy, imag)
         
         plt.gca().set_prop_cycle(cycler('color', p["colourCycle"]))
         plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fit points","Fitted"], 

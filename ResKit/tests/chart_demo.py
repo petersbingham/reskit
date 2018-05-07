@@ -28,6 +28,7 @@ chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,5)
 chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,5,cu.eVs)
 chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4)
 chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4,imag=True)
+chart.plotTotalXS(len(dsmat)/4,len(dsmat)*3/4)
 
 chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
                   imag=True)
