@@ -45,7 +45,9 @@ def getAsymCalc(units, ls=None):
 
 def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
     """
-    Converts energy dependent scattering data into a ResKit compatible container.
+    Converts discrete energy dependent scattering data into a ResKit compatible
+    container. Types must match those specified using the usePythonTypes or
+    useMpmathTypes functions.
 
     Parameters
     ----------
@@ -71,7 +73,8 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
                           sourceStr):
     """
     Discretises continuous energy dependent scattering data into a ResKit
-    compatible container. 
+    compatible container. Types must match those specified using the
+    usePythonTypes or useMpmathTypes functions.
 
     Parameters
     ----------
@@ -111,6 +114,8 @@ def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
     toolID : int 
         Specification of the tool. Available options are ResKit.CHART and
         ResKit.SFIT_MC_RAK.
+    data
+        Tool data. The format of this data is determined by the Tool type.
     archiveRoot : str, optional
         Specification of the root location into which ResKit will write it's
         results.
