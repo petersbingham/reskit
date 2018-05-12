@@ -15,16 +15,16 @@ DESC_MARGIN = "0.5cm"
 TYPE_NAME_TAB = "0.5cm"
 TYPE_DESC_MARGIN = "1.0cm"
 
-ResKitfuns = ["getAsymCalc","getdMatFromDiscrete","getdMatFromContinuous",\
-              "getTool","usePythonTypes","useMpmathTypes","overrideUtilities"]
-chartFunctions = ["plotSmatrix", "plotKmatrix", "plotTmatrix", "plotUniOpSMat",\
-                  "plotRaw", "plotEPhase", "plotXS", "plotTotalXS"]
-mcsmatfitFunctions = ["getElasticFin", "getElasticFins", "findFinRoots",\
-                        "findStableSmatPoles", "getElasticSmat", "plotSmatFit",\
-                        "plotTotalXSFit"]
+ResKitfuns = ["get_asym_calc","get_dmat_from_discrete","get_dmat_from_continuous",\
+              "get_tool","use_python_types","use_mpmath_types","override_utilities"]
+chartFunctions = ["plot_Smatrix", "plot_Kmatrix", "plot_Tmatrix", "plot_UniOpSMat",\
+                  "plot_raw", "plot_EPhase", "plot_XS", "plot_TotalXS"]
+mcsmatfitFunctions = ["get_elastic_Fin", "get_elastic_Fins", "find_Fin_roots",\
+                      "find_stable_Smat_poles", "get_elastic_Smat", "plot_Smat_fit",\
+                      "plot_totXS_fit"]
 codeTypes = ["reskit.RYDs", "reskit.HARTs", "reskit.eVs",\
              "reskit.Smat", "reskit.Kmat", "reskit.Tmat",\
-             "reskit.CHART", "reskit.SFIT_MC_RAK", "archiveRoot"]
+             "reskit.chart", "reskit.mcsmatfit", "archive_root"]
 
 functionDocStr = \
 r'''\bigskip\noindent\codefont{{'{'}}{{FUNCTION_NAME}}{{'}'}}
@@ -137,13 +137,13 @@ import reskit
 writeDoc(reskit, ResKitfuns, "reskit")
 
 import chart
-functions = ["plotSmatrix"]
-collectiveName = ", .plotKmatrix, .plotTmatrix, .plotUniOpSMat, .plotRaw, "\
-                 ".plotEPhase, .plotXS, .plotTotalXS"
+functions = ["plot_Smatrix"]
+collectiveName = ", .plot_Kmatrix, .plot_Tmatrix, .plot_UniOpSMat, .plot_raw, "\
+                 ".plot_EPhase, .plot_XS, .plot_TotalXS"
 collectiveDesc = "Plots various scattering related quantities."
-paramAppend = {"i" : "Not available for plotEPhase and plotTotalXS.",
-               "j" : "Not available for plotEPhase and plotTotalXS.",
-               "imag" : "Not available for plotEPhase and plotTotalXS."}
+paramAppend = {"i" : "Not available for plot_EPhase and plot_TotalXS.",
+               "j" : "Not available for plot_EPhase and plot_TotalXS.",
+               "imag" : "Not available for plot_EPhase and plot_TotalXS."}
 addInfo = [[(False, collectiveName), (True, collectiveDesc)]]
 writeDoc(chart.Chart, functions, "chart", addInfo, paramAppend)
 

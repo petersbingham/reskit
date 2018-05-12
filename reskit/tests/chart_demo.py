@@ -16,34 +16,34 @@ if os.path.isdir(TEST_ROOT):
 
 #### python Types ####
 cal = cu.AsymCalc(cu.HARTs, [0,0])
-csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
+csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
 dsmat = csmat.discretise(1.,8.,100)
 
-chart = rk.getTool(rk.CHART, dsmat)
+chart = rk.get_tool(rk.chart, dsmat)
 
-chart.plotSmatrix()
+chart.plot_Smatrix()
 
-chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4)
-chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,5)
-chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,5,cu.eVs)
-chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4)
-chart.plotTmatrix(len(dsmat)/4,len(dsmat)*3/4,imag=True)
-chart.plotTotalXS(len(dsmat)/4,len(dsmat)*3/4)
+chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4)
+chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,5)
+chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,5,cu.eVs)
+chart.plot_Tmatrix(len(dsmat)/4,len(dsmat)*3/4)
+chart.plot_Tmatrix(len(dsmat)/4,len(dsmat)*3/4,imag=True)
+chart.plot_TotalXS(len(dsmat)/4,len(dsmat)*3/4)
 
-chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
+chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
                   imag=True)
 
 #### mpmath types ####
-cu.useMpmathTypes()
-rw.useMpmathTypes()
+cu.use_mpmath_types()
+rw.use_mpmath_types()
 cal = cu.AsymCalc(cu.HARTs, [0,0])
-csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
-chart = rk.getTool(rk.CHART, csmat)
-chart.plotSmatrix()
+csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
+chart = rk.get_tool(rk.chart, csmat)
+chart.plot_Smatrix()
 dsmat = csmat.discretise(1.,8.,100)
-chart = rk.getTool(rk.CHART, dsmat)
-chart.plotSmatrix()
+chart = rk.get_tool(rk.chart, dsmat)
+chart.plot_Smatrix()
 
 # Check copy saved on file system
-chart = rk.getTool(rk.CHART, dsmat, TEST_ROOT, "chart-test.yml")
-chart.plotSmatrix()
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-test.yml")
+chart.plot_Smatrix()

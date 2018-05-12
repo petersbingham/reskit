@@ -1,23 +1,19 @@
-getElasticSmat:
-  sym_matrix_inv:
-    method: GE
-
-findRoots:
+find_Fin_roots:
   cPolyMat_determinant:
     sym_matrix_det:
       method: berkowitz
 
-  cPolyVal_findRoots:
+  cPolyVal_find_roots:
     nw_rootsSym:
       symPoly_nroots:
         n: dps # use mpmath dps. Specify a value to override.
         maxsteps: 501
         cleanup: True
 
-findPoles:
+find_stable_Smat_poles:
   stelempy:
-    startingDistThres: 0.0001
-    endDistThres: null
-    cfSteps: 2
-    amalgThres: null
+    starting_dist_thres: 0.0001
+    end_dist_thres: null
+    cfsteps: 2
+    amalg_thres: null
 

@@ -1,12 +1,12 @@
-colourCycle:
+colour_cycle:
   - red
   - green
   - blue
   - purple
 
-legPrefix: ''
+leg_prefix: ''
 
-useMarker: False
+use_marker: False
 
 xsize: 8
 

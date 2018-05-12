@@ -17,27 +17,27 @@ if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
 class parentTest(unittest.TestCase):
-    def findStableSmatPoles(self):
-        cal = rk.getAsymCalc(cu.HARTs, [0,0])
-        csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
+    def find_stable_Smat_poles(self):
+        cal = rk.get_asym_calc(cu.HARTs, [0,0])
+        csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
 
-        rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
-        rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
+        rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT, silent=True)
+        rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT, silent=True)
         
         dsmat.asymcalc.units = cu.RYDs
-        self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dsmat, 
-                          archiveRoot=TEST_ROOT, silent=True)
+        self.assertRaises(Exception, rk.get_tool, rk.mcsmatfit, dsmat, 
+                          archive_root=TEST_ROOT, silent=True)
 
 class test_numpy(parentTest):
     def runTest(self):
-        rk.usePythonTypes()
-        self.findStableSmatPoles()
+        rk.use_python_types()
+        self.find_stable_Smat_poles()
 
 class test_mpmath(parentTest):
     def runTest(self):
-        rk.useMpmathTypes()
-        self.findStableSmatPoles()
+        rk.use_mpmath_types()
+        self.find_stable_Smat_poles()
 
 if __name__ == "__main__":
     #Just for debug

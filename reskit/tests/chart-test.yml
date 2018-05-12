@@ -1,12 +1,12 @@
-colourCycle:
+colour_cycle:
   - black
   - black
   - black
   - black
 
-legPrefix: ''
+leg_prefix: ''
 
-useMarker: True
+use_marker: True
 
 xsize: 4
 
