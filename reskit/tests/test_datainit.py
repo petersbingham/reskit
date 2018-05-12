@@ -6,7 +6,7 @@ sys.path.insert(0,rkPath)
 
 import channelutil as cu
 import pynumwrap as nw
-import ResKit as rk
+import reskit as rk
 rk.safeMode = False
 import numpy as np
 import mpmath

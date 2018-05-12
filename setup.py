@@ -2,21 +2,21 @@
 
 from distutils.core import setup
 
-setup(name='ResKit',
-      version='0.28',
+setup(name='reskit',
+      version='0.30',
       description='Python Package to assist with the identification and characterisation of quantum scattering resonances.',
       author="Peter Bingham",
       author_email="petersbingham@hotmail.co.uk",
-      packages=['ResKit'],
-      package_data={'ResKit': ['utilities/get.sh',
+      packages=['reskit'],
+      package_data={'reskit': ['utilities/get.sh',
                                'tools/toolhelper.py',
                                'tools/chart/__init__.py',
                                'tools/chart/default.yml',
-                               'tools/sfit_mc_rak/__init__.py',
-                               'tools/sfit_mc_rak/default.yml',
+                               'tools/mcsmatfit/__init__.py',
+                               'tools/mcsmatfit/default.yml',
                                'tests/*.py',
-                               'tests/test_sfit_mc_rak_data1/changedRoots.yml',
-                               'tests/test_sfit_mc_rak_data1/default.yml',
-                               'tests/test_sfit_mc_rak_data2/changedPoles.yml',
-                               'tests/test_sfit_mc_rak_data2/default.yml']}
+                               'tests/test_mcsmatfit_data1/changedRoots.yml',
+                               'tests/test_mcsmatfit_data1/default.yml',
+                               'tests/test_mcsmatfit_data2/changedPoles.yml',
+                               'tests/test_mcsmatfit_data2/default.yml']}
      )

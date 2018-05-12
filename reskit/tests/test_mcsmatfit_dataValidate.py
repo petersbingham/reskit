@@ -4,15 +4,15 @@ fileDir = os.path.dirname(os.path.realpath(__file__))
 rkPath = fileDir+'/../..'
 sys.path.insert(0,rkPath)
 
-import ResKit as rk
+import reskit as rk
 rk.safeMode = False
 import channelutil as cu
-import TwoChanRadialWell as rw
+import twochanradialwell as rw
 
 import unittest
 import shutil
 
-TEST_ROOT = "test_sfit_mc_rak_dataValidate"
+TEST_ROOT = "test_mcsmatfit_dataValidate"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
@@ -25,7 +25,7 @@ class parentTest(unittest.TestCase):
         rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
         rk.getTool(rk.SFIT_MC_RAK, dsmat, archiveRoot=TEST_ROOT, silent=True)
         
-        dsmat.asymCal.units = cu.RYDs
+        dsmat.asymcalc.units = cu.RYDs
         self.assertRaises(Exception, rk.getTool, rk.SFIT_MC_RAK, dsmat, 
                           archiveRoot=TEST_ROOT, silent=True)
 

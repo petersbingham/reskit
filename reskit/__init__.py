@@ -26,26 +26,26 @@ eVs = cu.eVs
 
 def getAsymCalc(units, ls=None):
     """
-    Returns an asymCal for converting from wavenumber to energy.
+    Returns an AsymCalc for converting from wavenumber to energy.
 
     Parameters
     ----------
     units : int
-        Specification of the energy units. Available options are ResKit.RYDs,
-        ResKit.HARTs and ResKit.eVs.
+        Specification of the energy units. Available options are reskit.RYDs,
+        reskit.HARTs and reskit.eVs.
     ls : list of ints, optional
         Specification of the angular momenta in each of the channels. Defaults 
         to zero in all channels.
 
     Returns
     -------
-    asymcal : channelutil.asymCal
+    asymcalc : channelutil.AsymCalc
     """
-    return cu.asymCal(units, ls)
+    return cu.AsymCalc(units, ls)
 
-def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
+def getdMatFromDiscrete(matType, matDict, asymcalc, sourceStr):
     """
-    Converts discrete energy dependent scattering data into a ResKit compatible
+    Converts discrete energy dependent scattering data into a reskit compatible
     container. Types must match those specified using the usePythonTypes or
     useMpmathTypes functions.
 
@@ -53,11 +53,11 @@ def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
     ----------
     matType : int 
         Specification of the scattering matrix type. Available options are
-        ResKit.Smat, ResKit.Kmat and ResKit.Tmat.
+        reskit.Smat, reskit.Kmat and reskit.Tmat.
     matDict :  dict of scattering matrices keyed by energy.
         Scattering data to be used in the calculation. Can be either floats or
         mpmath types.
-    asymCal : asymCal
+    asymcalc : channelutil.AsymCalc
         As returned from the getAsymCalc function.
     sourceStr : str
         String provided to uniquely identify the scattering data. Will be used
@@ -67,12 +67,12 @@ def getdMatFromDiscrete(matType, matDict, asymCal, sourceStr):
     -------
     dmat : tisutil.dBase
     """
-    return tu.getDiscreteScatteringMatrix(matType, matDict, asymCal, sourceStr)
+    return tu.getDiscreteScatteringMatrix(matType, matDict, asymcalc, sourceStr)
 
-def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
+def getdMatFromContinuous(matType, funPtr, asymcalc, startEne, endEne, numPoints,
                           sourceStr):
     """
-    Discretises continuous energy dependent scattering data into a ResKit
+    Discretises continuous energy dependent scattering data into a reskit
     compatible container. Types must match those specified using the
     usePythonTypes or useMpmathTypes functions.
 
@@ -80,11 +80,11 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
     ----------
     matType : int 
         Specification of the scattering matrix type. Available options are
-        ResKit.Smat, ResKit.Kmat and ResKit.Tmat.
+        reskit.Smat, reskit.Kmat and reskit.Tmat.
     funPtr : function reference with energy parameter
         A function of energy that will calculate the scattering matrix. Can be
         either floats or mpmath types.
-    asymCal : asymCal
+    asymcalc : channelutil.AsymCalc
         As returned from the getAsymCalc function.
     startEne : float
         Start energy for the discretisation.
@@ -100,7 +100,7 @@ def getdMatFromContinuous(matType, funPtr, asymCal, startEne, endEne, numPoints,
     -------
     dmat : tisutil.dBase
     """
-    cmat = tu.getContinuousScatteringMatrix(matType, funPtr, asymCal, sourceStr)
+    cmat = tu.getContinuousScatteringMatrix(matType, funPtr, asymcalc, sourceStr)
     return cmat.discretise(startEne, endEne, numPoints)
 
 CHART = 0
@@ -112,12 +112,12 @@ def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
     Parameters
     ----------
     toolID : int 
-        Specification of the tool. Available options are ResKit.CHART and
-        ResKit.SFIT_MC_RAK.
+        Specification of the tool. Available options are reskit.CHART and
+        reskit.SFIT_MC_RAK.
     data
         Tool data. The format of this data is determined by the Tool type.
     archiveRoot : str, optional
-        Specification of the root location into which ResKit will write it's
+        Specification of the root location into which reskit will write it's
         results.
     paramFilePath : str, optional
         Location of an existing yml file containing overrides for the more
@@ -133,10 +133,10 @@ def getTool(toolID, data, archiveRoot=None, paramFilePath=None, silent=False):
         nw.lockType()
     if toolID == CHART:
         import chart as mod
-        tool = mod.chart
+        tool = mod.Chart
     elif toolID == SFIT_MC_RAK:
-        import sfit_mc_rak as mod
-        tool = mod.sfit_mc_rak
+        import mcsmatfit as mod
+        tool = mod.MCSMatFit
     else:
         raise Exception("Unrecognised module.")
     if archiveRoot is not None:

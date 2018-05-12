@@ -19,12 +19,12 @@ ResKitfuns = ["getAsymCalc","getdMatFromDiscrete","getdMatFromContinuous",\
               "getTool","usePythonTypes","useMpmathTypes","overrideUtilities"]
 chartFunctions = ["plotSmatrix", "plotKmatrix", "plotTmatrix", "plotUniOpSMat",\
                   "plotRaw", "plotEPhase", "plotXS", "plotTotalXS"]
-sfit_mc_rakFunctions = ["getElasticFin", "getElasticFins", "findFinRoots",\
+mcsmatfitFunctions = ["getElasticFin", "getElasticFins", "findFinRoots",\
                         "findStableSmatPoles", "getElasticSmat", "plotSmatFit",\
                         "plotTotalXSFit"]
-codeTypes = ["ResKit.RYDs", "ResKit.HARTs", "ResKit.eVs",\
-             "ResKit.Smat", "ResKit.Kmat", "ResKit.Tmat",\
-             "ResKit.CHART", "ResKit.SFIT_MC_RAK", "archiveRoot"]
+codeTypes = ["reskit.RYDs", "reskit.HARTs", "reskit.eVs",\
+             "reskit.Smat", "reskit.Kmat", "reskit.Tmat",\
+             "reskit.CHART", "reskit.SFIT_MC_RAK", "archiveRoot"]
 
 functionDocStr = \
 r'''\bigskip\noindent\codefont{{'{'}}{{FUNCTION_NAME}}{{'}'}}
@@ -132,9 +132,9 @@ def writeDoc(mod, functions, name, addInfo=None, paramAppend=None):
         writeFunction(name+"."+function, doc, addInfo[i], paramAppend)
 
 
-import ResKit
+import reskit
 # Using inspect loses order
-writeDoc(ResKit, ResKitfuns, "ResKit")
+writeDoc(reskit, ResKitfuns, "reskit")
 
 import chart
 functions = ["plotSmatrix"]
@@ -145,8 +145,8 @@ paramAppend = {"i" : "Not available for plotEPhase and plotTotalXS.",
                "j" : "Not available for plotEPhase and plotTotalXS.",
                "imag" : "Not available for plotEPhase and plotTotalXS."}
 addInfo = [[(False, collectiveName), (True, collectiveDesc)]]
-writeDoc(chart.chart, functions, "chart", addInfo, paramAppend)
+writeDoc(chart.Chart, functions, "chart", addInfo, paramAppend)
 
-import sfit_mc_rak
-writeDoc(sfit_mc_rak.sfit_mc_rak, sfit_mc_rakFunctions, "sfit\\_mc\\_rak")
+import mcsmatfit
+writeDoc(mcsmatfit.MCSMatFit, mcsmatfitFunctions, "mcsmatfit")
 

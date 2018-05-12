@@ -6,7 +6,7 @@ import toolhelper as th
 toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "chart"
 
-class chart(th.tool):
+class Chart(th.tool):
     def __init__(self, data, archiveRoot, paramFilePath, silent):
         th.tool.__init__(self, data, archiveRoot, paramFilePath, toolDir,
                          silent)
@@ -93,19 +93,19 @@ class chart(th.tool):
             end.
         units : int, optional
             If specified, then will convert to these units prior to plotting.
-            Available options are ResKit.RYDs, ResKit.HARTs and ResKit.eVs.
+            Available options are reskit.RYDs, reskit.HARTs and reskit.eVs.
         i : int, optional
             Zero-based row index to plot. Default is to plot all rows.
         j : int, optional
             Zero-based column index to plot. Default is to plot all columns.
-        logx : bool
+        logx : bool, optional
             Switch to turn on x-axis log plotting.
-        logy : bool
+        logy : bool, optional
             Switch to turn on y-axis log plotting.
-        imag : bool
+        imag : bool, optional
             Switch to plot the imaginary component. By default just plots the
             real component.
-        show : bool
+        show : bool, optional
             Switch whether to show the chart or not. If False chart will be
             saved into the archive if there is an archiveRoot.
         """

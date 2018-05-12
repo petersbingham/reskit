@@ -4,16 +4,16 @@ import tabulate as t
 import numpy as np
 
 import pynumwrap as nw
-import parSmat as psm
+import parsmat as psm
 import stelempy as sp
 import pynumutil as nu
 
 import toolhelper as th
 
 toolDir = os.path.dirname(os.path.realpath(__file__))
-toolName = "sfit_mc_rak"
+toolName = "mcsmatfit"
 
-class sfit_mc_rak(th.tool):
+class MCSMatFit(th.tool):
     def __init__(self, data, archiveRoot, paramFilePath, silent):
         th.tool.__init__(self, data, archiveRoot, paramFilePath, toolDir,
                          silent)
@@ -48,12 +48,12 @@ class sfit_mc_rak(th.tool):
     def _getInputDescStr(self, Npts, ris0):
         return "Npts="+str(Npts)+"_"+"S="+str(ris0[0])+"_E="+str(ris0[1]-1)
 
-    def _getNumHeader(self, asymCal):
-        return ["k","E ("+asymCal.getUnits()+")"]
+    def _getNumHeader(self, asymcalc):
+        return ["k","E ("+asymcalc.getUnits()+")"]
 
-    def _getkERow(self, val, asymCal):
+    def _getkERow(self, val, asymcalc):
         kstr = str(val).replace('(','').replace(')','').replace(' ','')
-        Estr = str(asymCal.ke(val)).replace('(','').replace(')','')
+        Estr = str(asymcalc.ke(val)).replace('(','').replace(')','')
         Estr = Estr.replace(' ','')
         return [kstr, Estr]
 
@@ -159,7 +159,7 @@ class sfit_mc_rak(th.tool):
         coeffs = self._loadCoeffs(Npts, ris0)
         if coeffs is None:
             dsmat = self.data[ris0[0]:ris0[1]:ris0[2]].to_dSmat()
-            coeffs = psm.calculateCoefficients(dsmat, dsmat.asymCal)
+            coeffs = psm.calculateCoefficients(dsmat, dsmat.asymcalc)
             self.log.writeMsg("Coefficients calculated")
             self._saveCoeffs(coeffs, Npts, ris0)
             self.allCoeffsLoaded = False
@@ -181,16 +181,16 @@ class sfit_mc_rak(th.tool):
         stepStr = "step="+str(ris[0][2])
         return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
 
-    def _saveRoots(self, Npts, ris, roots, asymCal, p):
+    def _saveRoots(self, Npts, ris, roots, asymcalc, p):
         if self.archiveRoot is not None:
             rootDir = self._getRootConfigDir()
             if not os.path.isdir(rootDir):
                 os.makedirs(rootDir)
 
-            header = self._getNumHeader(asymCal)
+            header = self._getNumHeader(asymcalc)
             rows = []
             for root in roots:
-                rows.append(self._getkERow(root, asymCal))
+                rows.append(self._getkERow(root, asymcalc))
 
             rootPath = self._getRootPath(rootDir, Npts, ris[0])
             with th.fwopen(rootPath) as f:
@@ -251,13 +251,13 @@ class sfit_mc_rak(th.tool):
                     return None
         return None
 
-    def _getRoots(self, p, cfin, asymCal):
+    def _getRoots(self, p, cfin, asymcalc):
         roots = self._loadRoots(cfin.fitInfo[0], cfin.fitInfo[1], p)
         if roots is None:
             cVal = cfin.determinant(**p["cPolyMat_determinant"])
             roots = cVal.findRoots(**p["cPolyVal_findRoots"])
             self.log.writeMsg("Roots calculated")
-            self._saveRoots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymCal, p)
+            self._saveRoots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymcalc, p)
             self.allRootsLoaded = False
         return roots
 
@@ -273,32 +273,32 @@ class sfit_mc_rak(th.tool):
         with th.fwopen(self._getPoleConfigPath()) as f:
             th.fw(f, str(p))
 
-    def _getPoleFileHeaderStr(self, numPoles, asymCal):
-        return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
+    def _getPoleFileHeaderStr(self, numPoles, asymcalc):
+        return str(numPoles)+" poles, "+asymcalc.getUnits()+"\n\n"
 
-    def _getPoleRow(self, Npts, pole, status, asymCal):
-        return [str(Npts), status] + self._getkERow(pole, asymCal)
+    def _getPoleRow(self, Npts, pole, status, asymcalc):
+        return [str(Npts), status] + self._getkERow(pole, asymcalc)
 
-    def _savePoleData(self, nList, poleData, asymCal, p):
+    def _savePoleData(self, nList, poleData, asymcalc, p):
         if self.archiveRoot is not None:
             poleDir = self._getPoleDir(nList)
             if not os.path.isdir(poleDir):
                 os.makedirs(poleDir)
 
             for i,dk in enumerate(poleData[2]):
-                header = ["Npts","status"] + self._getNumHeader(asymCal)
+                header = ["Npts","status"] + self._getNumHeader(asymcalc)
                 rows = []
                 for pole in poleData[0][i]:
                     for j in sorted(pole.keys()):
                         m = self._getPoleRow(nList[j], pole[j][0],
-                                               pole[j][2], asymCal)
+                                               pole[j][2], asymcalc)
                         rows.append(m)
                     rows.append(["","","",""])
 
                 polePath = self._getPolePath(poleDir, dk)
                 with th.fwopen(polePath) as f:
                     th.fw(f, self._getPoleFileHeaderStr(len(poleData[0][i]),
-                                                          asymCal))
+                                                          asymcalc))
                     th.fw(f, t.tabulate(rows,header))
                     self.log.writeMsg("Poles saved to: "+polePath)
             self._savePoleConfig(p)
@@ -308,23 +308,23 @@ class sfit_mc_rak(th.tool):
     def _getQIPath(self, poleDir):
         return poleDir+os.sep+"QIs.dat"
 
-    def _getQIFileHeaderStr(self, numPoles, asymCal):
-        return str(numPoles)+" poles, "+asymCal.getUnits()+"\n\n"
+    def _getQIFileHeaderStr(self, numPoles, asymcalc):
+        return str(numPoles)+" poles, "+asymcalc.getUnits()+"\n\n"
 
-    def _getQIRow(self, poleQI, asymCal):
-        return self._getkERow(poleQI[0], asymCal) + [str(poleQI[1]),
+    def _getQIRow(self, poleQI, asymcalc):
+        return self._getkERow(poleQI[0], asymcalc) + [str(poleQI[1]),
                                                      str(poleQI[2])]
 
-    def _savePoledata(self, nList, poleDat, asymCal):
+    def _savePoledata(self, nList, poleDat, asymcalc):
         if self.archiveRoot is not None:
-            header = self._getNumHeader(asymCal) + ["^dk","ENk"]
+            header = self._getNumHeader(asymcalc) + ["^dk","ENk"]
             rows = []
             for poleQI in poleDat[0]:
-                rows.append(self._getQIRow(poleQI, asymCal))
+                rows.append(self._getQIRow(poleQI, asymcalc))
 
             QIPath = self._getQIPath(self._getPoleDir(nList))
             with th.fwopen(QIPath) as f:
-                th.fw(f, self._getQIFileHeaderStr(len(poleDat[0]), asymCal))
+                th.fw(f, self._getQIFileHeaderStr(len(poleDat[0]), asymcalc))
                 th.fw(f, t.tabulate(rows,header))
                 self.log.writeMsg("QI data saved to: "+QIPath)
 
@@ -339,7 +339,7 @@ class sfit_mc_rak(th.tool):
 
     def _checkForFitPlot(self, csmat):
         try:
-            csmat.sfit_mc_rak_SplotCompatible
+            csmat.MCSMatFit_SplotCompatible
         except Exception:
             self.log.writeErr("Not a csmat")
             return None
@@ -364,7 +364,7 @@ class sfit_mc_rak(th.tool):
         self.log.writeMsg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
         self.allCoeffsLoaded = True
         coeffs = self._getCoefficients(Npts, ris[0])
-        cfin = psm.getElasticFinFun(coeffs, self.data.asymCal)
+        cfin = psm.getElasticFinFun(coeffs, self.data.asymcalc)
         cfin.fitInfo = (Npts,ris)
         self._updateContainerStrings(Npts, cfin, "Fin")
         self.log.writeMsg("cfin calculated")
@@ -410,7 +410,7 @@ class sfit_mc_rak(th.tool):
             def __init__(self):
                 list.__init__(self)
                 self.nList = []
-                self.asymCal = None
+                self.asymcalc = None
 
         allRoots = RootsList()
         if len(cfins) > 0:
@@ -420,10 +420,10 @@ class sfit_mc_rak(th.tool):
                 self.log.writeParameters(p)
                 self.allRootsLoaded = True
                 for cfin in cfins:
-                    if allRoots.asymCal is not None:
-                        assert allRoots.asymCal == cfin.asymCal
-                    allRoots.asymCal = cfin.asymCal
-                    roots = self._getRoots(p, cfin, allRoots.asymCal)
+                    if allRoots.asymcalc is not None:
+                        assert allRoots.asymcalc == cfin.asymcalc
+                    allRoots.asymcalc = cfin.asymcalc
+                    roots = self._getRoots(p, cfin, allRoots.asymcalc)
                     allRoots.append(roots)
                     allRoots.nList.append(cfin.fitInfo[0])
         self.log.writeCallEnd("findFinRoots")
@@ -475,11 +475,11 @@ class sfit_mc_rak(th.tool):
                                          endDistThres, int(pp["cfSteps"]))
                     self.log.writeMsg("Convergence groups calculated")
                     self._savePoleData(allRoots.nList, poleData,
-                                       allRoots.asymCal, p)
+                                       allRoots.asymcalc, p)
                     poleDat = sp.calculateQIsFromRange(poleData,
                                                      float(pp["amalgThres"]))
                     self.log.writeMsg("QIs calculated")
-                    self._savePoledata(allRoots.nList, poleDat, allRoots.asymCal)
+                    self._savePoledata(allRoots.nList, poleDat, allRoots.asymcalc)
                     self.log.writeCallEnd("findStableSmatPoles")
                     return poleDat
         self.log.writeCallEnd("findStableSmatPoles")
@@ -503,9 +503,9 @@ class sfit_mc_rak(th.tool):
         self.log.writeMsg("Calculating for slice:"+str(ris))
         self.allCoeffsLoaded = True
         coeffs = self._getCoefficients(Npts, ris[0])
-        csmat = psm.getElasticSmatFun(coeffs, self.data.asymCal)
+        csmat = psm.getElasticSmatFun(coeffs, self.data.asymcalc)
         csmat.fitInfo = (Npts,ris)
-        csmat.sfit_mc_rak_SplotCompatible = True
+        csmat.MCSMatFit_SplotCompatible = True
         self._updateContainerStrings(Npts, csmat)
         self.log.writeMsg("Calculation completed")
         self.log.writeCallEnd("getElasticSmat")

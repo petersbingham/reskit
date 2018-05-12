@@ -5,17 +5,17 @@ fileDir = os.path.dirname(os.path.realpath(__file__))
 rkPath = fileDir+'/../..'
 sys.path.insert(0,rkPath)
 
-import ResKit as rk
+import reskit as rk
 rk.safeMode = False
 import channelutil as cu
-import TwoChanRadialWell as rw
+import twochanradialwell as rw
 
 TEST_ROOT = "chart_demo"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
 #### python Types ####
-cal = cu.asymCal(cu.HARTs, [0,0])
+cal = cu.AsymCalc(cu.HARTs, [0,0])
 csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
 dsmat = csmat.discretise(1.,8.,100)
 
@@ -36,7 +36,7 @@ chart.plotSmatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
 #### mpmath types ####
 cu.useMpmathTypes()
 rw.useMpmathTypes()
-cal = cu.asymCal(cu.HARTs, [0,0])
+cal = cu.AsymCalc(cu.HARTs, [0,0])
 csmat = rw.getSmatFun(1.0,2.0,2.0,cal,1.0)
 chart = rk.getTool(rk.CHART, csmat)
 chart.plotSmatrix()
