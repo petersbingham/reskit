@@ -1,5 +1,5 @@
-pip install git+https://github.com/petersbingham/UKRmolMatReader --target=.
-pip install git+https://github.com/petersbingham/TwoChanRadialWell --target=.
+pip install git+https://github.com/petersbingham/ukrmolmatreader --target=.
+pip install git+https://github.com/petersbingham/twochanradialwell --target=.
 pip install git+https://github.com/petersbingham/tisutil --target=.
 pip install git+https://github.com/petersbingham/pynumwrap --target=.
 pip install git+https://github.com/petersbingham/matfuncutil --target=.

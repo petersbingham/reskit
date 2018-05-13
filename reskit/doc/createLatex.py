@@ -22,7 +22,7 @@ chartFunctions = ["plot_Smatrix", "plot_Kmatrix", "plot_Tmatrix", "plot_UniOpSMa
 mcsmatfitFunctions = ["get_elastic_Fin", "get_elastic_Fins", "find_Fin_roots",\
                       "find_stable_Smat_poles", "get_elastic_Smat", "plot_Smat_fit",\
                       "plot_totXS_fit"]
-codeTypes = ["reskit.RYDs", "reskit.HARTs", "reskit.eVs",\
+codeTypes = ["reskit.rydbergs", "reskit.hartrees", "reskit.eVs",\
              "reskit.Smat", "reskit.Kmat", "reskit.Tmat",\
              "reskit.chart", "reskit.mcsmatfit", "archive_root"]
 

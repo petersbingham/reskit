@@ -18,8 +18,8 @@ class MCSMatFit(th.tool):
         th.tool.__init__(self, data, archive_root, param_file_path, toolDir,
                          silent)
         #Two internal properties (mainly for testing):
-        self.allCoeffsLoaded = False
-        self.allRootsLoaded = False
+        self.all_coeffs_loaded = False
+        self.all_roots_loaded = False
         self._verify_param_caches()
 
     def _verify_param_caches(self):
@@ -52,10 +52,10 @@ class MCSMatFit(th.tool):
         return ["k","E ("+asymcalc.get_units()+")"]
 
     def _get_kE_row(self, val, asymcalc):
-        kstr = str(val).replace('(','').replace(')','').replace(' ','')
-        Estr = str(asymcalc.ke(val)).replace('(','').replace(')','')
-        Estr = Estr.replace(' ','')
-        return [kstr, Estr]
+        k_str = str(val).replace('(','').replace(')','').replace(' ','')
+        e_str = str(asymcalc.ke(val)).replace('(','').replace(')','')
+        e_str = e_str.replace(' ','')
+        return [k_str, e_str]
 
     ##### Coefficient File #####
 
@@ -79,12 +79,12 @@ class MCSMatFit(th.tool):
 
     def _save_coeff(self, coeff, path, type_str):
         for i,cmat in enumerate(coeff):
-            coeffPath = self._get_coeff_path(path, type_str, i)
+            coeff_path = self._get_coeff_path(path, type_str, i)
             if nw.mode == nw.mode_python:
-                np.savetxt(coeffPath, cmat, delimiter=",", newline='\n')
-                self._fix_numpy_file(coeffPath)
+                np.savetxt(coeff_path, cmat, delimiter=",", newline='\n')
+                self._fix_numpy_file(coeff_path)
             else:
-                with th.fwopen(coeffPath) as f:
+                with th.fwopen(coeff_path) as f:
                     th.fw(f, cmat)
 
     def _save_coeffs(self, coeffs, Npts, ris0):
@@ -108,17 +108,17 @@ class MCSMatFit(th.tool):
     def _load_coeff(self, Npts, path, type_str):
         coeffs = []
         for i in range(psm.get_num_coeff_for_Npts(Npts)):
-            coeffPath = self._get_coeff_path(path, type_str, i)
-            if not os.path.isfile(coeffPath):
+            coeff_path = self._get_coeff_path(path, type_str, i)
+            if not os.path.isfile(coeff_path):
                 return None
             try:
                 if nw.mode == nw.mode_python:
-                    coeff = np.asmatrix(np.loadtxt(coeffPath,
+                    coeff = np.asmatrix(np.loadtxt(coeff_path,
                                                    dtype=np.complex128,
                                                    delimiter=","))
                     coeffs.append(coeff)
                 else:
-                    with th.fropen(coeffPath) as f:
+                    with th.fropen(coeff_path) as f:
                         s1 = f.read()
                         l1 = s1.split("\n")
                         l2 = [self._split_mp_rows(s) for s in l1]
@@ -145,13 +145,13 @@ class MCSMatFit(th.tool):
             if os.path.isdir(coeff_dir):
                 return self._load_coeff_set(Npts, coeff_dir)
             # Now look for other configs that have compatible coeffs.
-            coeffBaseDir = self._get_coeff_dir_base()
-            if os.path.isdir(coeffBaseDir):
-                for coeffConfigDirName in th.get_sub_dirs(coeffBaseDir):
-                    coeffConfigDir = coeffBaseDir+os.sep+coeffConfigDirName
-                    for coeffDirName in th.get_sub_dirs(coeffConfigDir):
+            coeff_base_dir = self._get_coeff_dir_base()
+            if os.path.isdir(coeff_base_dir):
+                for coeff_config_dir_name in th.get_sub_dirs(coeff_base_dir):
+                    coeff_config_dir = coeff_base_dir+os.sep+coeff_config_dir_name
+                    for coeffDirName in th.get_sub_dirs(coeff_config_dir):
                         if "Npts="+str(Npts)+"_" in coeffDirName:
-                            coeff_dir = coeffConfigDir+os.sep+coeffDirName
+                            coeff_dir = coeff_config_dir+os.sep+coeffDirName
                             return self._load_coeff_set(Npts, coeff_dir)
         return None
 
@@ -162,7 +162,7 @@ class MCSMatFit(th.tool):
             coeffs = psm.calculate_coefficients(dsmat, dsmat.asymcalc)
             self.log.write_msg("Coefficients calculated")
             self._save_coeffs(coeffs, Npts, ris0)
-            self.allCoeffsLoaded = False
+            self.all_coeffs_loaded = False
         return coeffs
 
     ##### Root File #####
@@ -175,11 +175,11 @@ class MCSMatFit(th.tool):
             th.fw(f, str(p))
 
     def _get_root_file_header_str(self, Npts, ris):
-        Nstr = "Npts="+str(Npts)
-        EminStr = "Emin="+str(ris[0][0])+"("+str(ris[1][0])+")"
-        EmaxStr = "Emax="+str(ris[0][1]-1)+"("+str(ris[1][1])+")"
-        stepStr = "step="+str(ris[0][2])
-        return Nstr+", "+EminStr+", "+EmaxStr+", "+stepStr+"\n\n"
+        N_str = "Npts="+str(Npts)
+        Emin_str = "Emin="+str(ris[0][0])+"("+str(ris[1][0])+")"
+        Emax_str = "Emax="+str(ris[0][1]-1)+"("+str(ris[1][1])+")"
+        step_str = "step="+str(ris[0][2])
+        return N_str+", "+Emin_str+", "+Emax_str+", "+step_str+"\n\n"
 
     def _save_roots(self, Npts, ris, roots, asymcalc, p):
         if self.archive_root is not None:
@@ -192,46 +192,46 @@ class MCSMatFit(th.tool):
             for root in roots:
                 rows.append(self._get_kE_row(root, asymcalc))
 
-            rootPath = self._get_root_path(root_dir, Npts, ris[0])
-            with th.fwopen(rootPath) as f:
+            root_path = self._get_root_path(root_dir, Npts, ris[0])
+            with th.fwopen(root_path) as f:
                 th.fw(f, self._get_root_file_header_str(Npts, ris))
                 th.fw(f, t.tabulate(rows,header))
                 th.fw(f, "\ncomplete")
-                self.log.write_msg("Roots saved to: "+rootPath)
+                self.log.write_msg("Roots saved to: "+root_path)
 
             self._save_root_config(p)
 
     def _get_root_path_if_exists(self, root_dir, Npts, ris0):
-        rootPath = self._get_root_path(root_dir, Npts, ris0)
-        if os.path.isfile(rootPath):
-            return rootPath
+        root_path = self._get_root_path(root_dir, Npts, ris0)
+        if os.path.isfile(root_path):
+            return root_path
         return None
 
     def _find_compatible_root_dir(self, Npts, ris):
         # First try the supplied config.
         rootConfigDir = self._get_root_config_dir()
         if os.path.isdir(rootConfigDir):
-            rootPath = self._get_root_path_if_exists(rootConfigDir, Npts, ris[0])
-            if rootPath is not None:
-                return rootPath
+            root_path = self._get_root_path_if_exists(rootConfigDir, Npts, ris[0])
+            if root_path is not None:
+                return root_path
         # Now look for other configs that have compatible roots.
         rootBaseDir = self._get_root_config_dir_base()
         if os.path.isdir(rootBaseDir):
             for rootConfigDirName in th.get_sub_dirs(rootBaseDir):
                 rootConfigDir = rootBaseDir+os.sep+rootConfigDirName
                 if self._does_param_cache_match(rootConfigDir, "find_Fin_roots"):
-                    rootPath = self._get_root_path_if_exists(rootConfigDir, Npts,
+                    root_path = self._get_root_path_if_exists(rootConfigDir, Npts,
                                                          ris[0])
-                    if rootPath is not None:
-                        return rootPath
+                    if root_path is not None:
+                        return root_path
         return None
 
     def _load_roots(self, Npts, ris):
         if self.archive_root is not None:
-            rootPath = self._find_compatible_root_dir(Npts, ris)
-            if rootPath is not None:
+            root_path = self._find_compatible_root_dir(Npts, ris)
+            if root_path is not None:
                 try:
-                    with th.fropen(rootPath) as f:
+                    with th.fropen(root_path) as f:
                         fndStart = False
                         roots = []
                         for l in f:
@@ -244,7 +244,7 @@ class MCSMatFit(th.tool):
                         if "complete" not in l:
                             self.log.write_err("Incomplete root file")
                             return None
-                        self.log.write_msg("Roots loaded from: "+rootPath)
+                        self.log.write_msg("Roots loaded from: "+root_path)
                         return roots
                 except Exception as inst:
                     self.log.write_err(str(inst))
@@ -254,11 +254,11 @@ class MCSMatFit(th.tool):
     def _get_roots(self, p, cfin, asymcalc):
         roots = self._load_roots(cfin.fitInfo[0], cfin.fitInfo[1])
         if roots is None:
-            cVal = cfin.determinant(**p["cPolyMat_determinant"])
-            roots = cVal.find_roots(**p["cPolyVal_find_roots"])
+            cval = cfin.determinant(**p["cPolyMat_determinant"])
+            roots = cval.find_roots(**p["cPolyVal_find_roots"])
             self.log.write_msg("Roots calculated")
             self._save_roots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymcalc, p)
-            self.allRootsLoaded = False
+            self.all_roots_loaded = False
         return roots
 
     ##### Pole Save #####
@@ -295,12 +295,12 @@ class MCSMatFit(th.tool):
                         rows.append(m)
                     rows.append(["","","",""])
 
-                polePath = self._get_pole_path(pole_dir, dk)
-                with th.fwopen(polePath) as f:
+                pole_path = self._get_pole_path(pole_dir, dk)
+                with th.fwopen(pole_path) as f:
                     th.fw(f, self._get_pole_file_header_str(len(poleData[0][i]),
                                                             asymcalc))
                     th.fw(f, t.tabulate(rows,header))
-                    self.log.write_msg("Poles saved to: "+polePath)
+                    self.log.write_msg("Poles saved to: "+pole_path)
             self._save_pole_config(p)
 
     ##### QI Save #####
@@ -363,7 +363,7 @@ class MCSMatFit(th.tool):
         self.log.write_call("get_elastic_Fin("+str(Npts)+")")
         ris = self.data.get_slice_indices(num_points=Npts)
         self.log.write_msg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
-        self.allCoeffsLoaded = True
+        self.all_coeffs_loaded = True
         coeffs = self._get_coefficients(Npts, ris[0])
         cfin = psm.get_elastic_Fin_fun(coeffs, self.data.asymcalc)
         cfin.fitInfo = (Npts,ris)
@@ -403,7 +403,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        allRoots : list of float or mpmath.mpcs
+        all_roots : list of float or mpmath.mpcs
         """
         self.log.write_call("find_Fin_roots("+str(map(lambda x: x.fitInfo[0],
                                                      cfins))+")", internal)
@@ -413,22 +413,22 @@ class MCSMatFit(th.tool):
                 self.n_list = []
                 self.asymcalc = None
 
-        allRoots = RootsList()
+        all_roots = RootsList()
         if len(cfins) > 0:
             with th.fropen(self.param_file_path) as f:
                 config = yaml.load(f.read())
                 p = config["find_Fin_roots"]
                 self.log.write_parameters(p)
-                self.allRootsLoaded = True
+                self.all_roots_loaded = True
                 for cfin in cfins:
-                    if allRoots.asymcalc is not None:
-                        assert allRoots.asymcalc == cfin.asymcalc
-                    allRoots.asymcalc = cfin.asymcalc
-                    roots = self._get_roots(p, cfin, allRoots.asymcalc)
-                    allRoots.append(roots)
-                    allRoots.n_list.append(cfin.fitInfo[0])
+                    if all_roots.asymcalc is not None:
+                        assert all_roots.asymcalc == cfin.asymcalc
+                    all_roots.asymcalc = cfin.asymcalc
+                    roots = self._get_roots(p, cfin, all_roots.asymcalc)
+                    all_roots.append(roots)
+                    all_roots.n_list.append(cfin.fitInfo[0])
         self.log.write_call_end("find_Fin_roots")
-        return allRoots
+        return all_roots
 
     def find_stable_Smat_poles(self, cfins_or_roots):
         """
@@ -449,18 +449,18 @@ class MCSMatFit(th.tool):
             threshold specified in the paramFile.
         """
         try:
-            paramStr = str(map(lambda x: x.fitInfo[0], cfins_or_roots))
+            param_str = str(map(lambda x: x.fitInfo[0], cfins_or_roots))
         except AttributeError:
-            paramStr = str(cfins_or_roots.n_list)
+            param_str = str(cfins_or_roots.n_list)
 
-        self.log.write_call("find_stable_Smat_poles("+paramStr+")")
+        self.log.write_call("find_stable_Smat_poles("+param_str+")")
         if len(cfins_or_roots) > 0:
             try:
                 cfins_or_roots.n_list # Test for the parameter type.
-                allRoots = cfins_or_roots
+                all_roots = cfins_or_roots
             except AttributeError:
-                allRoots = self.find_Fin_roots(cfins_or_roots, True)
-            if len(allRoots) > 0:
+                all_roots = self.find_Fin_roots(cfins_or_roots, True)
+            if len(all_roots) > 0:
                 with th.fropen(self.param_file_path) as f:
                     config = yaml.load(f.read())
                     p = config["find_stable_Smat_poles"]
@@ -471,17 +471,17 @@ class MCSMatFit(th.tool):
                         end_dist_thres = float(pp["end_dist_thres"])
                     except TypeError:
                         pass
-                    poleData = sp.calculate_convergence_groups_range(allRoots,
+                    poleData = sp.calculate_convergence_groups_range(all_roots,
                                          float(pp["starting_dist_thres"]),
                                          end_dist_thres, int(pp["cfsteps"]))
                     self.log.write_msg("Convergence groups calculated")
-                    self._save_pole_data(allRoots.n_list, poleData,
-                                         allRoots.asymcalc, p)
+                    self._save_pole_data(all_roots.n_list, poleData,
+                                         all_roots.asymcalc, p)
                     pole_dat = sp.calculate_QIs_from_range(poleData,
                                                      float(pp["amalg_thres"]))
                     self.log.write_msg("QIs calculated")
-                    self._save_QI_data(allRoots.n_list, pole_dat, 
-                                       allRoots.asymcalc)
+                    self._save_QI_data(all_roots.n_list, pole_dat, 
+                                       all_roots.asymcalc)
                     self.log.write_call_end("find_stable_Smat_poles")
                     return pole_dat
         self.log.write_call_end("find_stable_Smat_poles")
@@ -503,7 +503,7 @@ class MCSMatFit(th.tool):
         self.log.write_call("get_elastic_Smat("+str(Npts)+")")
         ris = self.data.get_slice_indices(num_points=Npts)
         self.log.write_msg("Calculating for slice:"+str(ris))
-        self.allCoeffsLoaded = True
+        self.all_coeffs_loaded = True
         coeffs = self._get_coefficients(Npts, ris[0])
         csmat = psm.get_elastic_Smat_fun(coeffs, self.data.asymcalc)
         csmat.fitInfo = (Npts,ris)
@@ -537,9 +537,9 @@ class MCSMatFit(th.tool):
             orig = orig.create_reduced_dim(i).create_reduced_dim(j)
 
             ris0 = csmat.fitInfo[1][0]
-            fitPnts = self.data[ris0[0]:ris0[1]:ris0[2]]
-            fitPnts = fitPnts.to_dSmat()
-            fitPnts = fitPnts.create_reduced_dim(i).create_reduced_dim(j)
+            fit_pnts = self.data[ris0[0]:ris0[1]:ris0[2]]
+            fit_pnts = fit_pnts.to_dSmat()
+            fit_pnts = fit_pnts.create_reduced_dim(i).create_reduced_dim(j)
 
             rng = orig.get_range()
             dsmat = csmat.discretise(rng[0], rng[1], ln)
@@ -548,7 +548,7 @@ class MCSMatFit(th.tool):
             title = "S matrix fit for Npts="+str(Npts)
             title += ", m="+str(i+1)+", n="+str(j+1)
 
-            self._plot_fit(p, title, orig, fitPnts, fit, num_plot_points, units,
+            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points, units,
                           logx, logy, imag, show)
 
         self.log.write_call_end("plot_Smat_fit")
@@ -577,8 +577,8 @@ class MCSMatFit(th.tool):
             orig = orig.to_dXSmat().to_dTotXSval()
 
             ris0 = csmat.fitInfo[1][0]
-            fitPnts = self.data[ris0[0]:ris0[1]:ris0[2]]
-            fitPnts = fitPnts.to_dXSmat().to_dTotXSval()
+            fit_pnts = self.data[ris0[0]:ris0[1]:ris0[2]]
+            fit_pnts = fit_pnts.to_dXSmat().to_dTotXSval()
 
             rng = orig.get_range()
             dsmat = csmat.discretise(rng[0], rng[1], ln)
@@ -586,7 +586,7 @@ class MCSMatFit(th.tool):
 
             title = "Total Cross Section fit for Npts="+str(Npts)
 
-            self._plot_fit(p, title, orig, fitPnts, fit, num_plot_points, units,
+            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points, units,
                           logx, logy, False, show)
 
         self.log.write_call_end("plot_totXS_fit")

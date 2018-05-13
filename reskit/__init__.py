@@ -20,8 +20,8 @@ Smat = tu.Smat
 Kmat = tu.Kmat
 Tmat = tu.Tmat
 
-RYDs = cu.RYDs
-HARTs = cu.HARTs
+rydbergs = cu.rydbergs
+hartrees = cu.hartrees
 eVs = cu.eVs
 
 def get_asym_calc(units, ls=None):
@@ -31,8 +31,8 @@ def get_asym_calc(units, ls=None):
     Parameters
     ----------
     units : int
-        Specification of the energy units. Available options are reskit.RYDs,
-        reskit.HARTs and reskit.eVs.
+        Specification of the energy units. Available options are reskit.rydbergs,
+        reskit.hartrees and reskit.eVs.
     ls : list of ints, optional
         Specification of the angular momenta in each of the channels. Defaults 
         to zero in all channels.
@@ -143,19 +143,19 @@ def get_tool(toolID, data, archive_root=None, param_file_path=None,
     else:
         raise Exception("Unrecognised module.")
     if archive_root is not None:
-        dataRoot = archive_root+os.sep+data.get_source_str()+os.sep
-        dataRoot += nw.getConfigString()+os.sep+data.get_hist_str()+os.sep
-        archive_root = dataRoot+mod.toolName+os.sep
-        if not os.path.isdir(dataRoot):
-            os.makedirs(dataRoot)
-            with th.fwopen(dataRoot+"checkdata.dat") as f:
+        data_root = archive_root+os.sep+data.get_source_str()+os.sep
+        data_root += nw.getConfigString()+os.sep+data.get_hist_str()+os.sep
+        archive_root = data_root+mod.toolName+os.sep
+        if not os.path.isdir(data_root):
+            os.makedirs(data_root)
+            with th.fwopen(data_root+"checkdata.dat") as f:
                 th.fw(f, data.get_check_str())
         else:
-            if os.path.isfile(dataRoot+"checkdata.dat"):
-                with th.fropen(dataRoot+"checkdata.dat") as f:
+            if os.path.isfile(data_root+"checkdata.dat"):
+                with th.fropen(data_root+"checkdata.dat") as f:
                     if str(f.read()) != str(data.get_check_str()):
                         s = "Supplied data does not correspond to that used "
-                        s += "to originally create the dataRoot."
+                        s += "to originally create the data_root."
                         raise Exception(s)
             else:
                 s = "Invalid archive state: data dir with no checkdata.dat."

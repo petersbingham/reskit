@@ -15,7 +15,7 @@ if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
 #### python Types ####
-cal = cu.AsymCalc(cu.HARTs, [0,0])
+cal = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
 dsmat = csmat.discretise(1.,8.,100)
 
@@ -36,7 +36,7 @@ chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
 #### mpmath types ####
 cu.use_mpmath_types()
 rw.use_mpmath_types()
-cal = cu.AsymCalc(cu.HARTs, [0,0])
+cal = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
 chart = rk.get_tool(rk.chart, csmat)
 chart.plot_Smatrix()

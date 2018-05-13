@@ -12,7 +12,7 @@ class Chart(th.tool):
                          silent)
 
     def _write_call(self, start, end, num_plot_points, units, i, j, logx, logy,
-                   imag, show, funName):
+                    imag, show, funName):
         self.log.write_call(funName+"("+str(start)+","+str(end)+","\
                            +str(num_plot_points)+","+str(units)+","+str(i)+","\
                            +str(j)+","+str(logx)+","+str(logy)+","+str(imag)\
@@ -64,13 +64,13 @@ class Chart(th.tool):
         elif j is not None:
             dbase = dbase.create_reduced_dim(j, True)
         self._set_chart_parameters(dbase)
-        savePath = None
+        save_path = None
         if self.archive_root is not None:
-            savePath = self.archive_root+dbase.chart_title
-            savePath += self._get_save_string(start, end, num_plot_points, logx, 
+            save_path = self.archive_root+dbase.chart_title
+            save_path += self._get_save_string(start, end, num_plot_points, logx, 
                                               logy, dbase.units)
-            self.log.write_msg("Chart saved to: "+savePath)
-        dbase.plot(logx, logy, imag, show, savePath)
+            self.log.write_msg("Chart saved to: "+save_path)
+        dbase.plot(logx, logy, imag, show, save_path)
 
     ##### Public API #####
 
@@ -93,7 +93,7 @@ class Chart(th.tool):
             end.
         units : int, optional
             If specified, then will convert to these units prior to plotting.
-            Available options are reskit.RYDs, reskit.HARTs and reskit.eVs.
+            Available options are reskit.rydbergs, reskit.hartrees and reskit.eVs.
         i : int, optional
             Zero-based row index to plot. Default is to plot all rows.
         j : int, optional

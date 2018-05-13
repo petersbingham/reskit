@@ -16,9 +16,9 @@ TEST_ROOT = "test_mcsmatfit_config"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
-class parentTest(unittest.TestCase):
+class parent_test(unittest.TestCase):
     def find_stable_Smat_poles(self):
-        cal = rk.get_asym_calc(cu.HARTs, [0,0])
+        cal = rk.get_asym_calc(cu.hartrees, [0,0])
         csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
 
@@ -36,8 +36,8 @@ class parentTest(unittest.TestCase):
                                param_file_path=testPath, silent=True)
         cfins = mcsmatfit.get_elastic_Fins(range(2,4,2))
         mcsmatfit.find_Fin_roots(cfins)
-        self.assertTrue(mcsmatfit.allCoeffsLoaded)
-        self.assertFalse(mcsmatfit.allRootsLoaded)
+        self.assertTrue(mcsmatfit.all_coeffs_loaded)
+        self.assertFalse(mcsmatfit.all_roots_loaded)
 
         testPath = fileDir+os.sep+"test_mcsmatfit_data2"+os.sep
         testPath += "changedPoles.yml"
@@ -45,15 +45,15 @@ class parentTest(unittest.TestCase):
                                param_file_path=testPath, silent=True)
         cfins = mcsmatfit.get_elastic_Fins(range(2,4,2))
         mcsmatfit.find_Fin_roots(cfins)
-        self.assertTrue(mcsmatfit.allCoeffsLoaded)
-        self.assertTrue(mcsmatfit.allRootsLoaded)
+        self.assertTrue(mcsmatfit.all_coeffs_loaded)
+        self.assertTrue(mcsmatfit.all_roots_loaded)
 
-class test_numpy(parentTest):
+class test_numpy(parent_test):
     def runTest(self):
         rk.use_python_types()
         self.find_stable_Smat_poles()
 
-class test_mpmath(parentTest):
+class test_mpmath(parent_test):
     def runTest(self):
         rk.use_mpmath_types()
         self.find_stable_Smat_poles()
