@@ -4,7 +4,7 @@ find_Fin_roots:
       method: berkowitz
 
   cPolyVal_find_roots:
-    nw_rootsSym:
+    nw_roots_sym:
       symPoly_nroots:
         n: dps # use mpmath dps. Specify a value to override.
         maxsteps: 500
