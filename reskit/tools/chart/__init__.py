@@ -83,11 +83,11 @@ class Chart(th.tool):
         Parameters
         ----------
         start / end : int or float, optional
-            Indicate the start and end points to perform he plot between. If the
-            Tool data is in discrete form then will either indicate the start/
-            end index (if int) or the nearest start/end energy (if float). If
-            the Tool data is in continuous form then will indicate the start/end
-            energy.
+            Indicates the start and end points to perform he plot between. If the
+            Tool data is in discrete form then will either indicate the start /
+            end index (if int) or the nearest start / end energy (if float). If
+            the Tool data is in continuous form then will indicate the start / 
+            end energy.
         num_plot_points : int, optional
             The number of points to plot, evenly distributed between start and
             end.
@@ -106,8 +106,8 @@ class Chart(th.tool):
             Switch to plot the imaginary component. By default just plots the
             real component.
         show : bool, optional
-            Switch whether to show the chart or not. If False chart will be
-            saved into the archive if there is an archive_root.
+            Switch whether to show the chart or not. If False chart will still 
+            be saved into the archive if there is an archive_root.
         """
         self._write_call(start, end, num_plot_points, units, i, j, logx, logy,
                          imag, show, "plot_Smatrix")
@@ -178,20 +178,20 @@ class Chart(th.tool):
                    show)
         self.log.write_call_end("plot_raw")
 
-    def plot_EPhase(self, start=0, end=None, num_plot_points=None, units=None,
+    def plot_Ephase(self, start=0, end=None, num_plot_points=None, units=None,
                     i=None, j=None, logx=False, logy=False, imag=False, 
                     show=True):
         """
         Plots the eigenphase. See docs for plot_Smatrix for further details.
         """
         self._write_call(start, end, num_plot_points, units, i, j, logx, logy,
-                         imag, show, "plot_EPhase")
+                         imag, show, "plot_Ephase")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dEPhaseMat()
         self._plot(dmat, start, end, num_plot_points, i, j, logx, logy, imag,
                    show)
-        self.log.write_call_end("plot_EPhase")
+        self.log.write_call_end("plot_Ephase")
 
     def plot_XS(self, start=0, end=None, num_plot_points=None, units=None,
                 i=None, j=None, logx=False, logy=False, show=True):

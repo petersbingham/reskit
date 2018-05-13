@@ -349,7 +349,8 @@ class MCSMatFit(th.tool):
 
     def get_elastic_Fin(self, Npts):
         """
-        Performs an Fin fit using the specified number of fit points.
+        Performs an Fin fit using the specified number of fit points and 
+        returns a cPolykmat.
 
         Parameters
         ----------
@@ -358,7 +359,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        cfin : tisutil.cPolykmat
+        cfin : cPolykmat
         """
         self.log.write_call("get_elastic_Fin("+str(Npts)+")")
         ris = self.data.get_slice_indices(num_points=Npts)
@@ -374,7 +375,8 @@ class MCSMatFit(th.tool):
 
     def get_elastic_Fins(self, Npts_list):
         """
-        Performs Fin fits using the specified list of fit points.
+        Performs Fin fits using the specified list of fit points and returns a 
+        list of cPolykmat.
 
         Parameters
         ----------
@@ -383,7 +385,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        cfins : list of tisutil.cPolykmat
+        cfins : list of cPolykmat
         """
         self.log.write_call("get_elastic_Fins("+str(Npts_list)+")")
         cfins = []
@@ -394,16 +396,17 @@ class MCSMatFit(th.tool):
 
     def find_Fin_roots(self, cfins, internal=False):
         """
-        Finds the roots of a list of parameterised Fins.
+        Finds the roots of a list of parameterised Fins returning as a list of 
+        complex or mpmath.mpc.
 
         Parameters
         ----------
-        cfins : list of tisutil.cPolykmat
+        cfins : list of cPolykmat
             Container representing the parameterised Fins.
 
         Returns
         -------
-        all_roots : list of float or mpmath.mpcs
+        all_roots : list of float or mpmath.mpc
         """
         self.log.write_call("find_Fin_roots("+str(map(lambda x: x.fitInfo[0],
                                                      cfins))+")", internal)
@@ -433,7 +436,8 @@ class MCSMatFit(th.tool):
     def find_stable_Smat_poles(self, cfins_or_roots):
         """
         Finds the S-matrix poles as the stable roots of the Fins from either
-        a list of Fins or from a list of Fin roots.
+        a list of Fins or from a list of Fin roots returning as a tuple of 
+        lists of pole data.
 
         Parameters
         ----------
@@ -489,7 +493,8 @@ class MCSMatFit(th.tool):
 
     def get_elastic_Smat(self, Npts):
         """
-        Performs S-matrix fits using the specified number of fit points.
+        Performs S-matrix fits using the specified number of fit points and 
+        returns a cPolySmat.
 
         Parameters
         ----------
@@ -498,7 +503,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        csmat : tisutil.cPolySmat
+        csmat : cPolySmat
         """
         self.log.write_call("get_elastic_Smat("+str(Npts)+")")
         ris = self.data.get_slice_indices(num_points=Npts)
@@ -521,7 +526,7 @@ class MCSMatFit(th.tool):
 
         Parameters
         ----------
-        csmat : tisutil.cPolySmat
+        csmat : cPolySmat
             Fitted S-matrix returned from get_elastic_Smat.
         num_plot_points, units, i, j, logx, logy, imag, show
             Refer to the chart tool for description.
@@ -562,7 +567,7 @@ class MCSMatFit(th.tool):
 
         Parameters
         ----------
-        csmat : tisutil.cPolySmat
+        csmat : cPolySmat
             Fitted S-matrix returned from get_elastic_Smat.
         num_plot_points, units, logx, logy, show
             Refer to the chart tool for description.

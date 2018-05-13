@@ -16,7 +16,7 @@ if sys.argv[1] == "pyrazine":
 # Use mpmath types (optional)
 rk.use_mpmath_types()
 
-# Read in the S matrix data
+# Read in the K matrix data
 kmatdict,_ = rmol.read_Kmats(input_data_file)
 
 # Get a calculator with units and channel angular momentum

@@ -39,25 +39,25 @@ def get_asym_calc(units, ls=None):
 
     Returns
     -------
-    asymcalc : channelutil.AsymCalc
+    asymcalc : AsymCalc
     """
     return cu.AsymCalc(units, ls)
 
 def get_dmat_from_discrete(mat_type, mat_dict, asymcalc, source_str):
     """
     Converts discrete energy dependent scattering data into a reskit compatible
-    container. Types must match those specified using the use_python_types or
-    use_mpmath_types functions.
+    container (dMat). Types must match those specified using the
+    use_python_types or use_mpmath_types functions.
 
     Parameters
     ----------
     mat_type : int 
         Specification of the scattering matrix type. Available options are
         reskit.Smat, reskit.Kmat and reskit.Tmat.
-    mat_dict :  dict of scattering matrices keyed by energy.
+    mat_dict : energy dict of scattering matrices
         Scattering data to be used in the calculation. Can be either floats or
         mpmath types.
-    asymcalc : channelutil.AsymCalc
+    asymcalc : AsymCalc
         As returned from the get_asym_calc function.
     source_str : str
         String provided to uniquely identify the scattering data. Will be used
@@ -65,7 +65,7 @@ def get_dmat_from_discrete(mat_type, mat_dict, asymcalc, source_str):
 
     Returns
     -------
-    dmat : tisutil.dBase
+    dmat : dBase
     """
     return tu.get_discrete_scattering_matrix(mat_type, mat_dict, asymcalc,
                                              source_str)
@@ -74,7 +74,7 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
                              num_points, source_str):
     """
     Discretises continuous energy dependent scattering data into a reskit
-    compatible container. Types must match those specified using the
+    compatible container (dMat). Types must match those specified using the
     use_python_types or use_mpmath_types functions.
 
     Parameters
@@ -82,10 +82,10 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
     mat_type : int 
         Specification of the scattering matrix type. Available options are
         reskit.Smat, reskit.Kmat and reskit.Tmat.
-    fun_ref : function reference with energy parameter
+    fun_ref : function with float parameter
         A function of energy that will calculate the scattering matrix. Can be
         either floats or mpmath types.
-    asymcalc : channelutil.AsymCalc
+    asymcalc : AsymCalc
         As returned from the get_asym_calc function.
     start_ene : float
         Start energy for the discretisation.
@@ -99,7 +99,7 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
 
     Returns
     -------
-    dmat : tisutil.dBase
+    dmat : dBase
     """
     cmat = tu.get_continuous_scattering_matrix(mat_type, fun_ref, asymcalc, 
                                                source_str)
@@ -110,17 +110,17 @@ mcsmatfit = 1
 def get_tool(toolID, data, archive_root=None, param_file_path=None, 
              silent=False):
     """
-    Initialises and returns a tool.
+    Initialises and returns a Tool.
 
     Parameters
     ----------
     toolID : int 
-        Specification of the tool. Available options are reskit.chart and
+        Specification of the Tool. Available options are reskit.chart and
         reskit.mcsmatfit.
     data
-        Tool data. The format of this data is determined by the Tool type.
+        Tool data. The type of this data is determined by the Tool.
     archive_root : str, optional
-        Specification of the root location into which reskit will write it's
+        Specification of the root location into which reskit will write its
         results.
     param_file_path : str, optional
         Location of an existing yml file containing overrides for the more
