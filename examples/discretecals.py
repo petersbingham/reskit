@@ -30,9 +30,9 @@ calc = rk.get_asym_calc(rk.rydbergs, ang_mom)
 dkmat = rk.get_dmat_from_discrete(rk.Kmat, kmatdict, calc, desc_str)
 # Slice the data set (optional)
 if sl is not None:
-    dkmat2 = dkmat[sl]
+    dkmat = dkmat[sl]
 
-sfittool = rk.get_tool(rk.mcsmatfit, dkmat2, archive_path)
+sfittool = rk.get_tool(rk.mcsmatfit, dkmat, archive_path)
 
 # Perform the calculation of the poles and the qualityindicators
 cfins = sfittool.get_elastic_Fins(range(2,32,2))
