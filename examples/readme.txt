@@ -5,6 +5,7 @@ python discretecals.py <name of molecule>
 
 Available molecule names are:
 "pyrazine"
+"uracil6ch"
 
 A file path will be outputted to the prompt. The location of results will be
 contained in this file. There are a lot of intermediate results; the final
