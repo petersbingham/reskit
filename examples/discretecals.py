@@ -17,6 +17,11 @@ elif sys.argv[1] == "uracil6ch":
     desc_str = "uracil6ch"
     ang_mom = [1,2,2,3,3,3]
     sl = None
+elif sys.argv[1] == "uracil10ch":
+    input_data_file = "kmatrix_input_uracil10ch.dat"
+    desc_str = "uracil10ch"
+    ang_mom = [0,1,1,2,2,2,3,3,3,3]
+    sl = None
 
 # Use mpmath types (optional)
 rk.use_mpmath_types()
