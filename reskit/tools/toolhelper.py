@@ -110,20 +110,20 @@ class Logger:
     def __init__(self, log_file_path):
         self.log_file_path = log_file_path
 
-    def write(self, msg):
+    def write(self, msg, start=""):
         if self.log_file_path is not None:
             with faopen(self.log_file_path) as f:
-                fw(f,msg)
+                fw(f, start + get_date_time_string() + ": " + msg)
 
     def write_call(self, fun_str, internal=False):
         start = ""
         if not internal:
             start = "\n"
-        msg = start + get_date_time_string() + ": " + fun_str + "\n"
-        self.write(msg)
+        msg = fun_str + "\n"
+        self.write(msg, start)
 
     def write_call_end(self, fun_str):
-        msg = get_date_time_string() + ": " + fun_str + " end\n"
+        msg = fun_str + " end\n"
         self.write(msg)
 
     def write_msg(self, msg):

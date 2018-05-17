@@ -7,5 +7,3 @@ pip install git+https://github.com/petersbingham/channelutil --target=.
 pip install git+https://github.com/petersbingham/parSmat --target=.
 pip install git+https://github.com/petersbingham/stelempy --target=.
 pip install git+https://github.com/petersbingham/pynumutil --target=.
-
-rm *egg-info* -rf

@@ -16,7 +16,7 @@ else:
     from createlatex_brief import *
 
 reskitfuns = ["get_asym_calc","get_dmat_from_discrete","get_dmat_from_continuous",\
-              "get_tool","use_python_types","use_mpmath_types","override_utilities"]
+              "get_tool","use_python_types","use_mpmath_types"]
 chartfunctions = ["plot_Smatrix", "plot_Kmatrix", "plot_Tmatrix", "plot_UniOpSMat",\
                   "plot_raw", "plot_Ephase", "plot_XS", "plot_TotalXS"]
 # Order important since substrings:
@@ -88,7 +88,7 @@ def write_function(func_name, doc, add_info, param_append):
             func_name = add_info[0][1]
         else:
             func_name += add_info[0][1]
-    func_name = clean_str(code_font_str(func_name))
+    func_name = clean_str(func_name)
     func_desc = clean_str(code_font_str(func_desc))
     params_str = clean_str(params_str)
     rets_str = clean_str(rets_str)
@@ -131,8 +131,8 @@ with open("doc.txt", 'a') as f:
     f.write("**** CHART DOCS ****\n")  
 import chart
 functions = ["plot_Smatrix"]
-collective_name = ", .plot_Kmatrix, .plot_Tmatrix, .plot_UniOpSMat, .plot_raw, "\
-                  ".plot_Ephase, .plot_XS, .plot_TotalXS"
+collective_name = ", plot_Kmatrix, plot_Tmatrix, plot_UniOpSMat, plot_raw, "\
+                  "plot_Ephase, plot_XS, plot_TotalXS"
 collective_desc = "Plots various scattering related quantities."
 param_append = {"i" : "Not available for plot_Ephase and plot_TotalXS.",
                 "j" : "Not available for plot_Ephase and plot_TotalXS.",
