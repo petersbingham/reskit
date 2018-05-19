@@ -1,12 +1,10 @@
 import os
 import sys
 filedir = os.path.dirname(os.path.realpath(__file__))
-modpath = filedir+'/tools' # Keep tools before utilities
+modpath = filedir+'/tools' # Keep tools before site-packages
 sys.path.insert(0,modpath)
-deppath = filedir+'/utilities'
-sys.path.insert(0,deppath)
-thirdpartypath = filedir+'/site-packages'
-sys.path.insert(0,thirdpartypath)
+sitepackagespath = filedir+'/site-packages'
+sys.path.insert(0,sitepackagespath)
 
 import channelutil as cu
 import tisutil as tu
@@ -191,15 +189,3 @@ def use_mpmath_types(dps=nw.dps_default_mpmath):
     except:
         s = "Types can only be changed at start of session in safeMode."
         raise Exception(s)
-
-# If overridden, will look for the modules in the python site-utilities first.
-utility_override = False
-def override_utilities():
-    global utility_override
-    if not utility_override:
-        sys.path.remove(deppath)
-        sys.path.append(deppath)
-        utility_override = True
-        reload(cu)
-        reload(tu)
-        reload(nw)
