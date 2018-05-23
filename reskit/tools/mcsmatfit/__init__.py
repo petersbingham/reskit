@@ -25,6 +25,12 @@ class MCSMatFit(th.tool):
     def _verify_param_caches(self):
         self._verify_param_cache(self._get_root_config_dir(), "find_Fin_roots")
         self._verify_param_cache(self._get_pole_config_dir(), "find_stable_Smat_poles")
+        
+    def _check_elastic(self):
+        if not self.data.asymcalc.is_elastic():
+            msg = "Function not compatible with inelastic systems."
+            self.log.write_err(msg)
+            raise Exception(msg)
 
     ##### General file and string Functions #####
 
@@ -127,7 +133,7 @@ class MCSMatFit(th.tool):
                         coeffs.append(coeff)
             except Exception as inst:
                 self.log.write_err(str(inst))
-                return None
+                raise
         return coeffs
 
     def _load_coeff_set(self, Npts, coeff_dir):
@@ -248,7 +254,7 @@ class MCSMatFit(th.tool):
                         return roots
                 except Exception as inst:
                     self.log.write_err(str(inst))
-                    return None
+                    raise
         return None
 
     def _get_roots(self, p, cfin, asymcalc):
@@ -346,7 +352,7 @@ class MCSMatFit(th.tool):
             csmat.MCSMatFit_SplotCompatible
         except Exception:
             self.log.write_err("Not a csmat")
-            return None
+            raise
 
     ##### Public API #####
 
@@ -365,6 +371,7 @@ class MCSMatFit(th.tool):
         cfin : cPolykmat
         """
         self.log.write_call("get_elastic_Fin("+str(Npts)+")")
+        self._check_elastic()
         ris = self.data.get_slice_indices(num_points=Npts)
         self.log.write_msg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
         self.all_coeffs_loaded = True
@@ -391,6 +398,7 @@ class MCSMatFit(th.tool):
         cfins : list of cPolykmat
         """
         self.log.write_call("get_elastic_Fins("+str(Npts_list)+")")
+        self._check_elastic()
         cfins = []
         for Npts in Npts_list:
             cfins.append(self.get_elastic_Fin(Npts))
@@ -509,6 +517,7 @@ class MCSMatFit(th.tool):
         csmat : cPolySmat
         """
         self.log.write_call("get_elastic_Smat("+str(Npts)+")")
+        self._check_elastic()
         ris = self.data.get_slice_indices(num_points=Npts)
         self.log.write_msg("Calculating for slice:"+str(ris))
         self.all_coeffs_loaded = True
@@ -542,19 +551,24 @@ class MCSMatFit(th.tool):
             p, ln, orig = ret
 
             orig = orig.to_dSmat()
-            orig = orig.create_reduced_dim(i).create_reduced_dim(j)
+            orig = self._reduceDimensions(orig, i, j)
 
             ris0 = csmat.fitInfo[1][0]
             fit_pnts = self.data[ris0[0]:ris0[1]:ris0[2]]
             fit_pnts = fit_pnts.to_dSmat()
-            fit_pnts = fit_pnts.create_reduced_dim(i).create_reduced_dim(j)
+            fit_pnts = self._reduceDimensions(fit_pnts, i, j)
 
             rng = orig.get_range()
             dsmat = csmat.discretise(rng[0], rng[1], ln)
-            fit = dsmat.create_reduced_dim(i).create_reduced_dim(j)
+            fit = self._reduceDimensions(dsmat, i, j)
 
             title = "S matrix fit for Npts="+str(Npts)
-            title += ", m="+str(i+1)+", n="+str(j+1)
+            if i and j:
+                title += ", m="+str(i+1)+", n="+str(j+1)
+            elif i:
+                title += ", m="+str(i+1)
+            elif j:
+                title += ", n="+str(j+1)
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points, units,
                           logx, logy, imag, show)

@@ -1,0 +1,26 @@
+find_Fin_roots:
+  cPolyMat_determinant:
+    sym_matrix_det:
+      method: berkowitz
+
+  cPolyVal_find_roots:
+    nw_roots_sym:
+      symPoly_nroots:
+        n: dps # use mpmath dps. Specify a value to override.
+        maxsteps: 5000
+        cleanup: True
+
+find_stable_Smat_poles:
+  stelempy:
+    starting_dist_thres: 0.0001
+    end_dist_thres: 1e-20
+    cfsteps: 2
+    amalg_thres: 0.
+
+fit_charts:
+  colour_cycle:
+    - green
+    - red
+    - blue
+  xsize: 8
+  ysize: 7

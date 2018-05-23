@@ -106,6 +106,15 @@ class tool:
         if show:
             plt.show()
 
+    def _reduceDimensions(self, dbase, i, j):
+        if i is not None and j is not None:
+            dbase = dbase.create_reduced_dim(i).create_reduced_dim(j)
+        elif i is not None:
+            dbase = dbase.create_reduced_dim(i)
+        elif j is not None:
+            dbase = dbase.create_reduced_dim(j, True)
+        return dbase
+
 class Logger:
     def __init__(self, log_file_path):
         self.log_file_path = log_file_path

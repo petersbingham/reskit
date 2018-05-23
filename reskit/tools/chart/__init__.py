@@ -57,12 +57,7 @@ class Chart(th.tool):
 
     def _plot(self, dbase, start, end, num_plot_points, i, j, logx, logy, imag, 
               show):
-        if i is not None and j is not None:
-            dbase = dbase.create_reduced_dim(i).create_reduced_dim(j)
-        elif i is not None:
-            dbase = dbase.create_reduced_dim(i)
-        elif j is not None:
-            dbase = dbase.create_reduced_dim(j, True)
+        dbase = self._reduceDimensions(dbase, i, j)
         self._set_chart_parameters(dbase)
         save_path = None
         if self.archive_root is not None:
@@ -83,17 +78,18 @@ class Chart(th.tool):
         Parameters
         ----------
         start / end : int or float, optional
-            Indicates the start and end points to perform he plot between. If the
-            Tool data is in discrete form then will either indicate the start /
-            end index (if int) or the nearest start / end energy (if float). If
-            the Tool data is in continuous form then will indicate the start / 
-            end energy.
+            Indicates the start and end points to perform the plot between. If
+            the Tool data is in discrete form then will either indicate the
+            start end index (if int) or the nearest start / end energy (if
+            float). If the Tool data is in continuous form then will indicate
+            the start end energy.
         num_plot_points : int, optional
             The number of points to plot, evenly distributed between start and
             end.
         units : int, optional
             If specified, then will convert to these units prior to plotting.
-            Available options are reskit.rydbergs, reskit.hartrees and reskit.eVs.
+            Available options are reskit.rydbergs, reskit.hartrees and
+            reskit.eVs.
         i : int, optional
             Zero-based row index to plot. Default is to plot all rows.
         j : int, optional
