@@ -48,7 +48,7 @@ if input_data_file is None:
   # Get a function pointer for the S matrix
   csmat = tcrw.get_Smat_fun(1.0, 2.0, 2.0, calc, 1.0)
   # Initialise the data into the required container
-  dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 1000,
+  dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 1200,
                                       desc_str)
   paramPath = "radwell_poles.yml"
 else:
