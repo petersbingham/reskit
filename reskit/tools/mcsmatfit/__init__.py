@@ -38,8 +38,10 @@ class MCSMatFit(th.tool):
                 self.asymcalc = None
 
     def _verify_param_caches(self):
-        self._verify_param_cache(self._get_root_config_dir(), "find_Fin_roots")
-        self._verify_param_cache(self._get_pole_config_dir(), "find_stable_Smat_poles")
+        self._verify_param_cache(self._get_root_config_dir(), 
+                                 "find_Fin_roots")
+        self._verify_param_cache(self._get_pole_config_dir(), 
+                                 "find_stable_Smat_poles")
         
     def _check_elastic(self):
         if not self.data.asymcalc.is_elastic():
@@ -371,11 +373,11 @@ class MCSMatFit(th.tool):
             self.log.write_err("Not a csmat")
             raise
 
-    def _filterRoots(self, all_roots, filt_point, filt_atol):
-        f = lambda v : v.real <= filt_point.real + filt_atol.real \
-                   and v.real >= filt_point.real - filt_atol.real \
-                   and v.imag <= filt_point.imag + filt_atol.imag \
-                   and v.imag >= filt_point.imag - filt_atol.imag
+    def _filterRoots(self, all_roots, point, atol):
+        f = lambda v : not (    abs(v.real) <= point.real + atol.real \
+                            and abs(v.real) >= point.real - atol.real \
+                            and v.imag <= point.imag + atol.imag \
+                            and v.imag >= point.imag - atol.imag)
         lst = [[root for root in filter(f,all_root)] for all_root in all_roots]
         return MCSMatFit.RootsList(lst, all_roots.n_list, all_roots.asymcalc)
 
@@ -503,22 +505,30 @@ class MCSMatFit(th.tool):
                     if "zero_filt_thres" in p:
                         pp = p["zero_filt_thres"]
                         all_roots = self._filterRoots(all_roots, 
-                                                   nw.complex(pp["filt_point"]),
-                                                   nw.complex(pp["filt_atol"]))
+                                                      nw.complex(pp["point"]),
+                                                      nw.complex(pp["atol"]))
                     pp = p["stelempy"]
-                    end_dist_thres = None
+                    end_rtol = None
                     try:
-                        end_dist_thres = float(pp["end_dist_thres"])
+                        end_rtol = float(pp["end_rtol"])
                     except TypeError:
                         pass
+
+                    ztol = float(pp["ztol"])
+                    ratcmp = sp.num.RationalCompare1(ztol=ztol)
                     poleData = sp.calculate_convergence_groups_range(all_roots,
-                                         float(pp["starting_dist_thres"]),
-                                         end_dist_thres, int(pp["cfsteps"]))
+                                                ratcmp, float(pp["start_rtol"]),
+                                                end_rtol, int(pp["cfsteps"]))
                     self.log.write_msg("Convergence groups calculated")
                     self._save_pole_data(all_roots.n_list, poleData,
                                          all_roots.asymcalc, p)
+
+                    amalg_ratcmp = None
+                    amalg_rtol = float(pp["amalg_rtol"])
+                    if amalg_rtol != 0.:
+                        amalg_ratcmp = sp.num.RationalCompare1(amalg_rtol, ztol)
                     pole_dat = sp.calculate_QIs_from_range(poleData,
-                                                     float(pp["amalg_thres"]))
+                                                           amalg_ratcmp)
                     self.log.write_msg("QIs calculated")
                     self._save_QI_data(all_roots.n_list, pole_dat, 
                                        all_roots.asymcalc)

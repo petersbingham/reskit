@@ -12,13 +12,14 @@ find_Fin_roots:
 
 find_stable_Smat_poles:
   zero_filt_thres:
-    filt_point: 0.
-    filt_atol: 0.
+    point: 0.
+    atol: 0.
   stelempy:
-    starting_dist_thres: 0.0001
-    end_dist_thres: null
+    start_rtol: 0.0001
+    end_rtol: null
+    ztol: 1e-7
     cfsteps: 2
-    amalg_thres: 0.
+    amalg_rtol: 0.
 
 fit_charts:
   colour_cycle:
