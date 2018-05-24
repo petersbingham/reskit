@@ -22,6 +22,21 @@ class MCSMatFit(th.tool):
         self.all_roots_loaded = False
         self._verify_param_caches()
 
+    class RootsList(list):
+        def __init__(self, lst=None, n_list=None, asymcalc=None):
+            if lst:
+                list.__init__(self, lst)
+            else:
+                list.__init__(self)
+            if n_list:
+                self.n_list = n_list
+            else:
+                self.n_list = []
+            if asymcalc:
+                self.asymcalc = asymcalc
+            else:
+                self.asymcalc = None
+
     def _verify_param_caches(self):
         self._verify_param_cache(self._get_root_config_dir(), "find_Fin_roots")
         self._verify_param_cache(self._get_pole_config_dir(), "find_stable_Smat_poles")
@@ -217,7 +232,8 @@ class MCSMatFit(th.tool):
         # First try the supplied config.
         rootConfigDir = self._get_root_config_dir()
         if os.path.isdir(rootConfigDir):
-            root_path = self._get_root_path_if_exists(rootConfigDir, Npts, ris[0])
+            root_path = self._get_root_path_if_exists(rootConfigDir, Npts,
+                                                      ris[0])
             if root_path is not None:
                 return root_path
         # Now look for other configs that have compatible roots.
@@ -225,9 +241,10 @@ class MCSMatFit(th.tool):
         if os.path.isdir(rootBaseDir):
             for rootConfigDirName in th.get_sub_dirs(rootBaseDir):
                 rootConfigDir = rootBaseDir+os.sep+rootConfigDirName
-                if self._does_param_cache_match(rootConfigDir, "find_Fin_roots"):
-                    root_path = self._get_root_path_if_exists(rootConfigDir, Npts,
-                                                         ris[0])
+                if self._does_param_cache_match(rootConfigDir,
+                                                "find_Fin_roots"):
+                    root_path = self._get_root_path_if_exists(rootConfigDir, 
+                                                              Npts, ris[0])
                     if root_path is not None:
                         return root_path
         return None
@@ -345,7 +362,7 @@ class MCSMatFit(th.tool):
         if chart_title is not None:
             cont.set_chart_title("Fin")
 
-    ##### Plots #####
+    ##### Others #####
 
     def _check_for_fit_plot(self, csmat):
         try:
@@ -353,6 +370,14 @@ class MCSMatFit(th.tool):
         except Exception:
             self.log.write_err("Not a csmat")
             raise
+
+    def _filterRoots(self, all_roots, filt_point, filt_atol):
+        f = lambda v : v.real <= filt_point.real + filt_atol.real \
+                   and v.real >= filt_point.real - filt_atol.real \
+                   and v.imag <= filt_point.imag + filt_atol.imag \
+                   and v.imag >= filt_point.imag - filt_atol.imag
+        lst = [[root for root in filter(f,all_root)] for all_root in all_roots]
+        return MCSMatFit.RootsList(lst, all_roots.n_list, all_roots.asymcalc)
 
     ##### Public API #####
 
@@ -421,13 +446,8 @@ class MCSMatFit(th.tool):
         """
         self.log.write_call("find_Fin_roots("+str(map(lambda x: x.fitInfo[0],
                                                      cfins))+")", internal)
-        class RootsList(list):
-            def __init__(self):
-                list.__init__(self)
-                self.n_list = []
-                self.asymcalc = None
 
-        all_roots = RootsList()
+        all_roots = MCSMatFit.RootsList()
         if len(cfins) > 0:
             with th.fropen(self.param_file_path) as f:
                 config = yaml.load(f.read())
@@ -480,6 +500,11 @@ class MCSMatFit(th.tool):
                     config = yaml.load(f.read())
                     p = config["find_stable_Smat_poles"]
                     self.log.write_parameters(p)
+                    if "zero_filt_thres" in p:
+                        pp = p["zero_filt_thres"]
+                        all_roots = self._filterRoots(all_roots, 
+                                                   nw.complex(pp["filt_point"]),
+                                                   nw.complex(pp["filt_atol"]))
                     pp = p["stelempy"]
                     end_dist_thres = None
                     try:

@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='reskit',
-      version='0.35',
+      version='0.36',
       description='Python Package to assist with the identification and characterisation of quantum scattering resonances.',
       author="Peter Bingham",
       author_email="petersbingham@hotmail.co.uk",

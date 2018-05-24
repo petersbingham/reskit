@@ -16,25 +16,29 @@ if len(sys.argv) != 3:
     raise Exception(exceptStr)
 
 if sys.argv[1] == "radwell":
-    input_data_file = None
-    desc_str = "radwell"
-    ang_mom = [0,0]
-    sl = None
+  input_data_file = None
+  desc_str = "radwell"
+  ang_mom = [0,0]
+  sl = None
+  paramPath = "radwell-poles.yml"
 elif sys.argv[1] == "pyrazine":
-    input_data_file = "kmatrix_input_pyrazine.dat"
-    desc_str = "pyrazine"
-    ang_mom = [3,5,5]
-    sl = slice(0,1200)
+  input_data_file = "kmatrix_input_pyrazine.dat"
+  desc_str = "pyrazine"
+  ang_mom = [3,5,5]
+  sl = slice(0,1200)
+  paramPath = None
 elif sys.argv[1] == "uracil6ch":
-    input_data_file = "kmatrix_input_uracil6ch.dat"
-    desc_str = "uracil6ch"
-    ang_mom = [1,2,2,3,3,3]
-    sl = None
+  input_data_file = "kmatrix_input_uracil6ch.dat"
+  desc_str = "uracil6ch"
+  ang_mom = [1,2,2,3,3,3]
+  sl = None
+  paramPath = "polar-molecule-poles.yml"
 elif sys.argv[1] == "uracil10ch":
-    input_data_file = "kmatrix_input_uracil10ch.dat"
-    desc_str = "uracil10ch"
-    ang_mom = [0,1,1,2,2,2,3,3,3,3]
-    sl = None
+  input_data_file = "kmatrix_input_uracil10ch.dat"
+  desc_str = "uracil10ch"
+  ang_mom = [0,1,1,2,2,2,3,3,3,3]
+  sl = None
+  paramPath = "polar-molecule-poles.yml"
 else:
     raise Exception(exceptStr)
 
@@ -50,7 +54,6 @@ if input_data_file is None:
   # Initialise the data into the required container
   dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 1200,
                                       desc_str)
-  paramPath = "radwell_poles.yml"
 else:
   # System is a molecule
   # Read in the K matrix data
@@ -59,7 +62,6 @@ else:
   kmatdict,_ = rmol.read_Kmats(input_data_file)
   # Initialise the data into the required container
   dmat = rk.get_dmat_from_discrete(rk.Kmat, kmatdict, calc, desc_str)
-  paramPath = None
 
 # Slice the data set
 if sl is not None:
