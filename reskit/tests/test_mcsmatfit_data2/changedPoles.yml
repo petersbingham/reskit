@@ -1,9 +1,9 @@
 find_Fin_roots:
-  cPolyMat_determinant:
+  cSympyPolyMat_determinant:
     sym_matrix_det:
       method: berkowitz
 
-  cPolyVal_find_roots:
+  cSympyPolyVal_find_roots:
     nw_roots_sym:
       symPoly_nroots:
         n: dps # use mpmath dps. Specify a value to override.

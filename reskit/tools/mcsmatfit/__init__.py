@@ -280,9 +280,9 @@ class MCSMatFit(th.tool):
         self.log.write_call("_get_roots("+str(cfin.fitInfo[0])+")", True)
         roots = self._load_roots(cfin.fitInfo[0], cfin.fitInfo[1])
         if roots is None:
-            cval = cfin.determinant(**p["cPolyMat_determinant"])
+            cval = cfin.determinant(**p["cSympyPolyMat_determinant"])
             self.log.write_msg("Determinant calculated")
-            roots = cval.find_roots(**p["cPolyVal_find_roots"])
+            roots = cval.find_roots(**p["cSympyPolyVal_find_roots"])
             self.log.write_msg("Roots calculated")
             self._save_roots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymcalc, p)
             self.all_roots_loaded = False
