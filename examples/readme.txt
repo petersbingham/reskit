@@ -1,17 +1,22 @@
-After you have installed reskit and all of its dependencies (see README.md) type
-at a command prompt in this directory:
+After you have installed reskit and all of its dependencies (see README.md) type at a command prompt in this directory:
 
-python reskit_examples.py 1st 2nd 3rd
+python reskit_examples.py system output_produced N
 where:
- 1st: Scattering system. Either:
+ system: Scattering system. Either:
   radwell, pyrazine or uracil
- 2nd: Command. Either:
+ output_produced: Command. Either:
   poles, plotSmat, plotTotXS or createLatex
- 3rd: Max N (if 2nd==poles) or plot N (if 2nd==plotSmat or 2nd==plotTotXS)
-  optional. Default 40 (if 2nd==poles) or 20 (if 2nd==plotSmat or 2nd==plotTotXS)
+ N: Either max N (if output_produced==poles) or plot N (if output_produced==plotSmat or output_produced==plotTotXS)
+  optional. Default 40 (if output_produced==poles) or 20 (if output_produced==plotSmat or output_produced==plotTotXS)
 
 Eg: python reskit_examples.py radwell poles
 
-A file path will be outputted to the prompt. The location of results will be
-contained in this file. There are a lot of intermediate results; the final
-results will be near the end of the log when the calculation has completed.
+The path to the log file will be displayed on the screen. 
+The location of all results are detailed in this file. 
+
+The coefficients of the expansion of the S-matrix will be in a subdirectory named coeffs.
+The roots of the S-matrix obtained for each step of the calculation will be in a subdirectory named roots.
+Finally, the poles identified for each M will will be in a subdirectory named poles. The final result,
+that is, the poles identified with their corresponding quality indicators, will be listed in a file called
+QIs.dat located in the poles subdirectory.
+
