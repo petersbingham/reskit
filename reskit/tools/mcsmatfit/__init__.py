@@ -13,6 +13,8 @@ import toolhelper as th
 toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "mcsmatfit"
 
+QI_file_name = "QIs.dat"
+
 class MCSMatFit(th.tool):
     def __init__(self, data, archive_root, param_file_path, silent):
         th.tool.__init__(self, data, archive_root, param_file_path, toolDir,
@@ -334,7 +336,7 @@ class MCSMatFit(th.tool):
     ##### QI Save #####
 
     def _get_QI_path(self, pole_dir):
-        return pole_dir+os.sep+"QIs.dat"
+        return pole_dir+os.sep+QI_file_name
 
     def _get_QI_file_header_str(self, num_poles, asymcalc):
         return str(num_poles)+" poles, "+asymcalc.get_units()+"\n\n"
@@ -380,6 +382,51 @@ class MCSMatFit(th.tool):
                             and v.imag >= point.imag - atol.imag)
         lst = [[root for root in filter(f,all_root)] for all_root in all_roots]
         return MCSMatFit.RootsList(lst, all_roots.n_list, all_roots.asymcalc)
+
+    def _formatted_QI_table_name(self, sig_digits, strip_zeros, min_fixed,
+                                 max_fixed, show_zero_exponent):
+        return "_latEne_"+str(sig_digits)+"_"+str(strip_zeros)+"_" \
+               + str(min_fixed)+"_"+str(max_fixed)+"_"+str(show_zero_exponent)
+
+    def _create_formatted_QI_table(self, subdir, file_name, sig_digits, 
+                                   strip_zeros, min_fixed, max_fixed,
+                                   show_zero_exponent):
+        new_lines = []
+        with th.fropen(subdir+os.sep+file_name) as f:
+            for i,l in enumerate(f):
+                if i>3:
+                    new_line = ""
+                    sl = l.split()
+                    ene_strs = nw.num_str_pair(nw.complex(sl[1]), sig_digits,
+                                               strip_zeros, min_fixed,
+                                               max_fixed, show_zero_exponent)
+                    new_line += ene_strs[0]+"&"+ene_strs[1]+"&"
+                    wdk_str = nw.num_str_real(nw.float(sl[2]), 1, True, 1, 1,
+                                              False).replace(".0","")
+                    new_line += wdk_str+"&"
+                    enk_str = sl[3]
+                    new_line += enk_str+"\\\\\n\\hline\n"
+                    new_lines.append(new_line)
+
+        start = "\\begin{table}[h!]\n"+\
+                "\\begin{center}\n"+\
+                "\\begin{tabular}{c c c c}\n"+\
+                "\\hline\n"+\
+                "\\textbf{Real energy} & \\textbf{Imag energy} & $\\wedge dk$ & $\\Sigma Nk$ \\\\\n"+\
+                "\\hline\n"
+        end =   "\\end{tabular}\n"+\
+                "\end{center}\n"+\
+                "\caption{}\n"+\
+                "\label{}\n"+\
+                "\end{table}"
+
+        name = self._formatted_QI_table_name(sig_digits, strip_zeros, min_fixed,
+                                             max_fixed, show_zero_exponent)
+        with th.fwopen(subdir+os.sep+"QIs"+name+".dat") as f:
+            th.fw(f, start)
+            for l in new_lines:
+                th.fw(f, l)
+            th.fw(f, end)
 
     ##### Public API #####
 
@@ -536,6 +583,40 @@ class MCSMatFit(th.tool):
                     return pole_dat
         self.log.write_call_end("find_stable_Smat_poles")
         return None, None
+
+    latex_energy = 0
+    def create_formatted_QI_tables(self, 
+                                   table_type=0, sig_digits=10,
+                                   strip_zeros=False, min_fixed=-3, max_fixed=3,
+                                   show_zero_exponent=False):
+        """
+        Creates and formats all the QIs.dat tables in the current archive.
+        Numbers are formatted according to the supplied parameters.
+
+        Parameters
+        ----------
+        table_type : int
+            The table type to create. Currently only latex table with energy
+            values are supported (MCSMatFit.latex_energy).
+        sig_digits : int
+            The number of significant digits to represent the numeric values.
+        strip_zeros : bool
+            Remove trailing zero from end of numeric mantissas.
+        min_fixed : int
+            The minimum number of digits to fix.
+        max_fixed : int
+            The maximum number of digits to fix.
+        show_zero_exponent : int
+            Always show the exponent term.
+        """
+        for subdir, _, files in os.walk("."):
+            for file_name in files:
+                if file_name == QI_file_name:
+                    if table_type == 0:
+                        self._create_formatted_QI_table(subdir, file_name,
+                                                        sig_digits, strip_zeros,
+                                                        min_fixed, max_fixed,
+                                                        show_zero_exponent)
 
     def get_elastic_Smat(self, Npts):
         """
