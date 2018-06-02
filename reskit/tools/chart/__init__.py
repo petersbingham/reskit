@@ -73,7 +73,8 @@ class Chart(th.tool):
                      i=None, j=None, logx=False, logy=False, imag=False, 
                      show=True):
         """
-        Plots the S-matrix.
+        Plots the S-matrix. There are additional advanced parameters in the
+        tool yml file.
     
         Parameters
         ----------

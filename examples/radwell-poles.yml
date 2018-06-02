@@ -28,3 +28,11 @@ fit_charts:
     - blue
   xsize: 8
   ysize: 7
+
+create_formatted_QI_tables:
+  num_format:
+    strip_zeros: False
+    min_fixed: -3
+    max_fixed: 3
+    show_zero_exponent: False
+    eff_zero : 1e-20

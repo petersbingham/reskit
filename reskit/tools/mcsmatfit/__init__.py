@@ -387,9 +387,17 @@ class MCSMatFit(th.tool):
 
     ##### Formattted Tables #####
 
-    def _get_formatted_lines(self, subdir, file_name, col_delim, row_delim,
-                             sig_digits, strip_zeros, min_fixed, max_fixed,
-                             show_zero_exponent):
+    def _get_table_format_parameters(self):
+        with th.fropen(self.param_file_path) as f:
+            config = yaml.load(f.read())
+            p = config["create_formatted_QI_tables"]["num_format"]
+            return p["strip_zeros"], p["min_fixed"], p["max_fixed"], \
+                   p["show_zero_exponent"], float(p["eff_zero"])
+
+    def _get_formatted_lines(self, subdir, file_name, sig_digits, col_delim,
+                             row_delim):
+        strip_zeros, min_fixed, max_fixed, show_zero_exponent, eff_zero = \
+                self._get_table_format_parameters()
         new_lines = []
         file_path = subdir + os.sep + file_name
         with th.fropen(file_path) as f:
@@ -412,25 +420,28 @@ class MCSMatFit(th.tool):
                     else:
                         if QI_file_imag in l:
                             if new_line[0] == "-":
-                               new_line = new_line[1:]
+                                new_line = new_line[1:]
                             new_line += "j"
                         new_line += col_delim
         return new_lines
 
+    def _formatted_QI_table_name(self, sig_digits):
+        return "_latEne_"+str(sig_digits)
+
     def _write_formatted_QI_table(self, subdir, file_name, start, new_lines,
-                                  end, sig_digits, strip_zeros, min_fixed,
-                                  max_fixed, show_zero_exponent):
+                                  end, sig_digits):
+        strip_zeros, min_fixed, max_fixed, show_zero_exponent, eff_zero = \
+                self._get_table_format_parameters()
         name = self._formatted_QI_table_name(sig_digits, strip_zeros, min_fixed,
                                              max_fixed, show_zero_exponent)
         with th.fwopen(subdir+os.sep+"QIs"+name+".dat") as f:
             th.fw(f, start)
             for l in new_lines:
                 th.fw(f, l)
-            th.fw(f, end)        
+            th.fw(f, end)
 
     def _create_latex_QI_table(self, use_energies, subdir, file_name,
-                               sig_digits, strip_zeros, min_fixed, max_fixed,
-                               show_zero_exponent):
+                               sig_digits):
 
         start = "\\begin{table}[h!]\n"+\
                 "\\begin{center}\n"+\
@@ -439,11 +450,8 @@ class MCSMatFit(th.tool):
                 "\\textbf{Real energy} & \\textbf{Imag energy} & $\\wedge dk$ & $\\Sigma Nk$ \\\\\n"+\
                 "\\hline\n"
 
-        new_lines = self._get_formatted_lines(subdir, file_name,
-                                              " & ", "\\\\\n\\hline\n",
-                                              sig_digits, strip_zeros,
-                                              min_fixed,max_fixed,
-                                              show_zero_exponent)
+        new_lines = self._get_formatted_lines(subdir, file_name, sig_digits,
+                                              " & ", "\\\\\n\\hline\n")
 
         end =   "\\end{tabular}\n"+\
                 "\end{center}\n"+\
@@ -452,8 +460,7 @@ class MCSMatFit(th.tool):
                 "\end{table}"
 
         self._write_formatted_QI_table(subdir, file_name, start, new_lines, end,
-                                       sig_digits, strip_zeros, min_fixed,
-                                       max_fixed, show_zero_exponent)
+                                       sig_digits)
 
     ##### Others #####
 
@@ -471,11 +478,6 @@ class MCSMatFit(th.tool):
                             and v.imag >= point.imag - atol.imag)
         lst = [[root for root in filter(f,all_root)] for all_root in all_roots]
         return MCSMatFit.RootsList(lst, all_roots.n_list, all_roots.asymcalc)
-
-    def _formatted_QI_table_name(self, sig_digits, strip_zeros, min_fixed,
-                                 max_fixed, show_zero_exponent):
-        return "_latEne_"+str(sig_digits)+"_"+str(strip_zeros)+"_" \
-               + str(min_fixed)+"_"+str(max_fixed)+"_"+str(show_zero_exponent)
 
     ##### Public API #####
 
@@ -531,7 +533,8 @@ class MCSMatFit(th.tool):
     def find_Fin_roots(self, cfins, internal=False):
         """
         Finds the roots of a list of parameterised Fins returning as a list of 
-        complex or mpmath.mpc.
+        complex or mpmath.mpc. There are additional advanced parameters in the
+        tool yml file.
 
         Parameters
         ----------
@@ -566,7 +569,8 @@ class MCSMatFit(th.tool):
         """
         Finds the S-matrix poles as the stable roots of the Fins from either
         a list of Fins or from a list of Fin roots returning as a tuple of 
-        lists of pole data.
+        lists of pole data. There are additional advanced parameters in the tool
+        yml file.
 
         Parameters
         ----------
@@ -634,12 +638,11 @@ class MCSMatFit(th.tool):
         return None, None
 
     def create_formatted_QI_tables(self, table_type="latex_energy",
-                                   sig_digits=10, strip_zeros=False,
-                                   min_fixed=-3, max_fixed=3,
-                                   show_zero_exponent=False):
+                                   sig_digits=10):
         """
         Creates and formats all the QIs.dat tables in the current archive.
-        Numbers are formatted according to the supplied parameters.
+        Numbers are formatted according to the supplied parameters. There are
+        additional advanced parameters in the tool yml file.
 
         Parameters
         ----------
@@ -649,14 +652,6 @@ class MCSMatFit(th.tool):
             latex_energy.
         sig_digits : int
             The number of significant digits to represent the numeric values.
-        strip_zeros : bool
-            Remove trailing zero from end of numeric mantissas.
-        min_fixed : int
-            The minimum number of digits to fix.
-        max_fixed : int
-            The maximum number of digits to fix.
-        show_zero_exponent : int
-            Always show the exponent term.
         """
         indic = "_k"
         if "energy" in table_type:
@@ -668,9 +663,7 @@ class MCSMatFit(th.tool):
                     if "latex" in table_type:
                         self._create_latex_QI_table("energy" in table_type,
                                                     subdir, file_name,
-                                                    sig_digits, strip_zeros,
-                                                    min_fixed, max_fixed,
-                                                    show_zero_exponent)
+                                                    sig_digits)
 
     def get_elastic_Smat(self, Npts):
         """
@@ -704,7 +697,8 @@ class MCSMatFit(th.tool):
                       j=None, logx=False, logy=False, imag=False, show=True):
         """
         Plots the original data, the fit points used and the resultant S-matrix
-        for the specified element/s.
+        for the specified element/s. There are additional advanced parameters
+        in the tool yml file.
 
         Parameters
         ----------
@@ -750,7 +744,8 @@ class MCSMatFit(th.tool):
         """
         Plots total cross section conversions from the original S-matrix data,
         the fit points used and the resultant S-matrix. Refer to the chart tool
-        for a description of the parameters.
+        for a description of the parameters. There are additional advanced
+        parameters in the tool yml file.
 
         Parameters
         ----------
