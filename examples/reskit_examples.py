@@ -57,7 +57,7 @@ if input_data_file is None:
   csmat = tcrw.get_Smat_fun(1.0, 2.0, 2.0, calc, 1.0)
   # Initialise the data into the required container
   dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 1200,
-                                      desc_str)
+                                     desc_str)
 else:
   # System is a molecule
   # Read in the K matrix data
