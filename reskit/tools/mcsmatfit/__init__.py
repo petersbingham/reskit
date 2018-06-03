@@ -89,7 +89,7 @@ class MCSMatFit(th.tool):
         return [k_str, e_str]
 
     def _get_kE_row_split(self, val, asymcalc):
-        k_str = [str(val.real),str(val.imag)+"j"]
+        k_str = [str(val.real),str(val.imag)]
         e_str = [str(asymcalc.ke(val).real), str(asymcalc.ke(val).imag)]
         return [k_str, e_str]
 
@@ -297,7 +297,8 @@ class MCSMatFit(th.tool):
             self.log.write_msg("Determinant calculated")
             roots = csca.find_roots(**p["cSympyPolySca_find_roots"])
             self.log.write_msg("Roots calculated")
-            self._save_roots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymcalc, p)
+            self._save_roots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymcalc,
+                             p)
             self.all_roots_loaded = False
         self.log.write_call_end("_get_roots")
         return roots
@@ -392,55 +393,64 @@ class MCSMatFit(th.tool):
             config = yaml.load(f.read())
             p = config["create_formatted_QI_tables"]["num_format"]
             return p["strip_zeros"], p["min_fixed"], p["max_fixed"], \
-                   p["show_zero_exponent"], float(p["eff_zero"])
+                   p["show_zero_exponent"], float(p["z_tol"])
 
-    def _get_formatted_lines(self, subdir, file_name, sig_digits, col_delim,
-                             row_delim):
-        strip_zeros, min_fixed, max_fixed, show_zero_exponent, eff_zero = \
+    def _get_formatted_lines(self, subdir, file_name, sig_digits,
+                             col_delim="$$", row_delim=None):
+        strip_zeros, min_fixed, max_fixed, show_zero_exponent, z_tol = \
                 self._get_table_format_parameters()
+        desc = ""
         new_lines = []
         file_path = subdir + os.sep + file_name
         with th.fropen(file_path) as f:
             new_line = ""
-            for l in f:
-                if "=" in l:
+            for i,l in enumerate(f):
+                if i == 0:
+                    desc = l
+                elif "=" in l:
                     num_str = l.split('=')[1]
                     if QI_file_real in l or QI_file_imag in l:
                         num_str = nw.num_str_real(num_str, sig_digits,
                                                   strip_zeros, min_fixed,
-                                                  max_fixed, show_zero_exponent)
+                                                  max_fixed, show_zero_exponent,
+                                                  z_tol)
                     elif QI_file_wdk in l:
                         num_str = nw.num_str_real(num_str, 1, True, 1, 1, False)
                         num_str = num_str.replace(".0","")
                     new_line += num_str
                     if QI_file_ENk in l:
-                        new_line += row_delim
-                        new_lines.append(new_line)
+                        if row_delim is not None:
+                            new_line += row_delim
+                            new_lines.append(new_line)
+                        else:
+                            new_lines.append(new_line.split("$$"))
                         new_line = ""
                     else:
                         if QI_file_imag in l:
-                            if new_line[0] == "-":
+                            if new_line[0] == "+":
                                 new_line = new_line[1:]
-                            new_line += "j"
                         new_line += col_delim
-        return new_lines
+        return desc, new_lines
 
-    def _formatted_QI_table_name(self, sig_digits):
-        return "_latEne_"+str(sig_digits)
+    def _formatted_QI_table_name(self, sig_digits, use_energies, type_str):
+        if use_energies:
+            name = "_E_"
+        else:
+            name = "_k_"
+        return name + type_str + "_sf" + str(sig_digits)
 
-    def _write_formatted_QI_table(self, subdir, file_name, start, new_lines,
-                                  end, sig_digits):
-        strip_zeros, min_fixed, max_fixed, show_zero_exponent, eff_zero = \
-                self._get_table_format_parameters()
-        name = self._formatted_QI_table_name(sig_digits, strip_zeros, min_fixed,
-                                             max_fixed, show_zero_exponent)
-        with th.fwopen(subdir+os.sep+"QIs"+name+".dat") as f:
+    def _write_formatted_QI_table(self, start, new_lines, end, subdir,
+                                  sig_digits, use_energies, tab_type):
+        name = self._formatted_QI_table_name(sig_digits, use_energies, tab_type)
+        save_path = subdir+os.sep+"QIs"+name+".dat"
+        with th.fwopen(save_path) as f:
             th.fw(f, start)
             for l in new_lines:
                 th.fw(f, l)
             th.fw(f, end)
+            self.log.write_msg("Formatted QI table saved to: " + save_path)
 
-    def _create_latex_QI_table(self, use_energies, subdir, file_name,
+    def _create_latex_QI_table(self, use_energies, subdir, orig_file_name,
                                sig_digits):
 
         start = "\\begin{table}[h!]\n"+\
@@ -450,8 +460,9 @@ class MCSMatFit(th.tool):
                 "\\textbf{Real energy} & \\textbf{Imag energy} & $\\wedge dk$ & $\\Sigma Nk$ \\\\\n"+\
                 "\\hline\n"
 
-        new_lines = self._get_formatted_lines(subdir, file_name, sig_digits,
-                                              " & ", "\\\\\n\\hline\n")
+        desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
+                                                    sig_digits,
+                                                    " & ", "\\\\\n\\hline\n")
 
         end =   "\\end{tabular}\n"+\
                 "\end{center}\n"+\
@@ -459,8 +470,20 @@ class MCSMatFit(th.tool):
                 "\label{}\n"+\
                 "\end{table}"
 
-        self._write_formatted_QI_table(subdir, file_name, start, new_lines, end,
-                                       sig_digits)
+        self._write_formatted_QI_table(start, new_lines, end, subdir,
+                                       sig_digits, use_energies, "latex")
+
+    def _create_raw_QI_table(self, use_energies, subdir, file_name, sig_digits):
+        header = ["real", "imag", "^dk", "ENk"]
+        desc, new_lines = self._get_formatted_lines(subdir, file_name,
+                                                    sig_digits)
+        name = self._formatted_QI_table_name(sig_digits, use_energies, "raw")
+        save_path = subdir+os.sep+"QIs"+name+".dat"
+        with th.fwopen(save_path) as f:
+            th.fw(f, desc)    
+            th.fw(f, t.tabulate(new_lines, header, 
+                                floatfmt="."+str(sig_digits)+"g"))
+            self.log.write_msg("Formatted QI table saved to: " + save_path)
 
     ##### Others #####
 
@@ -637,7 +660,7 @@ class MCSMatFit(th.tool):
         self.log.write_call_end("find_stable_Smat_poles")
         return None, None
 
-    def create_formatted_QI_tables(self, table_type="latex_energy",
+    def create_formatted_QI_tables(self, table_type="latex_E",
                                    sig_digits=10):
         """
         Creates and formats all the QIs.dat tables in the current archive.
@@ -648,22 +671,27 @@ class MCSMatFit(th.tool):
         ----------
         table_type : string
             The table type to create and whether to use energies or wavenumbers.
-            The string should contain the table type and the quantity. eg
-            latex_energy.
+            The string should contain the table type (latex, raw) and the
+            quantity k, E). eg latex_E.
         sig_digits : int
             The number of significant digits to represent the numeric values.
         """
+        para_str = table_type +", " + str(sig_digits)
+        self.log.write_call("create_formatted_QI_tables("+para_str+")")
         indic = "_k"
-        if "energy" in table_type:
+        if "E" in table_type:
             indic = "_E"
         QI_file = QI_file_name + indic + QI_file_ext
         for subdir, _, files in os.walk("."):
-            for file_name in files:
-                if file_name == QI_file:
+            for orig_file_name in files:
+                if orig_file_name == QI_file:
                     if "latex" in table_type:
-                        self._create_latex_QI_table("energy" in table_type,
-                                                    subdir, file_name,
-                                                    sig_digits)
+                        self._create_latex_QI_table("E" in table_type, subdir,
+                                                    orig_file_name, sig_digits)
+                    elif "raw" in table_type:
+                        self._create_raw_QI_table("E" in table_type, subdir,
+                                                  orig_file_name, sig_digits)
+        self.log.write_call_end("create_formatted_QI_tables")
 
     def get_elastic_Smat(self, Npts):
         """

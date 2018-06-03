@@ -35,4 +35,4 @@ create_formatted_QI_tables:
     min_fixed: -3
     max_fixed: 3
     show_zero_exponent: False
-    eff_zero : 1e-20
+    z_tol : 1e-20
