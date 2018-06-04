@@ -24,7 +24,7 @@ rydbergs = cu.rydbergs
 hartrees = cu.hartrees
 eVs = cu.eVs
 
-def get_asym_calc(units, ls=None):
+def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
     """
     Returns an AsymCalc for converting from wavenumber to energy.
 
@@ -33,15 +33,19 @@ def get_asym_calc(units, ls=None):
     units : int
         Specification of the energy units. Available options are reskit.rydbergs,
         reskit.hartrees and reskit.eVs.
-    ls : list of ints, optional
+    angmoms : list of ints, optional
         Specification of the angular momenta in each of the channels. Defaults 
         to zero in all channels.
-
+    tot_spin : int, optional
+        Specification of the total spin of the system. Defaults to 0.5.
+    targ_spins : int or list of ints, optional
+        Specification of the spin of the target state spin in each of the
+        channels. Defaults to zero in all channels.
     Returns
     -------
     asymcalc : AsymCalc
     """
-    return cu.AsymCalc(units, ls)
+    return cu.AsymCalc(units, angmoms, tot_spin, targ_spins)
 
 def get_dmat_from_discrete(mat_type, mat_dict, asymcalc, source_str):
     """

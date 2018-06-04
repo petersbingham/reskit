@@ -393,11 +393,11 @@ class MCSMatFit(th.tool):
             config = yaml.load(f.read())
             p = config["create_formatted_QI_tables"]["num_format"]
             return p["strip_zeros"], p["min_fixed"], p["max_fixed"], \
-                   p["show_zero_exponent"], float(p["z_tol"])
+                   p["show_zero_exponent"], float(p["ztol"])
 
     def _get_formatted_lines(self, subdir, file_name, sig_digits,
                              col_delim="$$", row_delim=None):
-        strip_zeros, min_fixed, max_fixed, show_zero_exponent, z_tol = \
+        strip_zeros, min_fixed, max_fixed, show_zero_exponent, ztol = \
                 self._get_table_format_parameters()
         desc = ""
         new_lines = []
@@ -413,7 +413,7 @@ class MCSMatFit(th.tool):
                         num_str = nw.num_str_real(num_str, sig_digits,
                                                   strip_zeros, min_fixed,
                                                   max_fixed, show_zero_exponent,
-                                                  z_tol)
+                                                  ztol)
                     elif QI_file_wdk in l:
                         num_str = nw.num_str_real(num_str, 1, True, 1, 1, False)
                         num_str = num_str.replace(".0","")

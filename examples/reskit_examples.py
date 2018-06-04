@@ -40,7 +40,7 @@ elif sys.argv[1] == "pyrazine":
 elif sys.argv[1] == "uracil":
     input_data_file = "kmatrix_input_uracil.dat"
     desc_str = "uracil"
-    ang_mom = [0,1,1,2,2,2,3,3,3,3]
+    ang_mom = [1,2,2,3,3,3]
     sl = None
     paramPath = "polar-molecule-poles.yml"
 else:
@@ -86,7 +86,7 @@ elif sys.argv[2] == "plotSmat" or sys.argv[2] == "plotTotXS":
     if sys.argv[2] == "plotSmat":
         sfittool.plot_Smat_fit(csmat, num_plot_points=300)
     else:
-        sfittool.plot_totXS_fit(csmat, num_plot_points=300, logy=False)
+        sfittool.plot_totXS_fit(csmat, num_plot_points=300, logy=True)
 elif sys.argv[2] == "createLatex":
     sfittool.create_formatted_QI_tables()
 else:

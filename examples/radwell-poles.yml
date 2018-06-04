@@ -18,8 +18,8 @@ find_stable_Smat_poles:
     start_rtol: 0.0001
     end_rtol: 1e-20
     ztol: 1e-7
-    cfsteps: 2
-    amalg_rtol: 0.
+    cfsteps: 3
+    amalg_rtol: 0.0001
 
 fit_charts:
   colour_cycle:
@@ -35,4 +35,4 @@ create_formatted_QI_tables:
     min_fixed: -3
     max_fixed: 3
     show_zero_exponent: False
-    z_tol : 1e-20
+    ztol : 1e-20

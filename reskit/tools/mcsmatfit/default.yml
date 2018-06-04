@@ -10,16 +10,19 @@ find_Fin_roots:
         maxsteps: 5000
         cleanup: True
 
+
 find_stable_Smat_poles:
   zero_filt_thres:
     point: 0.
     atol: 0.
+
   stelempy:
     start_rtol: 0.0001
     end_rtol: null
     ztol: 1e-7
-    cfsteps: 2
-    amalg_rtol: 0.
+    cfsteps: 3
+    amalg_rtol: 0.0001
+
 
 fit_charts:
   colour_cycle:
@@ -29,10 +32,11 @@ fit_charts:
   xsize: 8
   ysize: 7
 
+
 create_formatted_QI_tables:
   num_format:
     strip_zeros: False
     min_fixed: -3
     max_fixed: 3
     show_zero_exponent: False
-    z_tol : 1e-20
+    ztol : 1e-20
