@@ -215,7 +215,7 @@ class Chart(th.tool):
                          logy, False, show, "plot_TotalXS")
         dmat,start,end,num_plot_points = self._getdbase(start, end,
                                                         num_plot_points, units)
-        dsca = dmat.to_dXSmat().to_dTotXSval()
+        dsca = dmat.to_dXSmat().to_dTotXSsca()
         self._plot(dsca, start, end, num_plot_points, None, None, logx, logy,
                    False, show)
         self.log.write_call_end("plot_TotalXS")

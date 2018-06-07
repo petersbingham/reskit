@@ -30,12 +30,12 @@ class parent_test(unittest.TestCase):
         # Import again with same config and check no exception
         rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT, silent=True)
 
-        testPath = fileDir+os.sep+"test_mcsmatfit_data1"+os.sep+"default.yml"
+        testPath = fileDir+os.sep+"test_mcsmatfit_data1"+os.sep+"default.yaml"
         self.assertRaises(Exception, rk.get_tool, rk.mcsmatfit, dsmat,
                           archive_root=TEST_ROOT, param_file_path=testPath,
                           silent=True)
 
-        testPath = fileDir+os.sep+"test_mcsmatfit_data2"+os.sep+"default.yml"
+        testPath = fileDir+os.sep+"test_mcsmatfit_data2"+os.sep+"default.yaml"
         self.assertRaises(Exception, rk.get_tool, rk.mcsmatfit, dsmat,
                           archive_root=TEST_ROOT, param_file_path=testPath,
                           silent=True)

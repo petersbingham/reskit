@@ -31,7 +31,7 @@ class parent_test(unittest.TestCase):
         rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT, silent=True)
 
         testPath = fileDir+os.sep+"test_mcsmatfit_data1"+os.sep
-        testPath += "changedRoots.yml"
+        testPath += "changedRoots.yaml"
         mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT,
                                param_file_path=testPath, silent=True)
         cfins = mcsmatfit.get_elastic_Fins(range(2,4,2))
@@ -40,7 +40,7 @@ class parent_test(unittest.TestCase):
         self.assertFalse(mcsmatfit.all_roots_loaded)
 
         testPath = fileDir+os.sep+"test_mcsmatfit_data2"+os.sep
-        testPath += "changedPoles.yml"
+        testPath += "changedPoles.yaml"
         mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT,
                                param_file_path=testPath, silent=True)
         cfins = mcsmatfit.get_elastic_Fins(range(2,4,2))

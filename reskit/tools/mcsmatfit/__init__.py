@@ -789,15 +789,15 @@ class MCSMatFit(th.tool):
         if ret is not None:
             p, ln, orig = ret
 
-            orig = orig.to_dXSmat().to_dTotXSval()
+            orig = orig.to_dXSmat().to_dTotXSsca()
 
             ris0 = csmat.fitInfo[1][0]
             fit_pnts = self.data[ris0[0]:ris0[1]:ris0[2]]
-            fit_pnts = fit_pnts.to_dXSmat().to_dTotXSval()
+            fit_pnts = fit_pnts.to_dXSmat().to_dTotXSsca()
 
             rng = orig.get_range()
             dsmat = csmat.discretise(rng[0], rng[1], ln)
-            fit = dsmat.to_dXSmat().to_dTotXSval()
+            fit = dsmat.to_dXSmat().to_dTotXSsca()
 
             title = "Total Cross Section fit for Npts="+str(Npts)
 

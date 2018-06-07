@@ -12,7 +12,7 @@ class tool:
         self.archive_root = archive_root
         self.param_file_path = param_file_path
         if self.param_file_path is None:
-            self.param_file_path = tool_dir+os.sep+"default.yml"
+            self.param_file_path = tool_dir+os.sep+"default.yaml"
         if self.archive_root is not None:
             self.log = Logger(self._get_log_file_path())
             if not silent:
@@ -24,7 +24,7 @@ class tool:
         return self.archive_root+"calc.log"
 
     def _get_config_cache_name(self):
-        return "config.yml"
+        return "config.yaml"
 
     def _does_param_cache_match(self, cache_dir, param_key):
         with fropen(self.param_file_path) as f:

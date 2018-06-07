@@ -45,5 +45,5 @@ chart = rk.get_tool(rk.chart, dsmat)
 chart.plot_Smatrix()
 
 # Check copy saved on file system
-chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-test.yml")
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-test.yaml")
 chart.plot_Smatrix()
