@@ -24,7 +24,7 @@ if len(sys.argv) == 4:
     N = int(sys.argv[3])
 elif len(sys.argv) != 3:
     raise Exception(exceptStr)
-    
+
 if sys.argv[1] == "radwell":
     input_data_file = None
     desc_str = "radwell"
@@ -69,7 +69,7 @@ else:
 
 # Slice the data set
 if sl is not None:
-        dmat = dmat[sl]
+    dmat = dmat[sl]
 
 sfittool = rk.get_tool(rk.mcsmatfit, dmat, archive_path, paramPath)
 if sys.argv[2] == "poles":
