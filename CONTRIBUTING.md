@@ -9,9 +9,8 @@ email, or any other method with the owners of this repository before making a ch
 2. Ensure the [reskit features](https://github.com/petersbingham/reskit) are satisfied where relevant. 
 3. Ensure any install or build dependencies are removed.
 4. Update the README.md with details of your new Tool or any changes to current Tools.
-5. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme used by reskit is [SemVer](http://semver.org/).
-6. Respond to any feedback. One at the required standard the Pull Request will be accepted.
+5. Increase the version numbers in setup.py to the new version that this Pull Request would represent. The versioning scheme used by reskit is [SemVer](http://semver.org/).
+6. Respond to any feedback if given. Once at the required standard the Pull Request will be accepted.
 
 ## Conventions
 
