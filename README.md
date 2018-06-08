@@ -137,4 +137,4 @@ Again, the "results" argument in the `rk.get_tool` function is the location of a
 
 ## Contributing
 
-Contributions are welcome. Please see [CONTRIBUTING.md](https://github.com/petersbingham/reskit/blob/Documentation/CONTRIBUTING.md) for guidelines.
+Contributions are welcome. Please see [CONTRIBUTING.md](https://github.com/petersbingham/reskit/blob/master/CONTRIBUTING.md) for guidelines.
