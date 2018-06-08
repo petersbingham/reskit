@@ -65,7 +65,7 @@ As such the reskit interface is fairly generic, providing the following function
   - `use_python_types`: Specifies to use python types with numpy operations.
   - `use_mpmath_types`: Specifies to use mpmath types and operations. The dps can be provided as argument.
 
-![reskit design](https://github.com/petersbingham/reskit/blob/Documentation/reskit.jpg)
+![reskit design](https://github.com/petersbingham/reskit/blob/master/reskit.jpg)
 
 ## Tools
 
