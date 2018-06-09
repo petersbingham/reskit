@@ -30,7 +30,7 @@ if sys.argv[1] == "radwell":
     desc_str = "radwell"
     ang_mom = [0,0]
     sl = None
-    paramPath = "radwell-poles.yaml"
+    paramPath = "test-configuration-1.yaml"
 elif sys.argv[1] == "pyrazine":
     input_data_file = "kmatrix_input_pyrazine.dat"
     desc_str = "pyrazine"
@@ -42,7 +42,7 @@ elif sys.argv[1] == "uracil":
     desc_str = "uracil"
     ang_mom = [1,2,2,3,3,3]
     sl = None
-    paramPath = "polar-molecule-poles.yaml"
+    paramPath = "test-configuration-2.yaml"
 else:
     raise Exception(exceptStr)
 
