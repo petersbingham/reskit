@@ -1,0 +1,261 @@
+
+2018-06-10 23:16:21.194: get_elastic_Fins([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+
+2018-06-10 23:16:21.198: get_elastic_Fin(2)
+2018-06-10 23:16:21.202:   Calculating for Npts=2,slice:((0, 1200, 1199), (0.000735, 0.882))
+2018-06-10 23:16:21.459:   Coefficients calculated
+2018-06-10 23:16:21.486:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=2_S=0_E=1199
+2018-06-10 23:16:21.608:   cfin calculated
+2018-06-10 23:16:21.611: get_elastic_Fin end
+
+2018-06-10 23:16:21.614: get_elastic_Fin(4)
+2018-06-10 23:16:21.618:   Calculating for Npts=4,slice:((0, 1198, 399), (0.000735, 0.88053))
+2018-06-10 23:16:22.922:   Coefficients calculated
+2018-06-10 23:16:22.954:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=4_S=0_E=1197
+2018-06-10 23:16:23.161:   cfin calculated
+2018-06-10 23:16:23.164: get_elastic_Fin end
+
+2018-06-10 23:16:23.166: get_elastic_Fin(6)
+2018-06-10 23:16:23.170:   Calculating for Npts=6,slice:((0, 1196, 239), (0.000735, 0.87906))
+2018-06-10 23:16:26.629:   Coefficients calculated
+2018-06-10 23:16:26.676:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=6_S=0_E=1195
+2018-06-10 23:16:26.987:   cfin calculated
+2018-06-10 23:16:26.990: get_elastic_Fin end
+
+2018-06-10 23:16:26.994: get_elastic_Fin(8)
+2018-06-10 23:16:26.997:   Calculating for Npts=8,slice:((0, 1198, 171), (0.000735, 0.88053))
+2018-06-10 23:16:34.645:   Coefficients calculated
+2018-06-10 23:16:34.692:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=8_S=0_E=1197
+2018-06-10 23:16:35.124:   cfin calculated
+2018-06-10 23:16:35.127: get_elastic_Fin end
+
+2018-06-10 23:16:35.129: get_elastic_Fin(10)
+2018-06-10 23:16:35.133:   Calculating for Npts=10,slice:((0, 1198, 133), (0.000735, 0.88053))
+2018-06-10 23:16:49.924:   Coefficients calculated
+2018-06-10 23:16:49.993:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=10_S=0_E=1197
+2018-06-10 23:16:50.533:   cfin calculated
+2018-06-10 23:16:50.536: get_elastic_Fin end
+
+2018-06-10 23:16:50.540: get_elastic_Fin(12)
+2018-06-10 23:16:50.544:   Calculating for Npts=12,slice:((0, 1200, 109), (0.000735, 0.882))
+2018-06-10 23:17:14.764:   Coefficients calculated
+2018-06-10 23:17:14.848:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=12_S=0_E=1199
+2018-06-10 23:17:15.508:   cfin calculated
+2018-06-10 23:17:15.512: get_elastic_Fin end
+
+2018-06-10 23:17:15.515: get_elastic_Fin(14)
+2018-06-10 23:17:15.519:   Calculating for Npts=14,slice:((0, 1197, 92), (0.000735, 0.879795))
+2018-06-10 23:17:56.758:   Coefficients calculated
+2018-06-10 23:17:56.838:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=14_S=0_E=1196
+2018-06-10 23:17:58.236:   cfin calculated
+2018-06-10 23:17:58.239: get_elastic_Fin end
+
+2018-06-10 23:17:58.242: get_elastic_Fin(16)
+2018-06-10 23:17:58.246:   Calculating for Npts=16,slice:((0, 1186, 79), (0.000735, 0.87171))
+2018-06-10 23:18:56.454:   Coefficients calculated
+2018-06-10 23:18:56.551:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=16_S=0_E=1185
+2018-06-10 23:18:57.406:   cfin calculated
+2018-06-10 23:18:57.409: get_elastic_Fin end
+
+2018-06-10 23:18:57.412: get_elastic_Fin(18)
+2018-06-10 23:18:57.417:   Calculating for Npts=18,slice:((0, 1191, 70), (0.000735, 0.875385))
+2018-06-10 23:20:09.558:   Coefficients calculated
+2018-06-10 23:20:09.670:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=18_S=0_E=1190
+2018-06-10 23:20:10.673:   cfin calculated
+2018-06-10 23:20:10.676: get_elastic_Fin end
+
+2018-06-10 23:20:10.680: get_elastic_Fin(20)
+2018-06-10 23:20:10.684:   Calculating for Npts=20,slice:((0, 1198, 63), (0.000735, 0.88053))
+2018-06-10 23:21:56.906:   Coefficients calculated
+2018-06-10 23:21:57.034:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=20_S=0_E=1197
+2018-06-10 23:21:58.416:   cfin calculated
+2018-06-10 23:21:58.419: get_elastic_Fin end
+
+2018-06-10 23:21:58.422: get_elastic_Fin(22)
+2018-06-10 23:21:58.425:   Calculating for Npts=22,slice:((0, 1198, 57), (0.000735, 0.88053))
+2018-06-10 23:24:06.616:   Coefficients calculated
+2018-06-10 23:24:06.735:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=22_S=0_E=1197
+2018-06-10 23:24:08.064:   cfin calculated
+2018-06-10 23:24:08.067: get_elastic_Fin end
+
+2018-06-10 23:24:08.070: get_elastic_Fin(24)
+2018-06-10 23:24:08.074:   Calculating for Npts=24,slice:((0, 1197, 52), (0.000735, 0.879795))
+2018-06-10 23:27:00.233:   Coefficients calculated
+2018-06-10 23:27:00.357:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=24_S=0_E=1196
+2018-06-10 23:27:01.724:   cfin calculated
+2018-06-10 23:27:01.727: get_elastic_Fin end
+
+2018-06-10 23:27:01.731: get_elastic_Fin(26)
+2018-06-10 23:27:01.737:   Calculating for Npts=26,slice:((0, 1176, 47), (0.000735, 0.86436))
+2018-06-10 23:30:38.308:   Coefficients calculated
+2018-06-10 23:30:38.453:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=26_S=0_E=1175
+2018-06-10 23:30:40.110:   cfin calculated
+2018-06-10 23:30:40.113: get_elastic_Fin end
+
+2018-06-10 23:30:40.117: get_elastic_Fin(28)
+2018-06-10 23:30:40.121:   Calculating for Npts=28,slice:((0, 1189, 44), (0.000735, 0.873915))
+2018-06-10 23:35:10.017:   Coefficients calculated
+2018-06-10 23:35:10.171:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=28_S=0_E=1188
+2018-06-10 23:35:12.044:   cfin calculated
+2018-06-10 23:35:12.047: get_elastic_Fin end
+
+2018-06-10 23:35:12.052: get_elastic_Fin(30)
+2018-06-10 23:35:12.056:   Calculating for Npts=30,slice:((0, 1190, 41), (0.000735, 0.87465))
+2018-06-10 23:40:47.053:   Coefficients calculated
+2018-06-10 23:40:47.211:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=30_S=0_E=1189
+2018-06-10 23:40:49.162:   cfin calculated
+2018-06-10 23:40:49.165: get_elastic_Fin end
+
+2018-06-10 23:40:49.169: get_elastic_Fin(32)
+2018-06-10 23:40:49.173:   Calculating for Npts=32,slice:((0, 1179, 38), (0.000735, 0.866565))
+2018-06-10 23:47:42.134:   Coefficients calculated
+2018-06-10 23:47:42.341:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=32_S=0_E=1178
+2018-06-10 23:47:44.728:   cfin calculated
+2018-06-10 23:47:44.731: get_elastic_Fin end
+
+2018-06-10 23:47:44.735: get_elastic_Fin(34)
+2018-06-10 23:47:44.738:   Calculating for Npts=34,slice:((0, 1189, 36), (0.000735, 0.873915))
+2018-06-10 23:55:58.522:   Coefficients calculated
+2018-06-10 23:55:58.719:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=34_S=0_E=1188
+2018-06-10 23:56:02.061:   cfin calculated
+2018-06-10 23:56:02.063: get_elastic_Fin end
+
+2018-06-10 23:56:02.068: get_elastic_Fin(36)
+2018-06-10 23:56:02.073:   Calculating for Npts=36,slice:((0, 1191, 34), (0.000735, 0.875385))
+2018-06-11 00:05:39.816:   Coefficients calculated
+2018-06-11 00:05:40.097:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=36_S=0_E=1190
+2018-06-11 00:05:42.335:   cfin calculated
+2018-06-11 00:05:42.340: get_elastic_Fin end
+
+2018-06-11 00:05:42.346: get_elastic_Fin(38)
+2018-06-11 00:05:42.352:   Calculating for Npts=38,slice:((0, 1185, 32), (0.000735, 0.870975))
+2018-06-11 00:16:32.770:   Coefficients calculated
+2018-06-11 00:16:33.103:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=38_S=0_E=1184
+2018-06-11 00:16:36.630:   cfin calculated
+2018-06-11 00:16:36.635: get_elastic_Fin end
+
+2018-06-11 00:16:36.641: get_elastic_Fin(40)
+2018-06-11 00:16:36.649:   Calculating for Npts=40,slice:((0, 1171, 30), (0.000735, 0.860685))
+2018-06-11 00:29:19.655:   Coefficients calculated
+2018-06-11 00:29:19.869:   Coeffs saved to: results/uracil/mpmath_100/origin/mcsmatfit/coeffs/test-configuration-2/Npts=40_S=0_E=1170
+2018-06-11 00:29:22.432:   cfin calculated
+2018-06-11 00:29:22.434: get_elastic_Fin end
+2018-06-11 00:29:22.439: get_elastic_Fins end
+
+2018-06-11 00:29:22.442: find_stable_Smat_poles([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-06-11 00:29:22.445: find_Fin_roots([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-06-11 00:29:22.481:   Using parameters: {'cSympyPolySca_find_roots': {'nw_roots_sym': {'symPoly_nroots': {'n': 'dps', 'cleanup': True, 'maxsteps': 5000}}}, 'cSympyPolyMat_determinant': {'sym_matrix_det': {'method': 'berkowitz'}}}
+2018-06-11 00:29:22.483: _get_roots(2)
+2018-06-11 00:29:23.759:   Determinant calculated
+2018-06-11 00:29:35.550:   Roots calculated
+2018-06-11 00:29:35.564:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=2_S=0_E=1199.dat
+2018-06-11 00:29:35.573: _get_roots end
+2018-06-11 00:29:35.575: _get_roots(4)
+2018-06-11 00:29:38.188:   Determinant calculated
+2018-06-11 00:29:53.574:   Roots calculated
+2018-06-11 00:29:53.584:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=4_S=0_E=1197.dat
+2018-06-11 00:29:53.596: _get_roots end
+2018-06-11 00:29:53.598: _get_roots(6)
+2018-06-11 00:29:58.471:   Determinant calculated
+2018-06-11 00:30:26.522:   Roots calculated
+2018-06-11 00:30:26.539:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=6_S=0_E=1195.dat
+2018-06-11 00:30:26.550: _get_roots end
+2018-06-11 00:30:26.552: _get_roots(8)
+2018-06-11 00:30:38.199:   Determinant calculated
+2018-06-11 00:31:06.792:   Roots calculated
+2018-06-11 00:31:06.811:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=8_S=0_E=1197.dat
+2018-06-11 00:31:06.823: _get_roots end
+2018-06-11 00:31:06.827: _get_roots(10)
+2018-06-11 00:31:17.313:   Determinant calculated
+2018-06-11 00:31:57.347:   Roots calculated
+2018-06-11 00:31:57.366:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=10_S=0_E=1197.dat
+2018-06-11 00:31:57.378: _get_roots end
+2018-06-11 00:31:57.382: _get_roots(12)
+2018-06-11 00:32:11.378:   Determinant calculated
+2018-06-11 00:32:46.654:   Roots calculated
+2018-06-11 00:32:46.671:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=12_S=0_E=1199.dat
+2018-06-11 00:32:46.685: _get_roots end
+2018-06-11 00:32:46.688: _get_roots(14)
+2018-06-11 00:33:04.838:   Determinant calculated
+2018-06-11 00:33:53.337:   Roots calculated
+2018-06-11 00:33:53.354:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=14_S=0_E=1196.dat
+2018-06-11 00:33:53.368: _get_roots end
+2018-06-11 00:33:53.372: _get_roots(16)
+2018-06-11 00:34:22.933:   Determinant calculated
+2018-06-11 00:35:19.570:   Roots calculated
+2018-06-11 00:35:19.594:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=16_S=0_E=1185.dat
+2018-06-11 00:35:19.607: _get_roots end
+2018-06-11 00:35:19.610: _get_roots(18)
+2018-06-11 00:35:48.170:   Determinant calculated
+2018-06-11 00:37:00.405:   Roots calculated
+2018-06-11 00:37:00.428:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=18_S=0_E=1190.dat
+2018-06-11 00:37:00.443: _get_roots end
+2018-06-11 00:37:00.447: _get_roots(20)
+2018-06-11 00:37:41.103:   Determinant calculated
+2018-06-11 00:38:57.494:   Roots calculated
+2018-06-11 00:38:57.519:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=20_S=0_E=1197.dat
+2018-06-11 00:38:57.535: _get_roots end
+2018-06-11 00:38:57.539: _get_roots(22)
+2018-06-11 00:39:38.387:   Determinant calculated
+2018-06-11 00:41:20.023:   Roots calculated
+2018-06-11 00:41:20.049:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=22_S=0_E=1197.dat
+2018-06-11 00:41:20.079: _get_roots end
+2018-06-11 00:41:20.083: _get_roots(24)
+2018-06-11 00:42:09.039:   Determinant calculated
+2018-06-11 00:44:00.417:   Roots calculated
+2018-06-11 00:44:00.447:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=24_S=0_E=1196.dat
+2018-06-11 00:44:00.463: _get_roots end
+2018-06-11 00:44:00.466: _get_roots(26)
+2018-06-11 00:45:03.816:   Determinant calculated
+2018-06-11 00:47:08.768:   Roots calculated
+2018-06-11 00:47:08.802:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=26_S=0_E=1175.dat
+2018-06-11 00:47:08.819: _get_roots end
+2018-06-11 00:47:08.823: _get_roots(28)
+2018-06-11 00:48:14.190:   Determinant calculated
+2018-06-11 00:51:51.069:   Roots calculated
+2018-06-11 00:51:51.123:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=28_S=0_E=1188.dat
+2018-06-11 00:51:51.139: _get_roots end
+2018-06-11 00:51:51.143: _get_roots(30)
+2018-06-11 00:53:07.455:   Determinant calculated
+2018-06-11 00:57:56.384:   Roots calculated
+2018-06-11 00:57:56.415:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=30_S=0_E=1189.dat
+2018-06-11 00:57:56.432: _get_roots end
+2018-06-11 00:57:56.437: _get_roots(32)
+2018-06-11 00:59:17.201:   Determinant calculated
+2018-06-11 01:05:16.260:   Roots calculated
+2018-06-11 01:05:16.292:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=32_S=0_E=1178.dat
+2018-06-11 01:05:16.310: _get_roots end
+2018-06-11 01:05:16.314: _get_roots(34)
+2018-06-11 01:06:50.975:   Determinant calculated
+2018-06-11 01:12:45.286:   Roots calculated
+2018-06-11 01:12:45.321:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=34_S=0_E=1188.dat
+2018-06-11 01:12:45.340: _get_roots end
+2018-06-11 01:12:45.344: _get_roots(36)
+2018-06-11 01:14:29.639:   Determinant calculated
+2018-06-11 01:22:32.073:   Roots calculated
+2018-06-11 01:22:32.126:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=36_S=0_E=1190.dat
+2018-06-11 01:22:32.146: _get_roots end
+2018-06-11 01:22:32.151: _get_roots(38)
+2018-06-11 01:24:21.418:   Determinant calculated
+2018-06-11 01:34:58.245:   Roots calculated
+2018-06-11 01:34:58.284:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=38_S=0_E=1184.dat
+2018-06-11 01:34:58.305: _get_roots end
+2018-06-11 01:34:58.309: _get_roots(40)
+2018-06-11 01:37:08.767:   Determinant calculated
+2018-06-11 01:50:17.080:   Roots calculated
+2018-06-11 01:50:17.124:   Roots saved to: results/uracil/mpmath_100/origin/mcsmatfit/roots/test-configuration-2/Npts=40_S=0_E=1170.dat
+2018-06-11 01:50:17.144: _get_roots end
+2018-06-11 01:50:17.148: find_Fin_roots end
+2018-06-11 01:50:17.156:   Using parameters: {'zero_filt_thres': {'atol': '0.001+0.001j', 'point': 0.0271}, 'stelempy': {'end_rtol': None, 'amalg_rtol': 0.0001, 'ztol': '1e-7', 'start_rtol': 0.0001, 'cfsteps': 3}}
+2018-06-11 01:55:03.642:   Convergence groups calculated
+2018-06-11 01:55:03.687:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-04.dat
+2018-06-11 01:55:03.704:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-05.dat
+2018-06-11 01:55:03.719:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-06.dat
+2018-06-11 01:55:03.733:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-07.dat
+2018-06-11 01:55:03.743:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-08.dat
+2018-06-11 01:55:03.752:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-09.dat
+2018-06-11 01:55:03.758:   Poles saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-10.dat
+2018-06-11 01:55:03.771:   QIs calculated
+2018-06-11 01:55:03.778:   QI data saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_k.dat
+2018-06-11 01:55:03.784:   QI data saved to: results/uracil/mpmath_100/origin/mcsmatfit/poles/test-configuration-2/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_E.dat
+2018-06-11 01:55:03.787: find_stable_Smat_poles end

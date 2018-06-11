@@ -1,0 +1,263 @@
+
+2018-06-10 23:15:41.061: get_elastic_Fins([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+
+2018-06-10 23:15:41.064: get_elastic_Fin(2)
+2018-06-10 23:15:41.067:   Calculating for Npts=2,slice:((0, 1200, 1199), (0.000735, 0.4413675))
+2018-06-10 23:15:41.098:   Coefficients calculated
+2018-06-10 23:15:41.117:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=2_S=0_E=1199
+2018-06-10 23:15:41.150:   cfin calculated
+2018-06-10 23:15:41.153: get_elastic_Fin end
+
+2018-06-10 23:15:41.155: get_elastic_Fin(4)
+2018-06-10 23:15:41.159:   Calculating for Npts=4,slice:((0, 1198, 399), (0.000735, 0.4406325))
+2018-06-10 23:15:41.273:   Coefficients calculated
+2018-06-10 23:15:41.296:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=4_S=0_E=1197
+2018-06-10 23:15:41.347:   cfin calculated
+2018-06-10 23:15:41.349: get_elastic_Fin end
+
+2018-06-10 23:15:41.352: get_elastic_Fin(6)
+2018-06-10 23:15:41.356:   Calculating for Npts=6,slice:((0, 1196, 239), (0.000735, 0.4398975))
+2018-06-10 23:15:41.641:   Coefficients calculated
+2018-06-10 23:15:41.670:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=6_S=0_E=1195
+2018-06-10 23:15:41.742:   cfin calculated
+2018-06-10 23:15:41.745: get_elastic_Fin end
+
+2018-06-10 23:15:41.748: get_elastic_Fin(8)
+2018-06-10 23:15:41.751:   Calculating for Npts=8,slice:((0, 1198, 171), (0.000735, 0.4406325))
+2018-06-10 23:15:42.326:   Coefficients calculated
+2018-06-10 23:15:42.362:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=8_S=0_E=1197
+2018-06-10 23:15:42.460:   cfin calculated
+2018-06-10 23:15:42.463: get_elastic_Fin end
+
+2018-06-10 23:15:42.466: get_elastic_Fin(10)
+2018-06-10 23:15:42.470:   Calculating for Npts=10,slice:((0, 1198, 133), (0.000735, 0.4406325))
+2018-06-10 23:15:43.482:   Coefficients calculated
+2018-06-10 23:15:43.526:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=10_S=0_E=1197
+2018-06-10 23:15:43.648:   cfin calculated
+2018-06-10 23:15:43.651: get_elastic_Fin end
+
+2018-06-10 23:15:43.653: get_elastic_Fin(12)
+2018-06-10 23:15:43.657:   Calculating for Npts=12,slice:((0, 1200, 109), (0.000735, 0.4413675))
+2018-06-10 23:15:45.288:   Coefficients calculated
+2018-06-10 23:15:45.335:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=12_S=0_E=1199
+2018-06-10 23:15:45.485:   cfin calculated
+2018-06-10 23:15:45.488: get_elastic_Fin end
+
+2018-06-10 23:15:45.490: get_elastic_Fin(14)
+2018-06-10 23:15:45.493:   Calculating for Npts=14,slice:((0, 1197, 92), (0.000735, 0.440265))
+2018-06-10 23:15:48.026:   Coefficients calculated
+2018-06-10 23:15:48.081:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=14_S=0_E=1196
+2018-06-10 23:15:48.263:   cfin calculated
+2018-06-10 23:15:48.266: get_elastic_Fin end
+
+2018-06-10 23:15:48.269: get_elastic_Fin(16)
+2018-06-10 23:15:48.273:   Calculating for Npts=16,slice:((0, 1186, 79), (0.000735, 0.4362225))
+2018-06-10 23:15:51.963:   Coefficients calculated
+2018-06-10 23:15:52.029:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=16_S=0_E=1185
+2018-06-10 23:15:52.242:   cfin calculated
+2018-06-10 23:15:52.245: get_elastic_Fin end
+
+2018-06-10 23:15:52.248: get_elastic_Fin(18)
+2018-06-10 23:15:52.252:   Calculating for Npts=18,slice:((0, 1191, 70), (0.000735, 0.43806))
+2018-06-10 23:15:57.396:   Coefficients calculated
+2018-06-10 23:15:57.474:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=18_S=0_E=1190
+2018-06-10 23:15:57.718:   cfin calculated
+2018-06-10 23:15:57.721: get_elastic_Fin end
+
+2018-06-10 23:15:57.724: get_elastic_Fin(20)
+2018-06-10 23:15:57.729:   Calculating for Npts=20,slice:((0, 1198, 63), (0.000735, 0.4406325))
+2018-06-10 23:16:04.357:   Coefficients calculated
+2018-06-10 23:16:04.425:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=20_S=0_E=1197
+2018-06-10 23:16:04.693:   cfin calculated
+2018-06-10 23:16:04.696: get_elastic_Fin end
+
+2018-06-10 23:16:04.698: get_elastic_Fin(22)
+2018-06-10 23:16:04.701:   Calculating for Npts=22,slice:((0, 1198, 57), (0.000735, 0.4406325))
+2018-06-10 23:16:13.316:   Coefficients calculated
+2018-06-10 23:16:13.415:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=22_S=0_E=1197
+2018-06-10 23:16:13.727:   cfin calculated
+2018-06-10 23:16:13.730: get_elastic_Fin end
+
+2018-06-10 23:16:13.733: get_elastic_Fin(24)
+2018-06-10 23:16:13.737:   Calculating for Npts=24,slice:((0, 1197, 52), (0.000735, 0.440265))
+2018-06-10 23:16:25.226:   Coefficients calculated
+2018-06-10 23:16:25.326:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=24_S=0_E=1196
+2018-06-10 23:16:25.689:   cfin calculated
+2018-06-10 23:16:25.692: get_elastic_Fin end
+
+2018-06-10 23:16:25.695: get_elastic_Fin(26)
+2018-06-10 23:16:25.699:   Calculating for Npts=26,slice:((0, 1176, 47), (0.000735, 0.4325475))
+2018-06-10 23:16:40.472:   Coefficients calculated
+2018-06-10 23:16:40.564:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=26_S=0_E=1175
+2018-06-10 23:16:40.961:   cfin calculated
+2018-06-10 23:16:40.964: get_elastic_Fin end
+
+2018-06-10 23:16:40.967: get_elastic_Fin(28)
+2018-06-10 23:16:40.970:   Calculating for Npts=28,slice:((0, 1189, 44), (0.000735, 0.437325))
+2018-06-10 23:16:59.579:   Coefficients calculated
+2018-06-10 23:16:59.688:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=28_S=0_E=1188
+2018-06-10 23:17:00.115:   cfin calculated
+2018-06-10 23:17:00.118: get_elastic_Fin end
+
+2018-06-10 23:17:00.121: get_elastic_Fin(30)
+2018-06-10 23:17:00.125:   Calculating for Npts=30,slice:((0, 1190, 41), (0.000735, 0.4376925))
+2018-06-10 23:17:22.150:   Coefficients calculated
+2018-06-10 23:17:22.258:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=30_S=0_E=1189
+2018-06-10 23:17:22.733:   cfin calculated
+2018-06-10 23:17:22.736: get_elastic_Fin end
+
+2018-06-10 23:17:22.739: get_elastic_Fin(32)
+2018-06-10 23:17:22.743:   Calculating for Npts=32,slice:((0, 1179, 38), (0.000735, 0.43365))
+2018-06-10 23:17:51.575:   Coefficients calculated
+2018-06-10 23:17:51.708:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=32_S=0_E=1178
+2018-06-10 23:17:52.198:   cfin calculated
+2018-06-10 23:17:52.201: get_elastic_Fin end
+
+2018-06-10 23:17:52.204: get_elastic_Fin(34)
+2018-06-10 23:17:52.208:   Calculating for Npts=34,slice:((0, 1189, 36), (0.000735, 0.437325))
+2018-06-10 23:18:31.743:   Coefficients calculated
+2018-06-10 23:18:31.878:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=34_S=0_E=1188
+2018-06-10 23:18:32.843:   cfin calculated
+2018-06-10 23:18:32.846: get_elastic_Fin end
+
+2018-06-10 23:18:32.850: get_elastic_Fin(36)
+2018-06-10 23:18:32.854:   Calculating for Npts=36,slice:((0, 1191, 34), (0.000735, 0.43806))
+2018-06-10 23:19:11.032:   Coefficients calculated
+2018-06-10 23:19:11.161:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=36_S=0_E=1190
+2018-06-10 23:19:11.847:   cfin calculated
+2018-06-10 23:19:11.850: get_elastic_Fin end
+
+2018-06-10 23:19:11.853: get_elastic_Fin(38)
+2018-06-10 23:19:11.859:   Calculating for Npts=38,slice:((0, 1185, 32), (0.000735, 0.435855))
+2018-06-10 23:19:56.259:   Coefficients calculated
+2018-06-10 23:19:56.407:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=38_S=0_E=1184
+2018-06-10 23:19:57.073:   cfin calculated
+2018-06-10 23:19:57.076: get_elastic_Fin end
+
+2018-06-10 23:19:57.080: get_elastic_Fin(40)
+2018-06-10 23:19:57.085:   Calculating for Npts=40,slice:((0, 1171, 30), (0.000735, 0.43071))
+2018-06-10 23:20:49.891:   Coefficients calculated
+2018-06-10 23:20:50.044:   Coeffs saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default/Npts=40_S=0_E=1170
+2018-06-10 23:20:50.775:   cfin calculated
+2018-06-10 23:20:50.777: get_elastic_Fin end
+2018-06-10 23:20:50.781: get_elastic_Fins end
+
+2018-06-10 23:20:50.783: find_stable_Smat_poles([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-06-10 23:20:50.786: find_Fin_roots([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-06-10 23:20:50.805:   Using parameters: {'cSympyPolySca_find_roots': {'nw_roots_sym': {'symPoly_nroots': {'n': 'dps', 'cleanup': True, 'maxsteps': 5000}}}, 'cSympyPolyMat_determinant': {'sym_matrix_det': {'method': 'berkowitz'}}}
+2018-06-10 23:20:50.808: _get_roots(2)
+2018-06-10 23:20:50.872:   Determinant calculated
+2018-06-10 23:20:56.380:   Roots calculated
+2018-06-10 23:20:56.409:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=2_S=0_E=1199.dat
+2018-06-10 23:20:56.418: _get_roots end
+2018-06-10 23:20:56.421: _get_roots(4)
+2018-06-10 23:20:56.633:   Determinant calculated
+2018-06-10 23:21:05.065:   Roots calculated
+2018-06-10 23:21:05.080:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=4_S=0_E=1197.dat
+2018-06-10 23:21:05.090: _get_roots end
+2018-06-10 23:21:05.092: _get_roots(6)
+2018-06-10 23:21:05.277:   Determinant calculated
+2018-06-10 23:21:14.704:   Roots calculated
+2018-06-10 23:21:14.714:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=6_S=0_E=1195.dat
+2018-06-10 23:21:14.724: _get_roots end
+2018-06-10 23:21:14.727: _get_roots(8)
+2018-06-10 23:21:14.977:   Determinant calculated
+2018-06-10 23:21:23.987:   Roots calculated
+2018-06-10 23:21:23.997:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=8_S=0_E=1197.dat
+2018-06-10 23:21:24.010: _get_roots end
+2018-06-10 23:21:24.013: _get_roots(10)
+2018-06-10 23:21:24.345:   Determinant calculated
+2018-06-10 23:21:55.569:   Roots calculated
+2018-06-10 23:21:55.589:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=10_S=0_E=1197.dat
+2018-06-10 23:21:55.601: _get_roots end
+2018-06-10 23:21:55.604: _get_roots(12)
+2018-06-10 23:21:56.606:   Determinant calculated
+2018-06-10 23:22:16.565:   Roots calculated
+2018-06-10 23:22:16.582:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=12_S=0_E=1199.dat
+2018-06-10 23:22:16.593: _get_roots end
+2018-06-10 23:22:16.596: _get_roots(14)
+2018-06-10 23:22:17.068:   Determinant calculated
+2018-06-10 23:22:29.769:   Roots calculated
+2018-06-10 23:22:29.780:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=14_S=0_E=1196.dat
+2018-06-10 23:22:29.791: _get_roots end
+2018-06-10 23:22:29.793: _get_roots(16)
+2018-06-10 23:22:30.453:   Determinant calculated
+2018-06-10 23:22:53.523:   Roots calculated
+2018-06-10 23:22:53.536:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=16_S=0_E=1185.dat
+2018-06-10 23:22:53.547: _get_roots end
+2018-06-10 23:22:53.550: _get_roots(18)
+2018-06-10 23:22:54.201:   Determinant calculated
+2018-06-10 23:23:16.875:   Roots calculated
+2018-06-10 23:23:16.899:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=18_S=0_E=1190.dat
+2018-06-10 23:23:16.910: _get_roots end
+2018-06-10 23:23:16.913: _get_roots(20)
+2018-06-10 23:23:17.722:   Determinant calculated
+2018-06-10 23:23:38.238:   Roots calculated
+2018-06-10 23:23:38.251:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=20_S=0_E=1197.dat
+2018-06-10 23:23:38.265: _get_roots end
+2018-06-10 23:23:38.267: _get_roots(22)
+2018-06-10 23:23:39.162:   Determinant calculated
+2018-06-10 23:24:52.882:   Roots calculated
+2018-06-10 23:24:52.910:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=22_S=0_E=1197.dat
+2018-06-10 23:24:52.923: _get_roots end
+2018-06-10 23:24:52.926: _get_roots(24)
+2018-06-10 23:24:54.067:   Determinant calculated
+2018-06-10 23:26:52.518:   Roots calculated
+2018-06-10 23:26:52.542:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=24_S=0_E=1196.dat
+2018-06-10 23:26:52.555: _get_roots end
+2018-06-10 23:26:52.558: _get_roots(26)
+2018-06-10 23:26:53.756:   Determinant calculated
+2018-06-10 23:28:17.303:   Roots calculated
+2018-06-10 23:28:17.331:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=26_S=0_E=1175.dat
+2018-06-10 23:28:17.345: _get_roots end
+2018-06-10 23:28:17.348: _get_roots(28)
+2018-06-10 23:28:18.670:   Determinant calculated
+2018-06-10 23:29:21.828:   Roots calculated
+2018-06-10 23:29:21.854:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=28_S=0_E=1188.dat
+2018-06-10 23:29:21.868: _get_roots end
+2018-06-10 23:29:21.870: _get_roots(30)
+2018-06-10 23:29:23.465:   Determinant calculated
+2018-06-10 23:31:03.963:   Roots calculated
+2018-06-10 23:31:03.989:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=30_S=0_E=1189.dat
+2018-06-10 23:31:04.004: _get_roots end
+2018-06-10 23:31:04.007: _get_roots(32)
+2018-06-10 23:31:06.071:   Determinant calculated
+2018-06-10 23:32:33.865:   Roots calculated
+2018-06-10 23:32:33.894:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=32_S=0_E=1178.dat
+2018-06-10 23:32:33.909: _get_roots end
+2018-06-10 23:32:33.913: _get_roots(34)
+2018-06-10 23:32:35.718:   Determinant calculated
+2018-06-10 23:33:39.818:   Roots calculated
+2018-06-10 23:33:39.852:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=34_S=0_E=1188.dat
+2018-06-10 23:33:39.866: _get_roots end
+2018-06-10 23:33:39.869: _get_roots(36)
+2018-06-10 23:33:41.841:   Determinant calculated
+2018-06-10 23:36:46.767:   Roots calculated
+2018-06-10 23:36:46.794:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=36_S=0_E=1190.dat
+2018-06-10 23:36:46.809: _get_roots end
+2018-06-10 23:36:46.813: _get_roots(38)
+2018-06-10 23:36:48.977:   Determinant calculated
+2018-06-10 23:37:48.934:   Roots calculated
+2018-06-10 23:37:48.968:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=38_S=0_E=1184.dat
+2018-06-10 23:37:48.986: _get_roots end
+2018-06-10 23:37:48.989: _get_roots(40)
+2018-06-10 23:37:51.342:   Determinant calculated
+2018-06-10 23:40:32.586:   Roots calculated
+2018-06-10 23:40:32.622:   Roots saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default/Npts=40_S=0_E=1170.dat
+2018-06-10 23:40:32.638: _get_roots end
+2018-06-10 23:40:32.641: find_Fin_roots end
+2018-06-10 23:40:32.659:   Using parameters: {'zero_filt_thres': {'atol': 0.0, 'point': 0.0}, 'stelempy': {'end_rtol': None, 'amalg_rtol': 0.0001, 'ztol': '1e-7', 'start_rtol': 0.0001, 'cfsteps': 3}}
+2018-06-10 23:42:50.334:   Convergence groups calculated
+2018-06-10 23:42:50.364:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-04.dat
+2018-06-10 23:42:50.381:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-05.dat
+2018-06-10 23:42:50.393:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-06.dat
+2018-06-10 23:42:50.403:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-07.dat
+2018-06-10 23:42:50.413:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-08.dat
+2018-06-10 23:42:50.423:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-09.dat
+2018-06-10 23:42:50.433:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-10.dat
+2018-06-10 23:42:50.443:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-11.dat
+2018-06-10 23:42:50.449:   Poles saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dk1e-12.dat
+2018-06-10 23:42:50.465:   QIs calculated
+2018-06-10 23:42:50.473:   QI data saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_k.dat
+2018-06-10 23:42:50.480:   QI data saved to: results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_E.dat
+2018-06-10 23:42:50.483: find_stable_Smat_poles end

@@ -1,0 +1,1 @@
+{'zero_filt_thres': {'atol': 0.0, 'point': 0.0}, 'stelempy': {'end_rtol': None, 'amalg_rtol': 0.0001, 'ztol': '1e-7', 'start_rtol': 0.0001, 'cfsteps': 3}}
