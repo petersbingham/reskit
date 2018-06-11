@@ -1,16 +1,14 @@
 # Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change.
-
 ## Pull Request Process
 
-1. Ensure your code complies with the conventions given in the section below.
-2. Ensure the [reskit features](https://github.com/petersbingham/reskit) are satisfied where relevant. 
-3. Ensure any install or build dependencies are removed.
-4. Update the README.md with details of your new Tool or any changes to current Tools.
-5. Increase the version numbers in setup.py to the new version that this Pull Request would represent. The versioning scheme used by reskit is [SemVer](http://semver.org/).
-6. Respond to any feedback if given. Once at the required standard the Pull Request will be accepted.
+1. Discuss the change you wish to make via issue, email, or any other method before making a change.
+2. Ensure your code complies with the conventions given in the section below.
+3. Ensure the [reskit features](https://github.com/petersbingham/reskit) are satisfied where relevant and that the appropriate utilities are used. 
+4. Ensure any install or build dependencies are removed.
+5. Update the README.md with details of your new Tool or any changes to current Tools.
+6. Increase the version numbers in setup.py to the new version that this Pull Request would represent. The versioning scheme used by reskit is [SemVer](http://semver.org/).
+7. Respond to any feedback if given. Once at the required standard the Pull Request will be accepted (assuming you got the go-ahead at step 1).
 
 ## Conventions
 
