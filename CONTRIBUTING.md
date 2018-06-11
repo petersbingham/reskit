@@ -3,7 +3,7 @@
 ## Pull Request Process
 
 1. Discuss the change you wish to make via issue, email, or any other method before making a change.
-2. Ensure your code complies with the conventions given in the section below.
+2. Ensure your code complies with the conventions given in the section below. If you identify ambiguity please raise as an issue.
 3. Ensure the [reskit features](https://github.com/petersbingham/reskit) are satisfied where relevant and that the appropriate utilities are used. 
 4. Ensure any install or build dependencies are removed.
 5. Update the README.md with details of your new Tool or any changes to current Tools.
