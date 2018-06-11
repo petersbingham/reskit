@@ -15,9 +15,9 @@ Clone the repository and install with the following commands:
 
 Currently reskit only supports python 2.7.
 
-reskit encapsulates a group of python packages referred to as reskit utilities (see below). These can either be installed separately, in which case the readme for that utility should be consulted, or a contained script can be executed to install versions of the utilities that were tested against for the current reskit release. These will be installed into an internal reskit folder that will be added to the path on import of reskit. If the user wishes to use the latest versions of the utilities they should check the version number for any compatibility breaks ([SemVer](http://semver.org/): basically when the major version number changes there has been a compatibility break). Note that some distributions of reskit come with the utilities already installed.
+Reskit encapsulates a group of python packages referred to as reskit utilities (see below). These can either be installed separately, in which case the readme for that utility should be consulted, or a contained script can be executed to install versions of the utilities that were tested against for the current reskit release. These will be installed into an internal reskit folder that will be added to the path on import of reskit. If the user wishes to use the latest versions of the utilities they should check the version number for any compatibility breaks ([SemVer](http://semver.org/): basically when the major version number changes there has been a compatibility break). Note that some distributions of reskit come with the utilities already installed.
 
-In a similar manner there is an optional (but recommended) script to install tested versions of the third party (eg numpy etc) dependencies required by reskit. Again these are installed into an internal reskit folder and will not affect any current version of these dependencies that the user happens to have installed into their standard site-packages folder. The remainder of this section will describe the two scripts for installing the dependencies.
+In a similar manner there is an optional (but recommended) script to install tested versions of the third party (eg numpy etc) package dependencies required by reskit. Again these are installed into an internal reskit folder and will not affect any current version of these packages that the user happens to have installed into their standard site-packages folder. The remainder of this section will describe the two scripts for installing the dependencies.
 
 Both of the scripts can be found in: https://github.com/petersbingham/reskit/tree/master/reskit/site-packages. Following installation as described above these scripts are typically found in:
   - Windows: `C:\Python27\Lib\site-packages\reskit\site-packages`
@@ -61,7 +61,7 @@ As such the reskit interface is fairly generic, providing the following function
   - `get_asym_calc`: Returns a calculator (`AsymCalc`) containing all of the channel information for the scattering system.
   - `get_dmat_from_discrete`: Initialises a reskit container from a discrete set of data and an `AsymCalc`. The data can be K, S or T matrices.
   - `get_dmat_from_continuous`: Initialises a reskit container from a function reference. The function reference will map an energy argument to either a K, S or T matrix.
-  - `get_tool`: Returns a Tool using the reskit container returned from `get_dmat_from_discrete` or `get_dmat_from_continuous`. A tool is typically an implementation of a technique for the location and characterisation of resonances or scattering data.
+  - `get_tool`: Returns a Tool using the reskit container returned from `get_dmat_from_discrete` or `get_dmat_from_continuous`. A Tool is typically an implementation of a technique for the location and characterisation of resonances.
   - `use_python_types`: Specifies to use python types with numpy operations.
   - `use_mpmath_types`: Specifies to use mpmath types and operations. The dps can be provided as argument.
 
@@ -69,7 +69,7 @@ As such the reskit interface is fairly generic, providing the following function
 
 ## Tools
 
-Reskit currently has two Tools, the `chart` Tool and the `mcsmatfit` Tool. These are introduced in the examples below, detailed reference can be found in the code docstrings. There are two example systems that are used and are provided by resket. These can be located in the reskit/examples folder; they are the radial well and the pyrazine molecule.
+Reskit currently has two Tools, the `Chart` Tool and the `MCSMatFit` Tool. These are introduced in the examples below, detailed reference can be found in the code docstrings. There are two example systems that are used and are provided by reskit. These can be located in the reskit/examples folder; they are the radial well and the pyrazine molecule.
 
 ### `Chart` Tool
 
@@ -90,7 +90,7 @@ csmat = tcrw.get_Smat_fun(1.0, 2.0, 2.0, calc, 1.0)
 # for illustration purposes).
 dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 1200, "radwell")
 
-# Get the chart tool
+# Get the chart Tool
 chart = rk.get_tool(rk.chart, dmat, "results")
 
 # Do some plots
@@ -122,7 +122,7 @@ dkmat = rk.get_dmat_from_discrete(rk.Kmat, kmatdict, calc, "pyrazine")
 # Slice the data set (optional)
 dkmat2 = dkmat[0:1200]
 
-# Get the mcsmatfit tool
+# Get the mcsmatfit Tool
 sfittool = rk.get_tool(rk.mcsmatfit, dkmat2, "results")
 
 # Perform the calculation of the poles and the qualityindicators
@@ -130,9 +130,9 @@ cfins = sfittool.get_elastic_Fins(range(2,32,2))
 sfittool.find_stable_Smat_poles(cfins)
 ```
 
-Again, the "results" argument in the `rk.get_tool` function is the location of an archive into which the results will be stored. There are many more result files generated from this example than for the chart, since there are intermediate calculations. The final results are in the QIs_E.dat and QIs_k.dat files, which list the identified poles (as either Es or ks) and their associated QIs. These files (for the given example) can be found in: ./results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]. The following intermediate results are generated:
-  - Pole convergence tables. In the same folder as the QIs_E.dat and QIs_k.dat files, they are named like dk1e-09.dat, referring to the relative comparison threshold used in the calculation. The user is referred to [stelempy](https://github.com/petersbingham/stelempy) for a description of this table.
-  - Root files. These list all of the roots for a given M and can be found in: ./results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default. See [parsmat](https://github.com/petersbingham/parsmat) for further details.
+Again, the "results" argument in the `rk.get_tool` function is the location of an archive into which the results will be stored. There are many more result files generated from this example than for the `Chart`, since there are intermediate calculations. The final results are in the QIs_E.dat and QIs_k.dat files, which list the identified poles (as either Es or ks) and their associated QIs (quality indicators). These files (for the given example) can be found in: ./results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/poles/default/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]. The following intermediate results are generated:
+  - Pole convergence tables. In the same folder as the QIs_E.dat and QIs_k.dat files, they are named like dk1e-09.dat, referring to the relative comparison threshold used in the calculation. The user is referred to [stelempy](https://github.com/petersbingham/stelempy) for a description of the tables contained in these files.
+  - Root files. These list all of the roots for a given M and can be found in: ./results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/roots/default. See [parsmat](https://github.com/petersbingham/parsmat) and [matfuncutil](https://github.com/petersbingham/matfuncutil) for further details.
   - Coefficient dirs. These contain the coefficients for a given M and can be found in: ./results/pyrazine/mpmath_100/(0,1200,None)/mcsmatfit/coeffs/default. See [parsmat](https://github.com/petersbingham/parsmat) for further details.
 
 ## Contributing
