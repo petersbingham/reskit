@@ -1,4 +1,6 @@
-After you have installed reskit and all of its dependencies (see README.md) type at a command prompt in this directory:
+1: Install reskit and all of the dependencies (see README.md).
+2: Run the activate script (see README.md).
+3: Type at a command prompt in this directory:
 
 python reskit_examples.py system output_produced N
 where:
