@@ -39,7 +39,7 @@ We recommend using specific versions of these dependencies, especially for the t
 
 virtualenv sets up an entire python distribution, with the correct dependency versions in a local directory. This means that you won't affect your global python distribution (since installing a specified version into your global distribution will override any existing install versions of that dependency). 
 
-virtualenv is a tool, which you can install (if not already installed) with the following command:
+virtualenv is a tool, which you can install (if not already installed) with the following command (if you dont have root access add '--user' to the end of the command to install into your home):
 
     pip install virtualenv
 
@@ -48,13 +48,13 @@ Once installed and assuming that you are in the same directory where you did the
     cd reskit
     virtualenv env
     
-You now need to run a virtualenv script to setup your path to use this local version of python. On Linux type:
+You now need to run a virtualenv activate script to setup your path to use this local version of python. Note that for some versions of virtualenv the activate script is in the `bin` folder rather than the `Lib` folder. On Windows type:
 
-    source env/Lib/activate
+    env/Scripts/activate.bat
 
-On Windows type:
+On Linux type:
 
-    env/Lib/activate.bat
+    source env/bin/activate
 
 You can now install the dependencies into your virtualenv with the following commands:
 
@@ -63,9 +63,9 @@ You can now install the dependencies into your virtualenv with the following com
 
 ## Running reskit
 
-If you are using virtualenv you will have to setup your environment before invoking the interpreter by running the activate script as detailed above. If you are in the reskit folder on Windows you can type the follwoing commands:
+If you are using virtualenv you will have to setup your environment before invoking the interpreter by running the activate script as detailed above. If you are in the reskit folder on Windows you can type the following commands:
 
-    env/Scripts/activate.bat  # source env/Lib/activate on Linux
+    env/Scripts/activate.bat  # source env/bin/activate on Linux
     python  # will start the interpreter
     import reskit
 
