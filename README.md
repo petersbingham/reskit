@@ -48,7 +48,7 @@ Once installed and assuming that you are in the same directory where you did the
     cd reskit
     virtualenv env
     
-You now need to run a virtualenv activate script to setup your path to use this local version of python. Note that for some versions of virtualenv the activate script is in the `bin` folder rather than the `Lib` folder. On Windows type:
+You now need to run a virtualenv activate script to setup your path to use this local version of python. On Windows type:
 
     env/Scripts/activate.bat
 
