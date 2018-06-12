@@ -1,50 +1,73 @@
 # reskit
 Python Package to assist with the identification and characterisation of quantum scattering resonances.
 
-WARNING: There are known issues with the latest version of sympy that affect the execution of reskit. See the instructions below for installing the known working version into a special folder inside the reskit package. 
+WARNING: There are known issues with the latest version of sympy that affect the execution of reskit. We recommend using virtualenv to use the correct versions of the dependencies. This is fully explained in the instructions below.
 
-## Installation
+## Getting reskit
 
-Clone the repository and install with the following commands:
+Git clone the repository with the following command:
 
     git clone https://github.com/petersbingham/reskit
-    cd reskit
-    python setup.py install
     
 ## Dependencies
 
 Currently reskit only supports python 2.7.
 
-Reskit encapsulates a group of python packages referred to as reskit utilities (see below). These can either be installed separately, in which case the readme for that utility should be consulted, or a contained script can be executed to install versions of the utilities that were tested against for the current reskit release. These will be installed into an internal reskit folder that will be added to the path on import of reskit. If the user wishes to use the latest versions of the utilities they should check the version number for any compatibility breaks ([SemVer](http://semver.org/): basically when the major version number changes there has been a compatibility break). Note that some distributions of reskit come with the utilities already installed.
+Third party packages:
+  - numpy
+  - scipy   
+  - sympy
+  - mpmath
+  - matplotlib
+  - pyyaml
+  - tabulate
 
-In a similar manner there is an optional (but recommended) script to install tested versions of the third party (eg numpy etc) package dependencies required by reskit. Again these are installed into an internal reskit folder and will not affect any current version of these packages that the user happens to have installed into their standard site-packages folder. The remainder of this section will describe the two scripts for installing the dependencies.
+reskit utilities:  
+  - [matfuncutil](https://github.com/petersbingham/matfuncutil)
+  - [tisutil](https://github.com/petersbingham/tisutil)
+  - [channelutil](https://github.com/petersbingham/channelutil)
+  - [pynumwrap](https://github.com/petersbingham/pynumwrap)
+  - [parsmat](https://github.com/petersbingham/parsmat)
+  - [stelempy](https://github.com/petersbingham/stelempy)
+  - [pynumutil](https://github.com/petersbingham/pynumutil)
+  - [twochanradialwell](https://github.com/petersbingham/twochanradialwell)
+  - [ukrmolmatreader](https://github.com/petersbingham/ukrmolmatreader)
 
-Both of the scripts can be found in: https://github.com/petersbingham/reskit/tree/master/reskit/site-packages. Following installation as described above these scripts are typically found in:
-  - Windows: `C:\Python27\Lib\site-packages\reskit\site-packages`
-  - Linux root: `/usr/local/lib/python2.7/site-packages`
-  - Linux home: `~/.local/lib/python2.7/site-packages`
+We recommend using specific versions of these dependencies, especially for the third party packages. If the user wishes to try his luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
 
-The scripts are:
-  - `get-thirdparty.sh`, which installs the specified versions of:
-    - numpy
-    - scipy
-    - sympy
-    - mpmath
-    - matplotlib
-    - pyyaml
-    - tabulate
-  - `get-utilities.sh`, which installs the specified versions of:
-    - [matfuncutil](https://github.com/petersbingham/matfuncutil)
-    - [tisutil](https://github.com/petersbingham/tisutil)
-    - [channelutil](https://github.com/petersbingham/channelutil)
-    - [pynumwrap](https://github.com/petersbingham/pynumwrap)
-    - [parsmat](https://github.com/petersbingham/parsmat)
-    - [stelempy](https://github.com/petersbingham/stelempy)
-    - [pynumutil](https://github.com/petersbingham/pynumutil)
-    - [twochanradialwell](https://github.com/petersbingham/twochanradialwell)
-    - [ukrmolmatreader](https://github.com/petersbingham/ukrmolmatreader)
+### Installing dependencies with virtualenv
 
-The user can modify either of the get scripts to remove or comment any package he doesn't require before running the script. For example, if only the locked sympy version is required and the user is happy with his own version of numpy, he can open the get-thirdparty.sh and comment the line responsible for installing numpy.
+virtualenv sets up an entire python distribution, with the correct dependency versions in a local directory. This means that you won't affect your global python distribution (since installing a specified version into your global distribution will override any existing install versions of that dependency). 
+
+virtualenv is a tool, which you can install (if not already installed) with the following command:
+
+    pip install virtualenv
+
+Once installed and assuming that you are in the same directory where you did the git clone set up the local virtualenv with the following commands:
+
+    cd reskit
+    virtualenv env
+    
+You now need to run a virtualenv script to setup your path to use this local version of python. On Linux type:
+
+    source env/Lib/activate
+
+On Windows type:
+
+    env/Lib/activate.bat
+
+You can now install the dependencies into your virtualenv with the following commands:
+
+    pip install -r requirements.txt
+    python setup.py install
+
+## Running reskit
+
+If you are using virtualenv you will have to setup your environment before invoking the interpreter by running the activate script as detailed above. If you are in the reskit folder on Windows you can type the follwoing commands:
+
+    env/Scripts/activate.bat  # source env/Lib/activate on Linux
+    python  # will start the interpreter
+    import reskit
 
 ## Overview
 
