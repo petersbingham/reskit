@@ -33,7 +33,7 @@ reskit utilities:
   - [twochanradialwell](https://github.com/petersbingham/twochanradialwell)
   - [ukrmolmatreader](https://github.com/petersbingham/ukrmolmatreader)
 
-We recommend using specific versions of these dependencies, especially for the third party packages. If the user wishes to try his luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
+We recommend using specific versions of these dependencies, especially for the third party packages. If the user wishes to try their luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
 
 ### Installing dependencies with virtualenv
 
