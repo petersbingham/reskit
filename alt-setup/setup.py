@@ -18,5 +18,14 @@ setup(name='reskit',
                                'tests/test_mcsmatfit_data1/changedRoots.yaml',
                                'tests/test_mcsmatfit_data1/default.yaml',
                                'tests/test_mcsmatfit_data2/changedPoles.yaml',
-                               'tests/test_mcsmatfit_data2/default.yaml']}
+                               'tests/test_mcsmatfit_data2/default.yaml',
+                               'utilities/channelutil/*.py',
+                               'utilities/matfuncutil/*.py',
+                               'utilities/parsmat/*.py',
+                               'utilities/pynumutil/*.py',
+                               'utilities/pynumwrap/*.py',
+                               'utilities/stelempy/*.py',
+                               'utilities/tisutil/*.py',
+                               'utilities/twochanradialwell/*.py',
+                               'utilities/ukrmolmatreader/*.py']}
      )
