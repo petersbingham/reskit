@@ -8,7 +8,7 @@
 4. Ensure any install or build dependencies are removed.
 5. Update the README.md with details of your new Tool or any changes to current Tools.
 6. Increase the version numbers in setup.py to the new version that this Pull Request would represent. The versioning scheme used by reskit is [SemVer](http://semver.org/).
-7. Respond to any feedback if given. Once at the required standard the Pull Request will be accepted (assuming you got the go-ahead at step 1).
+7. Respond to any feedback if given.
 
 ## Conventions
 
