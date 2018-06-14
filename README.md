@@ -160,4 +160,4 @@ Again, the "results" argument in the `rk.get_tool` function is the location of a
 
 ## Contributing
 
-Contributions are welcome. Please see [CONTRIBUTING.md](https://github.com/petersbingham/reskit/blob/master/CONTRIBUTING.md) for guidelines.
+Contributions are appreciated. If you find yourself having to change the code please considering pushing this to the GitHub master or at least opening an issue. See [CONTRIBUTING.md](https://github.com/petersbingham/reskit/blob/master/CONTRIBUTING.md) for guidelines.
