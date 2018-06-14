@@ -37,7 +37,7 @@ We recommend using specific versions of these dependencies, especially for the t
 
 ### Installing dependencies with virtualenv
 
-virtualenv sets up an entire python distribution, with the correct dependency versions in a local directory. This means that you won't affect your global python distribution (since installing a specified version into your global distribution will override any existing install versions of that dependency). 
+virtualenv sets up an entire python distribution in a local directory, into which can be installed dependency versions specific to your project requirements. This means that you won't affect your global python distribution (since installing a specified version into your global distribution will override any existing install versions of that dependency). 
 
 virtualenv is a tool, which you can install (if not already installed) with the following command (if you dont have root access add '--user' to the end of the command to install into your home):
 
