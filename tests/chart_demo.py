@@ -1,16 +1,13 @@
 import os
 import sys
 import shutil
-fileDir = os.path.dirname(os.path.realpath(__file__))
-rkPath = fileDir+'/../..'
-sys.path.insert(0,rkPath)
 
 import reskit as rk
 rk.safeMode = False
 import channelutil as cu
 import twochanradialwell as rw
 
-TEST_ROOT = "chart_demo"
+TEST_ROOT = "chart-demo"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
@@ -45,5 +42,5 @@ chart = rk.get_tool(rk.chart, dsmat)
 chart.plot_Smatrix()
 
 # Check copy saved on file system
-chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-test.yaml")
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-demo.yaml")
 chart.plot_Smatrix()
