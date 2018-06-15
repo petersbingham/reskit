@@ -1,8 +1,10 @@
 import os
 import sys
 filedir = os.path.dirname(os.path.realpath(__file__))
-modpath = filedir+'/tools' # Keep tools before site-packages
-sys.path.insert(0,modpath)
+modpath = filedir+'/tools' # Keep tools before utilities
+sys.path.insert(0,filedir+os.sep+'tools')
+if os.path.isdir(filedir+os.sep+'utilities'):
+    sys.path.insert(0,filedir+os.sep+'utilities')
 
 import channelutil as cu
 import tisutil as tu
