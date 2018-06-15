@@ -197,11 +197,11 @@ class Chart(th.tool):
         Note that there is no imag parameter for this function.
         """
         self._write_call(start, end, num_plot_points, units, i, j, logx, logy,
-                         imag, show, "plot_XS")
+                         False, show, "plot_XS")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dXSmat()
-        self._plot(dmat, start, end, num_plot_points, i, j, logx, logy, imag,
+        self._plot(dmat, start, end, num_plot_points, i, j, logx, logy, False,
                    show)
         self.log.write_call_end("plot_XS")
 

@@ -4,9 +4,9 @@ fileDir = os.path.dirname(os.path.realpath(__file__))
 rkPath = fileDir+'/../..'
 sys.path.insert(0,rkPath)
 
+import reskit as rk
 import channelutil as cu
 import pynumwrap as nw
-import reskit as rk
 rk.safeMode = False
 import numpy as np
 import mpmath
