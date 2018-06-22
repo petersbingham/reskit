@@ -696,7 +696,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Smat(self, Npts):
         """
         Performs S-matrix fits using the specified number of fit points and 
-        returns a cPolySmat.
+        returns a cSmat.
 
         Parameters
         ----------
@@ -705,7 +705,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        csmat : cPolySmat
+        csmat : cSmat
         """
         self.log.write_call("get_elastic_Smat("+str(Npts)+")")
         self._check_elastic()
@@ -730,7 +730,7 @@ class MCSMatFit(th.tool):
 
         Parameters
         ----------
-        csmat : cPolySmat
+        csmat : cSmat
             Fitted S-matrix returned from get_elastic_Smat.
         num_plot_points, units, i, j, logx, logy, imag, show
             Refer to the chart tool for description.
@@ -777,7 +777,7 @@ class MCSMatFit(th.tool):
 
         Parameters
         ----------
-        csmat : cPolySmat
+        csmat : cSmat
             Fitted S-matrix returned from get_elastic_Smat.
         num_plot_points, units, logx, logy, show
             Refer to the chart tool for description.
