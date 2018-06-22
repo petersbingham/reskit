@@ -507,7 +507,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Fin(self, Npts):
         """
         Performs an Fin fit using the specified number of fit points and 
-        returns a cPolykmat.
+        returns a cPolyFin.
 
         Parameters
         ----------
@@ -516,7 +516,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        cfin : cPolykmat
+        cfin : cPolyFin
         """
         self.log.write_call("get_elastic_Fin("+str(Npts)+")")
         self._check_elastic()
