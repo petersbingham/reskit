@@ -27,6 +27,7 @@ class parent_test(unittest.TestCase):
 
         cfin = mcsmatfit.get_elastic_Fin(6)
         csmat = mcsmatfit.get_elastic_Smat(6)
+        cqmat = mcsmatfit.get_elastic_Qmat(6)
         
         chart = rk.get_tool(rk.chart, cfin, archive_root=TEST_ROOT,
                             param_file_path="test_mcsmatfit_chart.yaml",
@@ -36,6 +37,8 @@ class parent_test(unittest.TestCase):
                             param_file_path="test_mcsmatfit_chart.yaml",
                             silent=True)
         chart.plot_Smatrix()
+        chart = rk.get_tool(rk.chart, cqmat, archive_root=TEST_ROOT, silent=True)
+        chart.plot_raw(show=False)
 
 class test_numpy(parent_test):
     def runTest(self):
