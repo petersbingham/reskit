@@ -30,19 +30,19 @@ if sys.argv[1] == "radwell":
     desc_str = "radwell"
     ang_mom = [0,0]
     sl = None
-    paramPath = "test-configuration-1.yaml"
+    param_path = "test-configuration-1.yaml"
 elif sys.argv[1] == "pyrazine":
     input_data_file = "kmatrix-input-pyrazine.dat"
     desc_str = "pyrazine"
     ang_mom = [3,5,5]
     sl = slice(0,1200)
-    paramPath = None
+    param_path = None
 elif sys.argv[1] == "uracil":
     input_data_file = "kmatrix-input-uracil.dat"
     desc_str = "uracil"
     ang_mom = [1,2,2,3,3,3]
     sl = None
-    paramPath = "test-configuration-2.yaml"
+    param_path = "test-configuration-2.yaml"
 else:
     raise Exception(exceptStr)
 
@@ -71,7 +71,7 @@ else:
 if sl is not None:
     dmat = dmat[sl]
 
-sfittool = rk.get_tool(rk.mcsmatfit, dmat, archive_path, paramPath)
+sfittool = rk.get_tool(rk.mcsmatfit, dmat, archive_path, param_path)
 if sys.argv[2] == "poles":
     if not N:
         N = 40
