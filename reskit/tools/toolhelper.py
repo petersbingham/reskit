@@ -74,7 +74,7 @@ class tool:
             return p, ln, orig
 
     def _plot_fit(self, p, title, orig, fit_pnts, fit, num_plot_points, units,
-                  logx, logy, imag, show):
+                  y_axis_lbl, logx, logy, imag, show):
         xsize = p["xsize"]
         ysize = p["ysize"]
 
@@ -83,9 +83,9 @@ class tool:
         fig.set_size_inches(xsize, ysize, forward=True)
         
         if units is not None:
-            orig = orig.convert_units(units)
-            fit_pnts = fit_pnts.convert_units(units)
-            fit = fit.convert_units(units)
+            orig = orig.convert_ene_units(units)
+            fit_pnts = fit_pnts.convert_ene_units(units)
+            fit = fit.convert_ene_units(units)
 
         ls1,_ = orig.get_plot_info(logx, logy, imag)
         fit_pnts.set_chart_parameters(use_marker=True)
@@ -95,7 +95,8 @@ class tool:
         plt.gca().set_prop_cycle(cycler('color', p["colour_cycle"]))
         plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fit points","Fitted"], 
                    prop={'size': 12})
-        plt.xlabel(self.data.units, fontsize=12)
+        plt.xlabel("Energy (" + self.data.x_units + ")", fontsize=12)
+        plt.ylabel(y_axis_lbl, fontsize=12)
         if self.archive_root is not None:
             savePath = self.archive_root+"charts"+os.sep
             if not os.path.isdir(savePath):

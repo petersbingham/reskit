@@ -762,8 +762,8 @@ class MCSMatFit(th.tool):
             elif j:
                 title += ", n="+str(j+1)
 
-            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points, units,
-                          logx, logy, imag, show)
+            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                           units, "S matrix", logx, logy, imag, show)
 
         self.log.write_call_end("plot_Smat_fit")
 
@@ -801,7 +801,8 @@ class MCSMatFit(th.tool):
 
             title = "Total Cross Section fit for Npts="+str(Npts)
 
-            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points, units,
-                          logx, logy, False, show)
+            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                           units, "Total Cross Section (bohr^2)", logx, logy,
+                           False, show)
 
         self.log.write_call_end("plot_totXS_fit")

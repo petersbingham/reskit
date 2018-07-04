@@ -27,8 +27,8 @@ find_stable_Smat_poles:
 fit_charts:
   colour_cycle:
     - green
-    - red
-    - blue
+    - orange
+    - purple
   xsize: 8
   ysize: 7
 

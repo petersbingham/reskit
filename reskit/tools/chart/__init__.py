@@ -52,7 +52,7 @@ class Chart(th.tool):
             dbase = self.data.discretise(start, end, num_plot_points)
     
         if units is not None:
-            dbase = dbase.convert_units(units)
+            dbase = dbase.convert_ene_units(units)
         return dbase, start, end, num_plot_points
 
     def _plot(self, dbase, start, end, num_plot_points, i, j, logx, logy, imag, 
@@ -63,7 +63,7 @@ class Chart(th.tool):
         if self.archive_root is not None:
             save_path = self.archive_root+dbase.chart_title
             save_path += self._get_save_string(start, end, num_plot_points, logx, 
-                                              logy, dbase.units)
+                                              logy, dbase.x_units)
             self.log.write_msg("Chart saved to: "+save_path)
         dbase.plot(logx, logy, imag, show, save_path)
 

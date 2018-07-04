@@ -24,7 +24,7 @@ mcsmatfitfunctions = ["get_elastic_Fins", "get_elastic_Fin", "find_Fin_roots",\
                       "find_stable_Smat_poles", "get_elastic_Smat", "plot_Smat_fit",\
                       "plot_totXS_fit"]
 # Order important since substrings:
-codeTypes = ["reskit.rydbergs", "reskit.hartrees", "reskit.eVs", "Kmat",\
+codeTypes = ["reskit.", "rydbergs", "hartrees", "eVs", "Kmat",\
              "Tmat", "chart", "mcsmatfit", "archive_root", "AsymCalc", "dMat",\
              "Tool", "cPolykmat", "cPolySmat","Smat"]
 
