@@ -534,7 +534,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Fins(self, Npts_list):
         """
         Performs Fin fits using the specified list of fit points and returns a 
-        list of cMatSympypolyk.
+        list of cFinMatSympypolyk.
 
         Parameters
         ----------
@@ -543,7 +543,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        cfins : list of cMatSympypolyk
+        cfins : list of cFinMatSympypolyk
         """
         self.log.write_call("get_elastic_Fins("+str(Npts_list)+")")
         self._check_elastic()
@@ -561,7 +561,7 @@ class MCSMatFit(th.tool):
 
         Parameters
         ----------
-        cfins : list of cMatSympypolyk
+        cfins : list of cFinMatSympypolyk
             List of parameterised Fins.
 
         Returns
@@ -596,7 +596,7 @@ class MCSMatFit(th.tool):
 
         Parameters
         ----------
-        cfins_or_roots : list of either cfins or list of floats
+        cfins_or_roots : list of either cFinMatSympypolyk or list of floats
             As returned from either get_elastic_Fins or find_Fin_roots.
 
         Returns
