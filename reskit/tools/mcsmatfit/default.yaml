@@ -1,9 +1,9 @@
 find_Fin_roots:
-  cSympyPolyMat_determinant:
+  cMatSympypoly_determinant:
     sym_matrix_det:
       method: berkowitz
 
-  cSympyPolySca_find_roots:
+  cScaSympypoly_find_roots:
     nw_roots_sym:
       symPoly_nroots:
         n: dps # use mpmath dps. Specify a value to override.
@@ -26,9 +26,9 @@ find_stable_Smat_poles:
 
 fit_charts:
   colour_cycle:
+    - purple
     - green
     - orange
-    - purple
   xsize: 8
   ysize: 7
 

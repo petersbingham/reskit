@@ -14,9 +14,9 @@ where:
  1st: Scattering system. Either:
     radwell, pyrazine or uracil
  2nd: Command. Either:
-    poles, plotSmat, plotTotXS or createLatex
- 3rd: Max N (if 2nd==poles) or plot N (if 2nd==plotSmat or 2nd==plotTotXS)
-    optional. Default 40 (if 2nd==poles) or 20 (if 2nd==plotSmat or 2nd==plotTotXS)
+    poles, plotSmat, plotXS or createLatex
+ 3rd: Max N (if 2nd==poles) or plot N (if 2nd==plotSmat or 2nd==plotXS)
+    optional. Default 40 (if 2nd==poles) or 20 (if 2nd==plotSmat or 2nd==plotXS)
 '''
 
 N = None
@@ -78,15 +78,18 @@ if sys.argv[2] == "poles":
     # Perform the calculation of the poles and the quality indicators
     cfins = sfittool.get_elastic_Fins(range(2,N+2,2))
     sfittool.find_stable_Smat_poles(cfins)
-elif sys.argv[2] == "plotSmat" or sys.argv[2] == "plotTotXS":
+elif sys.argv[2] == "plotSmat" or sys.argv[2] == "plotXS":
     if not N:
         N = 20
     # Perform the calculation of the poles and the quality indicators
     csmat = sfittool.get_elastic_Smat(N)
     if sys.argv[2] == "plotSmat":
         sfittool.plot_Smat_fit(csmat, num_plot_points=300)
+    elif sys.argv[1] == "uracil":
+        sfittool.plot_XS_fit(csmat, num_plot_points=300, logy=True)
     else:
-        sfittool.plot_totXS_fit(csmat, num_plot_points=300, logy=True)
+        sfittool.plot_XS_fit(csmat, num_plot_points=300)
+
 elif sys.argv[2] == "createLatex":
     sfittool.create_formatted_QI_tables()
 else:

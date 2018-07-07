@@ -80,10 +80,9 @@ class Chart(th.tool):
         ----------
         start / end : int or float, optional
             Indicates the start and end points to perform the plot between. If
-            the Tool data is in discrete form then will either indicate the
-            start end index (if int) or the nearest start / end energy (if
-            float). If the Tool data is in continuous form then will indicate
-            the start end energy.
+            the Tool data is in discrete form it indicates the start / end index
+            (if int) or the nearest start / end energy (if float). If the Tool
+            data is in continuous form it indicates the start / end energy.
         num_plot_points : int, optional
             The number of points to plot, evenly distributed between start and
             end.
@@ -190,32 +189,32 @@ class Chart(th.tool):
                    show)
         self.log.write_call_end("plot_Ephase")
 
-    def plot_XS(self, start=0, end=None, num_plot_points=None, units=None,
-                i=None, j=None, logx=False, logy=False, show=True):
-        """
-        Plots the cross section. See docs for plot_Smatrix for further details.
-        Note that there is no imag parameter for this function.
-        """
-        self._write_call(start, end, num_plot_points, units, i, j, logx, logy,
-                         False, show, "plot_XS")
-        dmat,start,end,num_plot_points = self._getdbase(start, end, 
-                                                        num_plot_points, units)
-        dmat = dmat.to_dXSmat()
-        self._plot(dmat, start, end, num_plot_points, i, j, logx, logy, False,
-                   show)
-        self.log.write_call_end("plot_XS")
-
-    def plot_TotalXS(self, start=0, end=None, num_plot_points=None, units=None, 
-                     logx=False, logy=False, show=True):
+    def plot_XS(self, start=0, end=None, num_plot_points=None, units=None, 
+                logx=False, logy=False, show=True):
         """
         Plots the cross section. See docs for plot_Smatrix for further details.
         Note that there are no i, j, and imag parameters for this function.
         """
         self._write_call(start, end, num_plot_points, units, None, None, logx,
-                         logy, False, show, "plot_TotalXS")
+                         logy, False, show, "plot_XS")
         dmat,start,end,num_plot_points = self._getdbase(start, end,
                                                         num_plot_points, units)
-        dsca = dmat.to_dXSmat().to_dTotXSsca()
+        dsca = dmat.to_dXSsca()
         self._plot(dsca, start, end, num_plot_points, None, None, logx, logy,
                    False, show)
-        self.log.write_call_end("plot_TotalXS")
+        self.log.write_call_end("plot_XS")
+
+    def plot_XSmat(self, start=0, end=None, num_plot_points=None, units=None,
+                   i=None, j=None, logx=False, logy=False, show=True):
+        """
+        Plots the cross section matrix. See docs for plot_Smatrix for further
+        details. Note that there is no imag parameter for this function.
+        """
+        self._write_call(start, end, num_plot_points, units, i, j, logx, logy,
+                         False, show, "plot_XSmat")
+        dmat,start,end,num_plot_points = self._getdbase(start, end, 
+                                                        num_plot_points, units)
+        dmat = dmat.to_dXSmat()
+        self._plot(dmat, start, end, num_plot_points, i, j, logx, logy, False,
+                   show)
+        self.log.write_call_end("plot_XSmat")

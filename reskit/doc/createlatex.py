@@ -18,15 +18,14 @@ else:
 reskitfuns = ["get_asym_calc","get_dmat_from_discrete","get_dmat_from_continuous",\
               "get_tool","use_python_types","use_mpmath_types"]
 chartfunctions = ["plot_Smatrix", "plot_Kmatrix", "plot_Tmatrix", "plot_UniOpSMat",\
-                  "plot_raw", "plot_Ephase", "plot_XS", "plot_TotalXS"]
+                  "plot_raw", "plot_Ephase", "plot_XS", "plot_XS"]
 # Order important since substrings:
-mcsmatfitfunctions = ["get_elastic_Fins", "get_elastic_Fin", "find_Fin_roots",\
-                      "find_stable_Smat_poles", "get_elastic_Smat", "plot_Smat_fit",\
-                      "plot_totXS_fit"]
+mcsmatfitfunctions = ["get_elastic_Fins", "find_Fin_roots", "find_stable_Smat_poles",\
+                      "get_elastic_Smat", "plot_Smat_fit", "plot_XS_fit"]
 # Order important since substrings:
 codeTypes = ["reskit.", "rydbergs", "hartrees", "eVs", "Kmat",\
              "Tmat", "chart", "mcsmatfit", "archive_root", "AsymCalc", "dMat",\
-             "Tool", "cPolykmat", "cPolySmat","Smat"]
+             "Tool", "cMatSympypolyk", "cSMatSympypolyk","cSmat","dSmat"]
 
 try:
     os.remove("doc.txt")
@@ -128,19 +127,19 @@ import reskit
 write_doc(reskit, reskitfuns, "reskit")
 
 with open("doc.txt", 'a') as f:
+    f.write("**** MCSMATFIT DOCS ****\n")  
+import mcsmatfit
+write_doc(mcsmatfit.MCSMatFit, mcsmatfitfunctions, "mcsmatfit")
+
+with open("doc.txt", 'a') as f:
     f.write("**** CHART DOCS ****\n")  
 import chart
 functions = ["plot_Smatrix"]
 collective_name = ", plot_Kmatrix, plot_Tmatrix, plot_UniOpSMat, plot_raw, "\
-                  "plot_Ephase, plot_XS, plot_TotalXS"
+                  "plot_Ephase, plot_XS"
 collective_desc = "Plots various scattering related quantities."
-param_append = {"i" : "Not available for plot_Ephase and plot_TotalXS.",
-                "j" : "Not available for plot_Ephase and plot_TotalXS.",
-                "imag" : "Not available for plot_Ephase and plot_TotalXS."}
+param_append = {"i" : "Not available for plot_Ephase and plot_XS.",
+                "j" : "Not available for plot_Ephase and plot_XS.",
+                "imag" : "Not available for plot_Ephase and plot_XS."}
 add_info = [[(False, collective_name), (True, collective_desc)]]
 write_doc(chart.Chart, functions, "chart", add_info, param_append)
-
-with open("doc.txt", 'a') as f:
-    f.write("**** MCSMATFIT DOCS ****\n")  
-import mcsmatfit
-write_doc(mcsmatfit.MCSMatFit, mcsmatfitfunctions, "mcsmatfit")

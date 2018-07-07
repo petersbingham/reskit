@@ -81,7 +81,8 @@ class tool:
         fig = plt.figure(facecolor="white")
         fig.suptitle(title)
         fig.set_size_inches(xsize, ysize, forward=True)
-        
+        plt.gca().set_prop_cycle(cycler('color', p["colour_cycle"]))
+
         if units is not None:
             orig = orig.convert_ene_units(units)
             fit_pnts = fit_pnts.convert_ene_units(units)
@@ -89,11 +90,10 @@ class tool:
 
         ls1,_ = orig.get_plot_info(logx, logy, imag)
         fit_pnts.set_chart_parameters(use_marker=True)
-        ls2,_ = fit_pnts.get_plot_info(logx, logy, imag)
-        ls3,_ = fit.get_plot_info(logx, logy, imag)
-        
-        plt.gca().set_prop_cycle(cycler('color', p["colour_cycle"]))
-        plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fit points","Fitted"], 
+        ls2,_ = fit.get_plot_info(logx, logy, imag)
+        ls3,_ = fit_pnts.get_plot_info(logx, logy, imag)
+
+        plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fitted","Fit points"], 
                    prop={'size': 12})
         plt.xlabel("Energy (" + self.data.x_units + ")", fontsize=12)
         plt.ylabel(y_axis_lbl, fontsize=12)

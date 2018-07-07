@@ -1,8 +1,8 @@
 colour_cycle:
   - black
+  - purple
   - green
   - orange
-  - purple
 
 leg_prefix: ''
 

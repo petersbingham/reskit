@@ -36,8 +36,8 @@ chart.plot_Tmatrix(len(dsmat)/4,len(dsmat)*3/4)
 print "Plot center imag data as T-matrix"
 chart.plot_Tmatrix(len(dsmat)/4,len(dsmat)*3/4,imag=True)
 
-print "Plot center imag data as total cross section"
-chart.plot_TotalXS(len(dsmat)/4,len(dsmat)*3/4)
+print "Plot center imag data as cross section"
+chart.plot_XS(len(dsmat)/4,len(dsmat)*3/4)
 
 print "Plot center data as S-matrix, 1,1 element, imag and both axis logged."
 chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
@@ -58,7 +58,7 @@ rw.use_mpmath_types()
 cal = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
 chart = rk.get_tool(rk.chart, csmat)
-print "Plot all mpmath data as S-matrix. Direct from continuous data."
+print "Plot all mpmath data as S-matrix, direct from continuous data."
 chart.plot_Smatrix()
 
 dsmat = csmat.discretise(1.,8.,100)

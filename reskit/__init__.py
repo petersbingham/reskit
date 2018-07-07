@@ -41,6 +41,7 @@ def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
     targ_spins : int or list of ints, optional
         Specification of the spin of the target state spin in each of the
         channels. Defaults to zero in all channels.
+
     Returns
     -------
     asymcalc : AsymCalc
@@ -87,7 +88,7 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
         Specification of the scattering matrix type. Available options are
         reskit.Smat, reskit.Kmat and reskit.Tmat.
     fun_ref : function with float parameter
-        A function of energy that will calculate the scattering matrix. Can be
+        An analytical function of energy for the scattering matrix. Can be
         either floats or mpmath types.
     asymcalc : AsymCalc
         As returned from the get_asym_calc function.
@@ -122,12 +123,11 @@ def get_tool(toolID, data, archive_root=None, param_file_path=None,
         Specification of the Tool. Available options are reskit.chart and
         reskit.mcsmatfit.
     data
-        Tool data. The type of this data is determined by the Tool.
+        Tool data. This is the data container to be used by by the Tool.
     archive_root : str, optional
-        Specification of the root location into which reskit will write its
-        results.
+        Specification of the location into which reskit will write its results.
     param_file_path : str, optional
-        Location of an existing yml file containing overrides for the more
+        Location of an existing yaml file containing overrides for the more
         advanced routine parameters.
     silent : bool, optional
         Switch determining whether to suppress output to console.

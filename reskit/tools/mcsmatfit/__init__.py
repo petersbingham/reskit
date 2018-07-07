@@ -293,9 +293,9 @@ class MCSMatFit(th.tool):
         self.log.write_call("_get_roots("+str(cfin.fitInfo[0])+")", True)
         roots = self._load_roots(cfin.fitInfo[0], cfin.fitInfo[1])
         if roots is None:
-            csca = cfin.determinant(**p["cSympyPolyMat_determinant"])
+            csca = cfin.determinant(**p["cMatSympypoly_determinant"])
             self.log.write_msg("Determinant calculated")
-            roots = csca.find_roots(**p["cSympyPolySca_find_roots"])
+            roots = csca.find_roots(**p["cScaSympypoly_find_roots"])
             self.log.write_msg("Roots calculated")
             self._save_roots(cfin.fitInfo[0], cfin.fitInfo[1], roots, asymcalc,
                              p)
@@ -382,7 +382,7 @@ class MCSMatFit(th.tool):
     def _update_container_strings(self, Npts, cont, chart_title=None):
         cont.set_source_str(self.data.get_source_str())
         cont.append_hist_str(self.data.get_hist_str())
-        cont.append_hist_str("sfit_mc_rat_N="+str(Npts))
+        cont.append_hist_str("mcsmatfit_N="+str(Npts))
         if chart_title is not None:
             cont.set_chart_title("Fin")
 
@@ -507,7 +507,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Fin(self, Npts):
         """
         Performs an Fin fit using the specified number of fit points and 
-        returns a cPolyFin.
+        returns a cFinMatSympypolyk.
 
         Parameters
         ----------
@@ -516,7 +516,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        cfin : cPolyFin
+        cfin : cFinMatSympypolyk
         """
         self.log.write_call("get_elastic_Fin("+str(Npts)+")")
         self._check_elastic()
@@ -534,7 +534,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Fins(self, Npts_list):
         """
         Performs Fin fits using the specified list of fit points and returns a 
-        list of cPolykmat.
+        list of cMatSympypolyk.
 
         Parameters
         ----------
@@ -543,7 +543,7 @@ class MCSMatFit(th.tool):
 
         Returns
         -------
-        cfins : list of cPolykmat
+        cfins : list of cMatSympypolyk
         """
         self.log.write_call("get_elastic_Fins("+str(Npts_list)+")")
         self._check_elastic()
@@ -555,14 +555,14 @@ class MCSMatFit(th.tool):
 
     def find_Fin_roots(self, cfins, internal=False):
         """
-        Finds the roots of a list of parameterised Fins returning as a list of 
-        complex or mpmath.mpc. There are additional advanced parameters in the
-        tool yml file.
+        Returns the roots of a list of parameterised Fins as a list of complex
+        or mpmath.mpc types. There are additional advanced parameters in the
+        tool yaml file.
 
         Parameters
         ----------
-        cfins : list of cPolykmat
-            Container representing the parameterised Fins.
+        cfins : list of cMatSympypolyk
+            List of parameterised Fins.
 
         Returns
         -------
@@ -590,10 +590,9 @@ class MCSMatFit(th.tool):
 
     def find_stable_Smat_poles(self, cfins_or_roots):
         """
-        Finds the S-matrix poles as the stable roots of the Fins from either
-        a list of Fins or from a list of Fin roots returning as a tuple of 
-        lists of pole data. There are additional advanced parameters in the tool
-        yml file.
+        Finds the S-matrix poles by identifying stable roots. The input can be
+        either a list of Fin roots or the Fins themselves. There are additional
+        advanced parameters in the tool yaml file.
 
         Parameters
         ----------
@@ -665,7 +664,7 @@ class MCSMatFit(th.tool):
         """
         Creates and formats all the QIs.dat tables in the current archive.
         Numbers are formatted according to the supplied parameters. There are
-        additional advanced parameters in the tool yml file.
+        additional advanced parameters in the tool yaml file.
 
         Parameters
         ----------
@@ -726,7 +725,7 @@ class MCSMatFit(th.tool):
         """
         Plots the original data, the fit points used and the resultant S-matrix
         for the specified element/s. There are additional advanced parameters
-        in the tool yml file.
+        in the tool yaml file.
 
         Parameters
         ----------
@@ -767,13 +766,13 @@ class MCSMatFit(th.tool):
 
         self.log.write_call_end("plot_Smat_fit")
 
-    def plot_totXS_fit(self, csmat, num_plot_points=None, units=None,
+    def plot_XS_fit(self, csmat, num_plot_points=None, units=None,
                        logx=False, logy=False, show=True):
         """
-        Plots total cross section conversions from the original S-matrix data,
-        the fit points used and the resultant S-matrix. Refer to the chart tool
-        for a description of the parameters. There are additional advanced
-        parameters in the tool yml file.
+        Plots the cross section obtained from the original S- and resultant
+        S-matrix and the fit points used. Refer to the chart tool for a
+        description of the parameters. There are additional advanced parameters
+        in the tool yaml file.
 
         Parameters
         ----------
@@ -783,26 +782,26 @@ class MCSMatFit(th.tool):
             Refer to the chart tool for description.
         """
         Npts = csmat.fitInfo[0]
-        self.log.write_call("plot_totXS_fit("+str(Npts)+")")
+        self.log.write_call("plot_XS_fit("+str(Npts)+")")
         self._check_for_fit_plot(csmat)
         ret = self._prepare_for_fit_plot(num_plot_points)  
         if ret is not None:
             p, ln, orig = ret
 
-            orig = orig.to_dXSmat().to_dTotXSsca()
+            orig = orig.to_dXSsca()
 
             ris0 = csmat.fitInfo[1][0]
             fit_pnts = self.data[ris0[0]:ris0[1]:ris0[2]]
-            fit_pnts = fit_pnts.to_dXSmat().to_dTotXSsca()
+            fit_pnts = fit_pnts.to_dXSsca()
 
             rng = orig.get_range()
             dsmat = csmat.discretise(rng[0], rng[1], ln)
-            fit = dsmat.to_dXSmat().to_dTotXSsca()
+            fit = dsmat.to_dXSsca()
 
-            title = "Total Cross Section fit for Npts="+str(Npts)
+            title = "Cross Section fit for Npts="+str(Npts)
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
-                           units, "Total Cross Section (bohr^2)", logx, logy,
-                           False, show)
+                           units, "Cross Section (bohr$^2$)", logx, logy, False,
+                           show)
 
-        self.log.write_call_end("plot_totXS_fit")
+        self.log.write_call_end("plot_XS_fit")

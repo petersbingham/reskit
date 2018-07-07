@@ -7,9 +7,9 @@ where:
  system: Scattering system. Either:
   radwell, pyrazine or uracil
  output_produced: Command. Either:
-  poles, plotSmat, plotTotXS or createLatex
- N: Either max N (if output_produced==poles) or plot N (if output_produced==plotSmat or output_produced==plotTotXS)
-  optional. Default 40 (if output_produced==poles) or 20 (if output_produced==plotSmat or output_produced==plotTotXS)
+  poles, plotSmat, plotXS or createLatex
+ N: Either max N (if output_produced==poles) or plot N (if output_produced==plotSmat or output_produced==plotXS)
+  optional. Default 40 (if output_produced==poles) or 20 (if output_produced==plotSmat or output_produced==plotXS)
 
 Eg: python reskit_examples.py radwell poles
 
