@@ -40,8 +40,8 @@ print "Plot center imag data as cross section"
 chart.plot_XS(len(dsmat)/4,len(dsmat)*3/4)
 
 print "Plot center data as S-matrix, 1,1 element, imag and both axis logged."
-chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,i=0,j=0,logx=True,logy=True,
-                  imag=True)
+chart.plot_Smatrix(len(dsmat)/4,len(dsmat)*3/4,logx=True,logy=True,imag=True,
+                   i=0,j=0)
 
 print "Plot all data as K-matrix"
 chart.plot_Kmatrix()

@@ -591,7 +591,7 @@ class MCSMatFit(th.tool):
     def find_stable_Smat_poles(self, cfins_or_roots):
         """
         Finds the S-matrix poles by identifying stable roots. The input can be
-        either a list of Fin roots or the Fins themselves. There are additional
+        either a list of roots or the Fins themselves. There are additional
         advanced parameters in the tool yaml file.
 
         Parameters
@@ -724,8 +724,8 @@ class MCSMatFit(th.tool):
                       j=None, logx=False, logy=False, imag=False, show=True):
         """
         Plots the original data, the fit points used and the resultant S-matrix
-        for the specified element/s. There are additional advanced parameters
-        in the tool yaml file.
+        for the specified matrix element(s). There are additional advanced
+        parameters in the tool yaml file.
 
         Parameters
         ----------
@@ -769,9 +769,8 @@ class MCSMatFit(th.tool):
     def plot_XS_fit(self, csmat, num_plot_points=None, units=None,
                        logx=False, logy=False, show=True):
         """
-        Plots the cross section obtained from the original S- and resultant
-        S-matrix and the fit points used. Refer to the chart tool for a
-        description of the parameters. There are additional advanced parameters
+        Plots the cross section obtained from the original and fitted S-matrix
+        along with the fit points used. There are additional advanced parameters
         in the tool yaml file.
 
         Parameters

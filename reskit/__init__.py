@@ -31,16 +31,18 @@ def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
     Parameters
     ----------
     units : int
-        Specification of the energy units. Available options are reskit.rydbergs,
-        reskit.hartrees and reskit.eVs.
+        Specification of the energy units. Available options are
+        reskit.rydbergs, reskit.hartrees and reskit.eVs.
     angmoms : list of ints, optional
         Specification of the angular momenta in each of the channels. Defaults 
         to zero in all channels.
     tot_spin : float, optional
-        Specification of the total spin of the system. Defaults to 0.5.
+        Specification of the total spin of the system. Defaults to 0.5. Only
+        required for calculation of cross sections.
     targ_spins : float or list of floats, optional
-        Specification of the spin of the target state spin in each of the
-        channels. Defaults to zero in all channels.
+        Specification of the spin of the target (eg. molecular) state associated
+        with each of the channels. Defaults to zero in all channels. Only
+        required for calculation of cross sections.
 
     Returns
     -------
@@ -85,13 +87,12 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
     Parameters
     ----------
     mat_type : int 
-        Specification of the scattering matrix type. Available options are
-        reskit.Smat, reskit.Kmat and reskit.Tmat.
+        As for get_dmat_from_discrete.
     fun_ref : function with float parameter
-        An analytical function of energy for the scattering matrix. Can be
-        either floats or mpmath types.
+        An analytical function of energy for the elements of the scattering
+        matrix. Can be either floats or mpmath types.
     asymcalc : AsymCalc
-        As returned from the get_asym_calc function.
+        As for get_dmat_from_discrete.
     start_ene : float
         Start energy for the discretisation.
     end_ene : float
@@ -99,8 +100,7 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
     num_points : float
         Number of energy points for the discretisation.
     source_str : str
-        String provided to uniquely identify the scattering data. Will be used
-        in the archiving of results.
+        As for get_dmat_from_discrete.
 
     Returns
     -------
