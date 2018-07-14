@@ -36,9 +36,9 @@ def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
     angmoms : list of ints, optional
         Specification of the angular momenta in each of the channels. Defaults 
         to zero in all channels.
-    tot_spin : int, optional
+    tot_spin : float, optional
         Specification of the total spin of the system. Defaults to 0.5.
-    targ_spins : int or list of ints, optional
+    targ_spins : float or list of floats, optional
         Specification of the spin of the target state spin in each of the
         channels. Defaults to zero in all channels.
 
