@@ -804,3 +804,42 @@ class MCSMatFit(th.tool):
                            show)
 
         self.log.write_call_end("plot_XS_fit")
+
+    def plot_EigenPhase_fit(self, csmat, num_plot_points=None, units=None,
+                            logx=False, logy=False, show=True):
+        """
+        Plots the eigenphase sum obtained from the original and fitted S-matrix
+        along with the fit points used. There are additional advanced parameters
+        in the tool yaml file.
+
+        Parameters
+        ----------
+        csmat : cSmat
+            Fitted S-matrix returned from get_elastic_Smat.
+        num_plot_points, units, logx, logy, show
+            Refer to the chart tool for description.
+        """
+        Npts = csmat.fitInfo[0]
+        self.log.write_call("plot_EigenPhase_fit("+str(Npts)+")")
+        self._check_for_fit_plot(csmat)
+        ret = self._prepare_for_fit_plot(num_plot_points)  
+        if ret is not None:
+            p, ln, orig = ret
+
+            orig = orig.to_dEPhaseSca()
+
+            ris0 = csmat.fitInfo[1][0]
+            fit_pnts = self.data[ris0[0]:ris0[1]:ris0[2]]
+            fit_pnts = fit_pnts.to_dEPhaseSca()
+
+            rng = orig.get_range()
+            dsmat = csmat.discretise(rng[0], rng[1], ln)
+            fit = dsmat.to_dEPhaseSca()
+
+            title = "Eigenphase Sum fit for Npts="+str(Npts)
+
+            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                           units, "Eigenphase Sum (radians)", logx, logy, False,
+                           show)
+
+        self.log.write_call_end("plot_EigenPhase_fit")

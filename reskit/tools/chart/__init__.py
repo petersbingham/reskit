@@ -116,17 +116,17 @@ class Chart(th.tool):
         self.log.write_call_end("plot_Smatrix")
 
     def plot_Kmatrix(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, imag=False, i=None, j=None,
-                     show=True):
+                     logx=False, logy=False, i=None, j=None, show=True):
         """
-        Plots the K-matrix. See docs for plot_Smatrix for further details.
+        Plots the K-matrix. See docs for plot_Smatrix for further details. Note
+        that there is no imag parameter for this function.
         """
-        self._write_call(start, end, num_plot_points, units, logx, logy, imag,
+        self._write_call(start, end, num_plot_points, units, logx, logy, None,
                          i, j, show, "plot_Kmatrix")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dKmat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j,
+        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j,
                    show)
         self.log.write_call_end("plot_Kmatrix")
 
@@ -164,7 +164,7 @@ class Chart(th.tool):
     def plot_raw(self, start=0, end=None, num_plot_points=None, units=None,
                  logx=False, logy=False, imag=False, i=None, j=None, show=True):
         """
-        Plots whatever form the Tool data happes to be in. See docs for
+        Plots whatever form the Tool data happens to be in. See docs for
         plot_Smatrix for further details.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, imag,
@@ -175,20 +175,35 @@ class Chart(th.tool):
                    show)
         self.log.write_call_end("plot_raw")
 
-    def plot_Ephase(self, start=0, end=None, num_plot_points=None, units=None,
+    def plot_EphaseSum(self, start=0, end=None, num_plot_points=None, units=None,
                      logx=False, logy=False, show=True):
         """
-        Plots the eigenphase. See docs for plot_Smatrix for further details.
+        Plots the eigenphase sum. See docs for plot_Smatrix for further details.
         Note that there are no i, j, and imag parameters for this function.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, None,
-                         None, None, show, "plot_Ephase")
+                         None, None, show, "plot_EphaseSum")
+        dmat,start,end,num_plot_points = self._getdbase(start, end, 
+                                                        num_plot_points, units)
+        dmat = dmat.to_dEPhaseSca()
+        self._plot(dmat, start, end, num_plot_points, logx, logy, False, None,
+                   None, show)
+        self.log.write_call_end("plot_EphaseSum")
+
+    def plot_EphaseMat(self, start=0, end=None, num_plot_points=None, units=None,
+                     logx=False, logy=False, i=None, j=None, show=True):
+        """
+        Plots the eigenphase matrix. See docs for plot_Smatrix for further
+        details. Note that there is no imag parameter for this function.
+        """
+        self._write_call(start, end, num_plot_points, units, logx, logy, None,
+                         i, j, show, "plot_EphaseMat")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dEPhaseMat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, False, None,
-                   None, show)
-        self.log.write_call_end("plot_Ephase")
+        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j,
+                   show)
+        self.log.write_call_end("plot_EphaseMat")
 
     def plot_XS(self, start=0, end=None, num_plot_points=None, units=None, 
                 logx=False, logy=False, show=True):

@@ -18,7 +18,7 @@ else:
 reskitfuns = ["get_asym_calc","get_dmat_from_discrete","get_dmat_from_continuous",\
               "get_tool","use_python_types","use_mpmath_types"]
 chartfunctions = ["plot_Smatrix", "plot_Kmatrix", "plot_Tmatrix", "plot_UniOpSMat",\
-                  "plot_raw", "plot_Ephase", "plot_XS", "plot_XS"]
+                  "plot_raw", "plot_EphaseSum", "plot_XS"]
 # Order important since substrings:
 mcsmatfitfunctions = ["get_elastic_Fins", "find_Fin_roots", "find_stable_Smat_poles",\
                       "get_elastic_Smat", "plot_Smat_fit", "plot_XS_fit"]
@@ -185,14 +185,16 @@ with open("doc.txt", 'a') as f:
 import chart
 functions = ["plot_Smatrix"]
 collective_name = ", plot_Kmatrix, plot_Tmatrix, plot_UniOpSMat, plot_raw, "\
-                  "plot_Ephase, plot_XS"
+                  "plot_EphaseSum, plot_XS"
 collective_desc = "Plots various scattering related quantities."
 add_info = [[(False, collective_name), (True, collective_desc)]]
 write_doc(chart.Chart, functions, "chart", add_info)
 
 desc_str = (
-r"\noindent The \codefont{i}, \codefont{j} and \codefont{imag} parameters are "
-"only available when the quantity to plot is a matrix (ie not available for "
-"\codefont{plot\_Ephase} and \codefont{plot\_XS}).")
+r"\noindent The \codefont{i} and \codefont{j} parameters are only available "
+r"when the quantity to plot is a matrix (ie not for \codefont{plot\_Ephase} "
+r"and \codefont{plot\_XS}). The \codefont{imag} parameter is not available for "
+r"real quantities (ie not for \codefont{plot\_Kmatrix}, \codefont{plot\_Ephase} "
+r"and \codefont{plot\_XS}).")
 with open("doc.txt", 'a') as f:
     f.write(desc_str)

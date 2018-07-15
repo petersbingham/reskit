@@ -51,6 +51,12 @@ print "Plot all data as raw matrix"
 chart.plot_raw()
 print "Plot all data as cross section"
 chart.plot_XS()
+print "Plot all data as cross section matrix"
+chart.plot_XSmat()
+print "Plot all data as eigenphase sum"
+chart.plot_EphaseSum()
+print "Plot all data as eigenphase matrix"
+chart.plot_EphaseMat()
 
 #### mpmath types ####
 cu.use_mpmath_types()
