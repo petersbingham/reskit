@@ -19,7 +19,7 @@ if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
 class parent_test(unittest.TestCase):
-    def find_stable_Smat_poles(self):
+    def charts(self):
         cal = rk.get_asym_calc(cu.hartrees, [0,0])
         csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
@@ -37,12 +37,12 @@ class parent_test(unittest.TestCase):
 class test_numpy(parent_test):
     def runTest(self):
         rk.use_python_types()
-        self.find_stable_Smat_poles()
+        self.charts()
 
 class test_mpmath(parent_test):
     def runTest(self):
         rk.use_mpmath_types()
-        self.find_stable_Smat_poles()
+        self.charts()
 
 if __name__ == "__main__":
     #Just for debug
