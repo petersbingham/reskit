@@ -221,3 +221,35 @@ class Chart(th.tool):
         dmat = dmat.to_dXSmat()
         self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j)
         self.log.write_call_end("plot_XSmat")
+
+    def plot_Qmatrix(self, start=0, end=None, num_plot_points=None, units=None,
+                     logx=False, logy=False, imag=False, i=None, j=None,
+                     show=True):
+        """
+        Plots the Q-matrix. See docs for plot_Smatrix for further details.
+        """
+        self._write_call(start, end, num_plot_points, units, logx, logy, imag,
+                         i, j, show, "plot_Qmatrix")
+        dmat,start,end,num_plot_points = self._getdbase(start, end, 
+                                                        num_plot_points, units)
+        dmat = dmat.to_dQmat()
+        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j,
+                   show)
+        self.log.write_call_end("plot_Qmatrix")
+
+    def plot_Qmatrix_evals(self, start=0, end=None, num_plot_points=None,
+                           units=None, logx=False, logy=False, i=None,
+                           show=True):
+        """
+        Plots the Q-matrix eigenvalues. See docs for plot_Smatrix for further
+        details.
+        """
+        self._write_call(start, end, num_plot_points, units, logx, logy, None,
+                         i, None, show, "plot_Qmatrix_evals")
+        dmat,start,end,num_plot_points = self._getdbase(start, end, 
+                                                        num_plot_points, units)
+        dmat = dmat.to_dQmat()
+        dvec = dmat.eigenvalues()
+        self._plot(dvec, start, end, num_plot_points, logx, logy, False, i,
+                   None, show)
+        self.log.write_call_end("plot_Qmatrix_evals")
