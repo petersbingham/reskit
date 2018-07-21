@@ -372,19 +372,17 @@ class MCSMatFit(th.tool):
 
     def _save_QI_data(self, n_list, pole_dat, asymcalc):
         if self.archive_root is not None:
-            rows = []
             QI_path = self._get_QI_path(self._get_pole_dir(n_list))
             path = self._save_QI_data_file(QI_path, pole_dat, asymcalc, "k", 0)
             self.log.write_msg("QI data saved to: " + path)
             path = self._save_QI_data_file(QI_path, pole_dat, asymcalc, "E", 1)
             self.log.write_msg("QI data saved to: " + path)
 
-    def _update_container_strings(self, Npts, cont, chart_title=None):
-        cont.set_source_str(self.data.get_source_str())
-        cont.append_hist_str(self.data.get_hist_str())
-        cont.append_hist_str("mcsmatfit_N="+str(Npts))
-        if chart_title is not None:
-            cont.set_chart_title("Fin")
+    def _update_container_strings(self, Npts, cmat):
+        cmat.set_source_str(self.data.get_source_str())
+        cmat.append_hist_str(self.data.get_hist_str())
+        cmat.append_hist_str("mcsmatfit_N="+str(Npts))
+        cmat.supplement_chart_title(" (Npts="+str(Npts)+")")
 
     ##### Formattted Tables #####
 
@@ -526,7 +524,7 @@ class MCSMatFit(th.tool):
         coeffs = self._get_coefficients(Npts, ris[0])
         cfin = psm.get_elastic_Fin_fun(coeffs, self.data.asymcalc)
         cfin.fitInfo = (Npts,ris)
-        self._update_container_strings(Npts, cfin, "Fin")
+        self._update_container_strings(Npts, cfin)
         self.log.write_msg("cfin calculated")
         self.log.write_call_end("get_elastic_Fin")
         return cfin
@@ -753,7 +751,7 @@ class MCSMatFit(th.tool):
             dsmat = csmat.discretise(rng[0], rng[1], ln)
             fit = self._reduceDimensions(dsmat, i, j)
 
-            title = "S matrix fit for Npts="+str(Npts)
+            title = "S matrix (Npts="+str(Npts)+")"
             if i and j:
                 title += ", m="+str(i+1)+", n="+str(j+1)
             elif i:
@@ -797,7 +795,7 @@ class MCSMatFit(th.tool):
             dsmat = csmat.discretise(rng[0], rng[1], ln)
             fit = dsmat.to_dXSsca()
 
-            title = "Cross Section fit for Npts="+str(Npts)
+            title = "Cross Section (Npts="+str(Npts)+")"
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
                            units, "Cross Section (bohr$^2$)", logx, logy, False,
@@ -836,7 +834,7 @@ class MCSMatFit(th.tool):
             dsmat = csmat.discretise(rng[0], rng[1], ln)
             fit = dsmat.to_dEPhaseSca()
 
-            title = "Eigenphase Sum fit for Npts="+str(Npts)
+            title = "Eigenphase Sum (Npts="+str(Npts)+")"
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
                            units, "Eigenphase Sum (radians)", logx, logy, False,
