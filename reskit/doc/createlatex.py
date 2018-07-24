@@ -183,9 +183,9 @@ desc_str = "\\subsubsection{Chart}\n\n"
 with open("doc.txt", 'a') as f:
     f.write(desc_str)  
 import chart
-functions = ["plot_Smatrix"]
-collective_name = ", plot_Kmatrix, plot_Tmatrix, plot_UniOpSMat, plot_raw, "\
-                  "plot_EphaseSum, plot_XS"
+functions = ["plot_raw"]
+collective_name = ", plot_Smatrix, plot_Kmatrix, plot_Tmatrix, "\
+                  "plot_UniOpSMat, plot_EphaseSum, plot_XS"
 collective_desc = "Plots various scattering related quantities."
 add_info = [[(False, collective_name), (True, collective_desc)]]
 write_doc(chart.Chart, functions, "chart", add_info)

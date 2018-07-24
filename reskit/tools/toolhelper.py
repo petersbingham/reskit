@@ -74,7 +74,7 @@ class tool:
             return p, ln, orig
 
     def _plot_fit(self, p, title, orig, fit_pnts, fit, num_plot_points, units,
-                  y_axis_lbl, logx, logy, imag, show):
+                  y_axis_lbl, logx, logy, imag):
         xsize = p["xsize"]
         ysize = p["ysize"]
 
@@ -104,7 +104,7 @@ class tool:
             savePath += title + " " + str(num_plot_points) + ".png"
             self.log.write_msg("Chart saved to: "+savePath)
             plt.savefig(savePath, bbox_inches='tight')
-        if show:
+        if p["show"]:
             plt.show()
 
     def _reduceDimensions(self, dbase, i, j):

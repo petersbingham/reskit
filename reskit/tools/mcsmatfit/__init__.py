@@ -749,7 +749,7 @@ class MCSMatFit(th.tool):
         return csmat
 
     def plot_Smat_fit(self, csmat, num_plot_points=None, units=None, i=None,
-                      j=None, logx=False, logy=False, imag=False, show=True):
+                      j=None, logx=False, logy=False, imag=False):
         """
         Plots the original data, the fit points used and the resultant S-matrix
         for the specified matrix element(s). There are additional advanced
@@ -759,7 +759,7 @@ class MCSMatFit(th.tool):
         ----------
         csmat : cSmat
             Fitted S-matrix returned from get_elastic_Smat.
-        num_plot_points, units, i, j, logx, logy, imag, show
+        num_plot_points, units, i, j, logx, logy, imag
             Refer to the chart tool for description.
         """
         Npts = csmat.fitInfo[0]
@@ -790,12 +790,12 @@ class MCSMatFit(th.tool):
                 title += ", n="+str(j+1)
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
-                           units, "S matrix", logx, logy, imag, show)
+                           units, "S matrix", logx, logy, imag)
 
         self.log.write_call_end("plot_Smat_fit")
 
     def plot_XS_fit(self, csmat, num_plot_points=None, units=None,
-                       logx=False, logy=False, show=True):
+                       logx=False, logy=False):
         """
         Plots the cross section obtained from the original and fitted S-matrix
         along with the fit points used. There are additional advanced parameters
@@ -805,7 +805,7 @@ class MCSMatFit(th.tool):
         ----------
         csmat : cSmat
             Fitted S-matrix returned from get_elastic_Smat.
-        num_plot_points, units, logx, logy, show
+        num_plot_points, units, logx, logy
             Refer to the chart tool for description.
         """
         Npts = csmat.fitInfo[0]
@@ -828,13 +828,12 @@ class MCSMatFit(th.tool):
             title = "Cross Section (Npts="+str(Npts)+")"
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
-                           units, "Cross Section (bohr$^2$)", logx, logy, False,
-                           show)
+                           units, "Cross Section (bohr$^2$)", logx, logy, False)
 
         self.log.write_call_end("plot_XS_fit")
 
     def plot_EigenPhase_fit(self, csmat, num_plot_points=None, units=None,
-                            logx=False, logy=False, show=True):
+                            logx=False, logy=False):
         """
         Plots the eigenphase sum obtained from the original and fitted S-matrix
         along with the fit points used. There are additional advanced parameters
@@ -844,7 +843,7 @@ class MCSMatFit(th.tool):
         ----------
         csmat : cSmat
             Fitted S-matrix returned from get_elastic_Smat.
-        num_plot_points, units, logx, logy, show
+        num_plot_points, units, logx, logy
             Refer to the chart tool for description.
         """
         Npts = csmat.fitInfo[0]
@@ -867,7 +866,6 @@ class MCSMatFit(th.tool):
             title = "Eigenphase Sum (Npts="+str(Npts)+")"
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
-                           units, "Eigenphase Sum (radians)", logx, logy, False,
-                           show)
+                           units, "Eigenphase Sum (radians)", logx, logy, False)
 
         self.log.write_call_end("plot_EigenPhase_fit")

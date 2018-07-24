@@ -12,11 +12,11 @@ class Chart(th.tool):
                          silent)
 
     def _write_call(self, start, end, num_plot_points, units, logx, logy, imag,
-                    i, j, show, funName):
+                    i, j, funName):
         self.log.write_call(funName+"("+str(start)+","+str(end)+","\
                            +str(num_plot_points)+","+str(units)+","+str(i)+","\
                            +str(j)+","+str(logx)+","+str(logy)+","+str(imag)\
-                           +","+str(show)+")")
+                           +")")
 
     def _set_chart_parameters(self, dbase):
         with open(self.param_file_path, 'r') as f:
@@ -55,8 +55,7 @@ class Chart(th.tool):
             dbase = dbase.convert_ene_units(units)
         return dbase, start, end, num_plot_points
 
-    def _plot(self, dbase, start, end, num_plot_points, logx, logy, imag, i, j, 
-              show):
+    def _plot(self, dbase, start, end, num_plot_points, logx, logy, imag, i, j):
         dbase = self._reduceDimensions(dbase, i, j)
         self._set_chart_parameters(dbase)
         save_path = None
@@ -65,17 +64,19 @@ class Chart(th.tool):
             save_path += self._get_save_string(start, end, num_plot_points, logx, 
                                               logy, dbase.x_units)
             self.log.write_msg("Chart saved to: "+save_path)
-        dbase.plot(logx, logy, imag, show, save_path)
+            
+        with open(self.param_file_path, 'r') as f:
+            config = yaml.load(f.read())
+            dbase.plot(logx, logy, imag, config["show"], save_path)
 
     ##### Public API #####
 
-    def plot_Smatrix(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, imag=False, i=None, j=None,
-                     show=True):
+    def plot_raw(self, start=0, end=None, num_plot_points=None, units=None,
+                 logx=False, logy=False, imag=False, i=None, j=None):
         """
-        Plots the S-matrix. There are additional advanced parameters in the
-        tool yml file.
-    
+        Plots whatever form the Tool data happens to be in. There are additional
+        advanced parameters in the tool yml file.
+
         Parameters
         ----------
         start / end : int or float, optional
@@ -99,138 +100,123 @@ class Chart(th.tool):
             Zero-based row index to plot. Default is to plot all rows.
         j : int, optional
             Zero-based column index to plot. Default is to plot all columns.
-        show : bool, optional
-            A copy of the chart will be saved into the archive if an
-            archive_root has been provided to the reskit.get_tool function. If
-            this parameter is True (default) the chart will also be shown in a
-            GUI and the program will be blocked until this window is closed. Set
-            to False to not show the chart on function call.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, imag,
-                         i, j, show, "plot_Smatrix")
+                         i, j, "plot_raw")
+        dmat,start,end,num_plot_points = self._getdbase(start, end, 
+                                                        num_plot_points, units)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j)
+        self.log.write_call_end("plot_raw")
+
+    def plot_Smatrix(self, start=0, end=None, num_plot_points=None, units=None,
+                     logx=False, logy=False, imag=False, i=None, j=None):
+        """
+        Plots the S-matrix. See docs for plot_raw for further details.
+        """
+        self._write_call(start, end, num_plot_points, units, logx, logy, imag,
+                         i, j, "plot_Smatrix")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dSmat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j,
-                   show)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j)
         self.log.write_call_end("plot_Smatrix")
 
     def plot_Kmatrix(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, i=None, j=None, show=True):
+                     logx=False, logy=False, i=None, j=None):
         """
-        Plots the K-matrix. See docs for plot_Smatrix for further details. Note
+        Plots the K-matrix. See docs for plot_raw for further details. Note
         that there is no imag parameter for this function.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, None,
-                         i, j, show, "plot_Kmatrix")
+                         i, j, "plot_Kmatrix")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dKmat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j,
-                   show)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j)
         self.log.write_call_end("plot_Kmatrix")
 
     def plot_Tmatrix(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, imag=False, i=None, j=None,
-                     show=True):
+                     logx=False, logy=False, imag=False, i=None, j=None):
         """
-        Plots the T-matrix. See docs for plot_Smatrix for further details.
+        Plots the T-matrix. See docs for plot_raw for further details.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, imag,
-                         i, j, show, "plot_Tmatrix")
+                         i, j, "plot_Tmatrix")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dTmat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j,
-                   show)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j)
         self.log.write_call_end("plot_Tmatrix")
 
     def plot_UniOpSMat(self, start=0, end=None, num_plot_points=None, 
                        units=None, logx=False, logy=False, imag=False, i=None,
-                       j=None, show=True):
+                       j=None):
         """
         Plots the S-matrix following the unitary operation. See docs for
-        plot_Smatrix for further details.
+        plot_raw for further details.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, imag,
-                         i, j, show, "plot_UniOpSMat")
+                         i, j, "plot_UniOpSMat")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dUniOpMat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j,
-                   show)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j)
         self.log.write_call_end("plotUniOpMat")
 
-    def plot_raw(self, start=0, end=None, num_plot_points=None, units=None,
-                 logx=False, logy=False, imag=False, i=None, j=None, show=True):
-        """
-        Plots whatever form the Tool data happens to be in. See docs for
-        plot_Smatrix for further details.
-        """
-        self._write_call(start, end, num_plot_points, units, logx, logy, imag,
-                         i, j, show, "plot_raw")
-        dmat,start,end,num_plot_points = self._getdbase(start, end, 
-                                                        num_plot_points, units)
-        self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j,
-                   show)
-        self.log.write_call_end("plot_raw")
-
     def plot_EphaseSum(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, show=True):
+                     logx=False, logy=False):
         """
-        Plots the eigenphase sum. See docs for plot_Smatrix for further details.
+        Plots the eigenphase sum. See docs for plot_raw for further details.
         Note that there are no i, j, and imag parameters for this function.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, None,
-                         None, None, show, "plot_EphaseSum")
+                         None, None, "plot_EphaseSum")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dEPhaseSca()
         self._plot(dmat, start, end, num_plot_points, logx, logy, False, None,
-                   None, show)
+                   None)
         self.log.write_call_end("plot_EphaseSum")
 
     def plot_EphaseMat(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, i=None, j=None, show=True):
+                     logx=False, logy=False, i=None, j=None):
         """
-        Plots the eigenphase matrix. See docs for plot_Smatrix for further
-        details. Note that there is no imag parameter for this function.
+        Plots the eigenphase matrix. See docs for plot_raw for further details.
+        Note that there is no imag parameter for this function.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, None,
-                         i, j, show, "plot_EphaseMat")
+                         i, j, "plot_EphaseMat")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dEPhaseMat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j,
-                   show)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j)
         self.log.write_call_end("plot_EphaseMat")
 
     def plot_XS(self, start=0, end=None, num_plot_points=None, units=None, 
-                logx=False, logy=False, show=True):
+                logx=False, logy=False):
         """
-        Plots the cross section. See docs for plot_Smatrix for further details.
+        Plots the cross section. See docs for plot_raw for further details.
         Note that there are no i, j, and imag parameters for this function.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, None,
-                         None, None, show, "plot_XS")
+                         None, None, "plot_XS")
         dmat,start,end,num_plot_points = self._getdbase(start, end,
                                                         num_plot_points, units)
         dsca = dmat.to_dXSsca()
         self._plot(dsca, start, end, num_plot_points, logx, logy, False, None,
-                   None, show)
+                   None)
         self.log.write_call_end("plot_XS")
 
     def plot_XSmat(self, start=0, end=None, num_plot_points=None, units=None,
-                   logx=False, logy=False, i=None, j=None, show=True):
+                   logx=False, logy=False, i=None, j=None):
         """
-        Plots the cross section matrix. See docs for plot_Smatrix for further
+        Plots the cross section matrix. See docs for plot_raw for further
         details. Note that there is no imag parameter for this function.
         """
         self._write_call(start, end, num_plot_points, units, logx, logy, None,
-                         i, j, show, "plot_XSmat")
+                         i, j, "plot_XSmat")
         dmat,start,end,num_plot_points = self._getdbase(start, end, 
                                                         num_plot_points, units)
         dmat = dmat.to_dXSmat()
-        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j,
-                   show)
+        self._plot(dmat, start, end, num_plot_points, logx, logy, False, i, j)
         self.log.write_call_end("plot_XSmat")

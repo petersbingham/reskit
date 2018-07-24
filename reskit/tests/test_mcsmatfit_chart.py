@@ -24,15 +24,20 @@ class parent_test(unittest.TestCase):
         csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
         mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT,
-                               silent=True)
+                                param_file_path="test_mcsmatfit_chart.yaml",
+                                silent=True)
 
         cfin = mcsmatfit.get_elastic_Fin(6)
         csmat = mcsmatfit.get_elastic_Smat(6)
         
-        chart = rk.get_tool(rk.chart, cfin, archive_root=TEST_ROOT, silent=True)
-        chart.plot_raw(show=False)
-        chart = rk.get_tool(rk.chart, csmat, archive_root=TEST_ROOT, silent=True)
-        chart.plot_Smatrix(show=False)
+        chart = rk.get_tool(rk.chart, cfin, archive_root=TEST_ROOT,
+                            param_file_path="test_mcsmatfit_chart.yaml",
+                            silent=True)
+        chart.plot_raw()
+        chart = rk.get_tool(rk.chart, csmat, archive_root=TEST_ROOT,
+                            param_file_path="test_mcsmatfit_chart.yaml",
+                            silent=True)
+        chart.plot_Smatrix()
 
 class test_numpy(parent_test):
     def runTest(self):

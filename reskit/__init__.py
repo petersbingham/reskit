@@ -112,14 +112,14 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
 
 chart = 0
 mcsmatfit = 1
-def get_tool(toolID, data, archive_root=None, param_file_path=None, 
+def get_tool(toolid, data, archive_root=None, param_file_path=None, 
              silent=False):
     """
     Initialises and returns a Tool.
 
     Parameters
     ----------
-    toolID : int 
+    toolid : int 
         Specification of the Tool. Available options are reskit.chart and
         reskit.mcsmatfit.
     data
@@ -138,10 +138,10 @@ def get_tool(toolID, data, archive_root=None, param_file_path=None,
     """
     if safeMode:
         nw.lockType()
-    if toolID == chart:
+    if toolid == chart:
         import chart as mod
         tool = mod.Chart
-    elif toolID == mcsmatfit:
+    elif toolid == mcsmatfit:
         import mcsmatfit as mod
         tool = mod.MCSMatFit
     else:

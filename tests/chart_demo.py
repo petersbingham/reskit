@@ -74,7 +74,8 @@ chart.plot_Smatrix()
 
 # Check copy saved on file system
 chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-demo.yaml")
-print "Plot all mpmath data as S-matrix using yml config and saved to archive."
+print "Plot all mpmath data as S-matrix using yml config and save to archive."
 chart.plot_Smatrix()
 print "This time as T-matrix but don't show."
-chart.plot_Tmatrix(show=False)
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-demo-noshow.yaml")
+chart.plot_Tmatrix()
