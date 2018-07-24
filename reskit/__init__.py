@@ -152,17 +152,17 @@ def get_tool(toolID, data, archive_root=None, param_file_path=None,
         archive_root = data_root+mod.toolName+os.sep
         if not os.path.isdir(data_root):
             os.makedirs(data_root)
-            with th.fwopen(data_root+"checkdata.dat") as f:
+            with th.fwopen(data_root+"checkdata.txt") as f:
                 th.fw(f, data.get_check_str())
         else:
-            if os.path.isfile(data_root+"checkdata.dat"):
-                with th.fropen(data_root+"checkdata.dat") as f:
+            if os.path.isfile(data_root+"checkdata.txt"):
+                with th.fropen(data_root+"checkdata.txt") as f:
                     if str(f.read()) != str(data.get_check_str()):
                         s = "Supplied data does not correspond to that used "
                         s += "to originally create the data_root."
                         raise Exception(s)
             else:
-                s = "Invalid archive state: data dir with no checkdata.dat."
+                s = "Invalid archive state: data dir with no checkdata.txt."
                 raise Exception(s)
         if not os.path.isdir(archive_root):
             os.makedirs(archive_root)

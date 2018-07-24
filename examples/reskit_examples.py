@@ -32,13 +32,13 @@ if sys.argv[1] == "radwell":
     sl = None
     param_path = "test-configuration-1.yaml"
 elif sys.argv[1] == "pyrazine":
-    input_data_file = "kmatrix-input-pyrazine.dat"
+    input_data_file = "kmatrix-input-pyrazine.txt"
     desc_str = "pyrazine"
     ang_mom = [3,5,5]
     sl = slice(0,1200)
     param_path = None
 elif sys.argv[1] == "uracil":
-    input_data_file = "kmatrix-input-uracil.dat"
+    input_data_file = "kmatrix-input-uracil.txt"
     desc_str = "uracil"
     ang_mom = [1,2,2,3,3,3]
     sl = None

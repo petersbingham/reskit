@@ -14,7 +14,7 @@ toolDir = os.path.dirname(os.path.realpath(__file__))
 toolName = "mcsmatfit"
 
 QI_file_name = "QIs"
-QI_file_ext = ".dat"
+QI_file_ext = ".txt"
 
 QI_file_real = "real"
 QI_file_imag = "imag"
@@ -101,7 +101,7 @@ class MCSMatFit(th.tool):
         return a + b
 
     def _get_coeff_path(self, coeff_dir, type_str, i):
-        return coeff_dir+os.sep+type_str+"_"+str(i)+".dat"
+        return coeff_dir+os.sep+type_str+"_"+str(i)+".txt"
 
     def _fix_numpy_file(self, file_name):
         f1 = th.fropen(file_name)
@@ -204,7 +204,7 @@ class MCSMatFit(th.tool):
     ##### Root File #####
 
     def _get_root_path(self, root_dir, Npts, ris0):
-        return root_dir+os.sep+self._get_input_desc_str(Npts, ris0)+".dat"
+        return root_dir+os.sep+self._get_input_desc_str(Npts, ris0)+".txt"
 
     def _save_root_config(self, p):
         with th.fwopen(self._get_root_config_path()) as f:
@@ -309,7 +309,7 @@ class MCSMatFit(th.tool):
         return self._get_pole_config_dir() + os.sep+str(n_list).replace(' ','')
 
     def _get_pole_path(self, pole_dir, dk):
-        return pole_dir+os.sep+"dk"+nu.sci_str(dk)+".dat"
+        return pole_dir+os.sep+"dk"+nu.sci_str(dk)+".txt"
 
     def _save_pole_config(self, p):
         with th.fwopen(self._get_pole_config_path()) as f:
@@ -440,7 +440,7 @@ class MCSMatFit(th.tool):
     def _write_formatted_QI_table(self, start, new_lines, end, subdir,
                                   sig_digits, use_energies, tab_type):
         name = self._formatted_QI_table_name(sig_digits, use_energies, tab_type)
-        save_path = subdir+os.sep+"QIs"+name+".dat"
+        save_path = subdir+os.sep+"QIs"+name+".txt"
         with th.fwopen(save_path) as f:
             th.fw(f, start)
             for l in new_lines:
@@ -476,7 +476,7 @@ class MCSMatFit(th.tool):
         desc, new_lines = self._get_formatted_lines(subdir, file_name,
                                                     sig_digits)
         name = self._formatted_QI_table_name(sig_digits, use_energies, "raw")
-        save_path = subdir+os.sep+"QIs"+name+".dat"
+        save_path = subdir+os.sep+"QIs"+name+".txt"
         with th.fwopen(save_path) as f:
             th.fw(f, desc)    
             th.fw(f, t.tabulate(new_lines, header, 
@@ -660,7 +660,7 @@ class MCSMatFit(th.tool):
     def create_formatted_QI_tables(self, table_type="latex_E",
                                    sig_digits=10):
         """
-        Creates and formats all the QIs.dat tables in the current archive.
+        Creates and formats all the QIs.txt tables in the current archive.
         Numbers are formatted according to the supplied parameters. There are
         additional advanced parameters in the tool yaml file.
 
