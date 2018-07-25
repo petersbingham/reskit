@@ -1,18 +1,17 @@
 import os
 import sys
-from base64 import test
 fileDir = os.path.dirname(os.path.realpath(__file__))
 rkPath = fileDir+'/../..'
 sys.path.insert(0,rkPath)
+
+import unittest
+import shutil
 
 import reskit as rk
 rk.safeMode = False
 import channelutil as cu
 import twochanradialwell as rw
 import pynumwrap as nw
-
-import unittest
-import shutil
 
 TEST_ROOT = "test_mcsmatfit_chart"
 if os.path.isdir(TEST_ROOT):
@@ -24,7 +23,6 @@ class parent_test(unittest.TestCase):
         csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
         dsmat = csmat.discretise(1.,8.,100)
         mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT,
-                                param_file_path="test_mcsmatfit_chart.yaml",
                                 silent=True)
 
         cfin = mcsmatfit.get_elastic_Fin(6)
