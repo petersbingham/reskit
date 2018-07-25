@@ -28,6 +28,7 @@ fit_charts:
     - orange
   xsize: 8
   ysize: 7
+  show: True
 
 create_formatted_QI_tables:
   num_format:

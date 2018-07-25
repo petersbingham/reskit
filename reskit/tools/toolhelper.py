@@ -81,7 +81,15 @@ class tool:
         fig = plt.figure(facecolor="white")
         fig.suptitle(title)
         fig.set_size_inches(xsize, ysize, forward=True)
-        plt.gca().set_prop_cycle(cycler('color', p["colour_cycle"]))
+        valsize = orig.valsize()
+        if len(p["colour_cycle"])!=3 or valsize==1:
+            plt.gca().set_prop_cycle(cycler('color', p["colour_cycle"]))
+        else:
+            cyc = p["colour_cycle"]
+            new_cyc = []
+            for col in cyc:
+                new_cyc.extend([col]*valsize)
+            plt.gca().set_prop_cycle(cycler('color', new_cyc))
 
         if units is not None:
             orig = orig.convert_ene_units(units)

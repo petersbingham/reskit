@@ -782,11 +782,11 @@ class MCSMatFit(th.tool):
             fit = self._reduceDimensions(dsmat, i, j)
 
             title = "S matrix (Npts="+str(Npts)+")"
-            if i and j:
+            if i is not None and j is not None:
                 title += ", m="+str(i+1)+", n="+str(j+1)
-            elif i:
+            elif i is not None:
                 title += ", m="+str(i+1)
-            elif j:
+            elif j is not None:
                 title += ", n="+str(j+1)
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
