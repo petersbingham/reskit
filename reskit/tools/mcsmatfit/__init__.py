@@ -685,7 +685,7 @@ class MCSMatFit(th.tool):
         return None, None
 
     def create_formatted_QI_tables(self, table_type="latex_E",
-                                   sig_digits=10):
+                                   sig_digits=10, spec_path=False):
         """
         Creates and formats all the QIs.txt tables in the current archive.
         Numbers are formatted according to the supplied parameters. There are
@@ -699,6 +699,12 @@ class MCSMatFit(th.tool):
             quantity k, E). eg latex_E.
         sig_digits : int
             The number of significant digits to represent the numeric values.
+        spec_path : bool or str, optional
+            Convenience parameter. If you've don't want to go to the trouble of
+            setting up a configuration to get a table conversion then setting
+            True will generate all tables found recursively in the archive root.
+            Or you can use arbitrary path str and None for the data to search in
+            any path.
         """
         para_str = table_type +", " + str(sig_digits)
         self.log.write_call("create_formatted_QI_tables("+para_str+")")
@@ -706,7 +712,13 @@ class MCSMatFit(th.tool):
         if "E" in table_type:
             indic = "_E"
         QI_file = QI_file_name + indic + QI_file_ext
-        for subdir, _, files in os.walk("."):
+        if isinstance(spec_path, basestring):
+            path = spec_path
+        elif not spec_path:
+            path = self._get_pole_config_dir()
+        else:
+            path = self.archive_root
+        for subdir, _, files in os.walk(path):
             for orig_file_name in files:
                 if orig_file_name == QI_file:
                     if "latex" in table_type:
