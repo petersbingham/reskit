@@ -38,7 +38,7 @@ class parent_test(unittest.TestCase):
                             silent=True)
         chart.plot_Smatrix()
         chart = rk.get_tool(rk.chart, cqmat, archive_root=TEST_ROOT, silent=True)
-        chart.plot_raw(show=False, start=1) # Get div by zero for 1st index.
+        chart.plot_raw(start=1) # Get div by zero for 1st index.
 
 class test_numpy(parent_test):
     def runTest(self):
@@ -52,5 +52,5 @@ class test_mpmath(parent_test):
 
 if __name__ == "__main__":
     #Just for debug
-    b = test_mpmath()
+    b = test_numpy()
     b.runTest()
