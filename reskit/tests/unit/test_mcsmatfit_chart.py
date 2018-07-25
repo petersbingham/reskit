@@ -38,6 +38,7 @@ class parent_test(unittest.TestCase):
                             silent=True)
         chart.plot_Smatrix()
         chart = rk.get_tool(rk.chart, cqmat, archive_root=TEST_ROOT,
+                            param_file_path="test_mcsmatfit_chart.yaml",
                             silent=True)
         chart.plot_raw(start=1) # Get div by zero for 1st index.
 
