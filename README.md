@@ -3,6 +3,8 @@ Python Package to assist with the identification and characterisation of quantum
 
 WARNING: There are known issues with the latest version of sympy that affect the execution of reskit. We recommend using virtualenv to use the correct versions of the dependencies. This is fully explained in the instructions below.
 
+TROUBLESHOOTING: If you encounter any issues with reskit please consult the [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md)
+
 ## Getting reskit
 
 Git clone the repository with the following command:
@@ -11,7 +13,7 @@ Git clone the repository with the following command:
     
 ## Dependencies
 
-Currently reskit only supports python 2.7.
+Currently reskit only supports python 2.7. Suggested version is 2.7.15.
 
 Third party packages:
   - numpy
@@ -33,7 +35,7 @@ reskit utilities:
   - [twochanradialwell](https://github.com/petersbingham/twochanradialwell)
   - [ukrmolmatreader](https://github.com/petersbingham/ukrmolmatreader)
 
-We recommend using specific versions of these dependencies, especially for the third party packages. If the user wishes to try their luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
+We recommend using the specific versions of these dependencies as indicated in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt), especially for the third party packages. If the user wishes to try their luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
 
 ### Installing dependencies with virtualenv
 

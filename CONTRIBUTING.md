@@ -8,14 +8,14 @@
 4. Ensure any install or build dependencies are removed.
 5. Update the README.md with details of your new Tool or any changes to current Tools.
 6. Increase the version numbers in setup.py to the new version that this Pull Request would represent. The versioning scheme used by reskit is [SemVer](http://semver.org/).
-7. Respond to any feedback if given.
+7. Respond to any feedback if given during PR review.
 
 ## Conventions
 
 ### Naming
  - Follows [PEP8](https://www.python.org/dev/peps/pep-0008/), with the following exceptions:
    - Function names can have an upper case letter if that letter represents a scattering matrix. (eg get_elastic_Smat).
-   - Function parameters can have an upper case if that letter represents a documented math variable (eg Npnts).
+   - Function parameters can have an upper case letter if that letter represents a documented math variable (eg Npnts).
    - Otherwise, variable names must always be lower case.
    - The matfuncutil and tisutils containers have a lower case initial letter to indicate if discrete or continuous. Otherwise follows CapWord convention (eg `dSmat`). Instances of these classes are all lower case. eg dmat, dsmat etc.
 

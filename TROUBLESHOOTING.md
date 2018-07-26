@@ -1,0 +1,11 @@
+## Run Time Exceptions
+ - `ImportError: No module named reskit`
+   - This arises if the interpreter cannot find the module in the PYTHONPATH. Possible causes if you are using a virtulenv:
+     - You have not activated your virtulenv before invoking the interpreter (see [README.md](https://github.com/petersbingham/reskit/blob/master/README.md)).
+     - You did not activate the virtulenv prior to intalling reskit and its dependencies. In this case the dependencies will likely have been installed into your global python location (see [README.md](https://github.com/petersbingham/reskit/blob/master/README.md) for correct sequence of commands).
+
+  - `ImportError: libtk8.5.so: cannot open shared object file: No such file or directory`
+    - libtk8.5 is a runtime included as part of the standard python installation that is required by Matplotlib. If this exception occurs then it can't be found. Either libtk is not present in the path or an incorrect version has been installed into the virtualenv. The installed version needs to be compatible with the Matplotlib version specified in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt). Possible fixes: 
+      - virtualenv will setup using the default python version or that specified in the virtualenv script shebang. Use the version of python suggested in [README.md](https://github.com/petersbingham/reskit/blob/master/README.md). This will have proper support for the Matplotlib version specified in [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt).
+      - Install a version of Matplotlib that supports your libtk. If you've already installed your virtualenv as instructed then `pip uninstall Matplotlib` and `pip install Matplotlib==VERSION_NUM` or change the version number in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt) prior to setting up your virtualenv.
+      - If you are compiling python from source and then creating a virtualenv against this then you will need to ensure that you separately build the libtk.
