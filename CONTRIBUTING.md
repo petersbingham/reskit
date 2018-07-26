@@ -27,7 +27,9 @@
  - When indexing in code: Zero based with `i`,`j` for index reference.
  
 ### File
- - Lines endings always Linux style.
+ - Lines endings always use Linux style.
+ - `.txt` files are used for ascii based results that are meant for user consumption.
+ - `.dat` files can also be ascii based but are primarily for internal reskit usage. 
 
 ## Hints and Tips
  - When converting between matrices (eg calling to_dKmat on a tisutil container) ensure that any slices are carried out first if applicable. This will reduce the number of conversion calculations.

@@ -13,7 +13,7 @@ Git clone the repository with the following command:
     
 ## Dependencies
 
-Currently reskit only supports python 2.7. Suggested version is 2.7.15.
+Currently reskit only supports python 2.7. Suggested version is 2.7.15. If you are on Linux and have no sudo access see here for installing python into your user space: http://thelazylog.com/install-python-as-local-user-on-linux/
 
 Third party packages:
   - numpy
