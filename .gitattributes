@@ -1,0 +1,6 @@
+# Want the files generated in the archive to always have lf line endings.
+# This is because different OSs could be pushing into the same archive.
+*.txt text eol=lf
+*.dat text eol=lf
+*.yaml text eol=lf
+*.log text eol=lf
