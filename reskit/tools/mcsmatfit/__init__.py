@@ -697,8 +697,8 @@ class MCSMatFit(th.tool):
                     config = yaml.load(f.read())
                     p = config["find_stable_Smat_poles"]
                     self.log.write_parameters(p)
-                    if "zero_filt_thres" in p:
-                        pp = p["zero_filt_thres"]
+                    if "root_filt" in p:
+                        pp = p["root_filt"]
                         all_roots = self._filterRoots(all_roots, 
                                                       nw.complex(pp["point"]),
                                                       nw.complex(pp["atol"]))
