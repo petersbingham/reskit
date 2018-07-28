@@ -7,7 +7,7 @@ rk.safeMode = False
 import channelutil as cu
 import twochanradialwell as rw
 
-TEST_ROOT = "chart-demo"
+TEST_ROOT = "chart"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
@@ -73,9 +73,9 @@ print "Plot all mpmath data as S-matrix, this time discretised."
 chart.plot_Smatrix()
 
 # Check copy saved on file system
-chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-demo.yaml")
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart.yaml")
 print "Plot all mpmath data as S-matrix using yml config and save to archive."
 chart.plot_Smatrix()
 print "This time as T-matrix but don't show."
-chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart-demo-noshow.yaml")
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart_noshow.yaml")
 chart.plot_Tmatrix()

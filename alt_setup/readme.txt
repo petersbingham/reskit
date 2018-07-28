@@ -13,6 +13,9 @@ reskit/README.md                   - Main readme in markdown format (for GitHub
 reskit/CONTRIBUTING.md             - Documentation outlining instructions for
                                      contributing to the reskit code base.
 
+reskit/TROUBLESHOOTING.md           - Documentation outlining hints for
+                                      resolving known issues.
+
 reskit/setup.py                    - Installation script. See reskit/README.md.
 
 reskit/requirements.txt            - List of third party dependencies and
@@ -25,8 +28,8 @@ reskit/examples                    - Scripts to generate results from the
     /readme.txt                    - Instructions for running the example test
                                      data.
     /reskit_examples.py            - Python script containing the example code.
-    /kmatrix-input-pyrazine.dat    - K-matrix data for the pyrazine example.
-    /kmatrix-input-uracil.dat      - K-matrix data for the uracil example.
+    /kmatrix_input_pyrazine.txt    - K-matrix data for the pyrazine example.
+    /kmatrix_input_uracil.txt      - K-matrix data for the uracil example.
     /*.yaml                        - Configurations used in the examples
                                      calculations.
     /author-results                - Results obtained by authors using example

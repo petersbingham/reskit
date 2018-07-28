@@ -28,8 +28,9 @@
  
 ### File
  - Lines endings always use Linux style.
+ - All non-python files also following PEP8 naming (short, all-lowercase names. Underscores only, no hyphens).
  - `.txt` files are used for ascii based results that are meant for user consumption.
- - `.dat` files can also be ascii based but are primarily for internal reskit usage. 
+ - `.dat` files can also be ascii based but are primarily for internal reskit usage.
 
 ## Hints and Tips
  - When converting between matrices (eg calling to_dKmat on a tisutil container) ensure that any slices are carried out first if applicable. This will reduce the number of conversion calculations.

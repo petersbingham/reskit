@@ -2,8 +2,9 @@ Some releases (eg CPC) require inclusion of the utilities and are released as a 
 The files for this are contained here. Follow the instructions below to create this release.
 
 - Ensure all non-versioned files have been removed.
+- Check the version in the setup.py in this folder is correct.
 - Replace the requirements.txt and setup.py files in the parent with the ones here.
 - Copy the utilties folder here into the reskit folder in the parent.
-- Run the utilities/get-utilities.sh script.
+- Run the utilities/get_utilities.sh script.
 - Delete this alt-setup folder.
 - Zip all files and release along with with the readme.txt in this folder.

@@ -30,19 +30,19 @@ if sys.argv[1] == "radwell":
     desc_str = "radwell"
     ang_mom = [0,0]
     sl = None
-    param_path = "test-configuration-1.yaml"
+    param_path = "test_configuration_1.yaml"
 elif sys.argv[1] == "pyrazine":
-    input_data_file = "kmatrix-input-pyrazine.txt"
+    input_data_file = "kmatrix_input_pyrazine.txt"
     desc_str = "pyrazine"
     ang_mom = [3,5,5]
     sl = slice(0,1200)
     param_path = None
 elif sys.argv[1] == "uracil":
-    input_data_file = "kmatrix-input-uracil.txt"
+    input_data_file = "kmatrix_input_uracil.txt"
     desc_str = "uracil"
     ang_mom = [1,2,2,3,3,3]
     sl = None
-    param_path = "test-configuration-2.yaml"
+    param_path = "test_configuration_2.yaml"
 else:
     raise Exception(exceptStr)
 

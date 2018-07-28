@@ -9,7 +9,7 @@ import reskit as rk
 import channelutil as cu
 import twochanradialwell as tcrw
 
-TEST_ROOT = "chart_Smat_fin_fit"
+TEST_ROOT = "chart-Smat-fin-fit"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
