@@ -1,0 +1,1 @@
+{'root_filt': {'atol': '0.001+0.001j', 'point': 0.0}, 'stelempy': {'end_rtol': '1e-20', 'amalg_rtol': 0.0001, 'ztol': '1e-7', 'start_rtol': 0.0001, 'cfsteps': 2}}

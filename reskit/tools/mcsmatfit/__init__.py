@@ -405,11 +405,14 @@ class MCSMatFit(th.tool):
             return str_cell + str
 
     def _get_line(self, str_real, str_imag, str_wdk, str_ENk, trunc_wdk,
-                  sig_digits, col_delim, col_start_delim, has_final_col_delim):
+                  sig_digits, col_delim, col_start_delim, has_final_col_delim,
+                  use_energies):
         strip_zeros, min_fixed, max_fixed, show_zero_exponent, ztol = \
                 self._get_table_format_parameters()
         if trunc_wdk:
             num = int(str_wdk.split('-')[1])
+            if use_energies:
+                num += 1 # 50% chance extra digit when converting from k to E.
             if sig_digits is None or num < sig_digits:
                 sig_digits = num
         if trunc_wdk or sig_digits is not None:
@@ -426,13 +429,14 @@ class MCSMatFit(th.tool):
                                has_final_col_delim)
         return line
 
-    def _get_formatted_lines(self, subdir, file_name, trunc_wdk, sig_digits,
+    def _get_formatted_lines(self, subdir, orig_file_name, use_energies, 
+                             trunc_wdk, sig_digits,
                              row_delim=None, row_start_delim=None,
                              col_delim="$$", col_start_delim=None,
                              has_final_col_delim=True):
         desc = ""
         new_lines = []
-        file_path = subdir + os.sep + file_name
+        file_path = subdir + os.sep + orig_file_name
         with th.fropen(file_path) as f:
             new_line = ""
             for i,l in enumerate(f):
@@ -460,7 +464,8 @@ class MCSMatFit(th.tool):
                         new_line += self._get_line(str_real, str_imag, str_wdk,
                                                    str_ENk, trunc_wdk, sig_digits,
                                                    col_delim, col_start_delim,
-                                                   has_final_col_delim)
+                                                   has_final_col_delim,
+                                                   use_energies)
                         if row_delim is not None:
                             new_line += row_delim
                             new_lines.append(new_line)
@@ -508,8 +513,9 @@ class MCSMatFit(th.tool):
             start += "\\textbf{Real k} & \\textbf{Imag k}"
         start += " & $\\wedge dk$ & $\\Sigma Nk$ \\\\\n \\hline\n"
 
-        desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
-                                                    trunc_wdk, sig_digits,
+        desc, new_lines = self._get_formatted_lines(subdir, orig_file_name,
+                                                    use_energies, trunc_wdk,
+                                                    sig_digits,
                                                     row_delim="\\\\\n\\hline\n",
                                                     col_delim=" & ", 
                                                     has_final_col_delim=False)
@@ -532,7 +538,8 @@ class MCSMatFit(th.tool):
         start += "<th>^dk</th><th>ENk</th></tr>\n"
 
         desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
-                                                    trunc_wdk, sig_digits,
+                                                    use_energies, trunc_wdk,
+                                                    sig_digits,
                                                     row_delim="</tr>\n",
                                                     row_start_delim="<tr>",
                                                     col_delim="</td>",
@@ -542,10 +549,11 @@ class MCSMatFit(th.tool):
                                        trunc_wdk, sig_digits, use_energies,
                                        "html")
 
-    def _create_raw_QI_table(self, use_energies, subdir, file_name, trunc_wdk,
-                             sig_digits):
+    def _create_raw_QI_table(self, use_energies, subdir, orig_file_name,
+                             trunc_wdk, sig_digits):
         header = ["real", "imag", "^dk", "ENk"]
-        desc, new_lines = self._get_formatted_lines(subdir, file_name, trunc_wdk,
+        desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
+                                                    use_energies, trunc_wdk,
                                                     sig_digits,
                                                     has_final_col_delim=False)
         name = self._formatted_QI_table_name(trunc_wdk, sig_digits, use_energies,
