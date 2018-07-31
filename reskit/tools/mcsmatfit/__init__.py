@@ -711,7 +711,8 @@ class MCSMatFit(th.tool):
                                                       nw.complex(pp["point"]),
                                                       nw.complex(pp["atol"]))
                     pp = p["stelempy"]
-                    end_rtol = None
+                    # Default to precision limit of input data:
+                    end_rtol = pow(10,-nw.dps)
                     try:
                         end_rtol = float(pp["end_rtol"])
                     except TypeError:
