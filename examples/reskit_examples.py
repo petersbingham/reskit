@@ -46,8 +46,7 @@ elif sys.argv[1] == "uracil":
 else:
     raise Exception(exceptStr)
 
-# Use mpmath types (optional)
-rk.use_mpmath_types()
+rk.use_mpmath_types(dps=100)
 
 if input_data_file is None:
     # System is a radial well
