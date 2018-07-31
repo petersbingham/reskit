@@ -307,10 +307,13 @@ class MCSMatFit(th.tool):
     ##### Pole Save #####
 
     def _get_pole_dir(self, n_list):
-        return self._get_pole_config_dir() + os.sep+str(n_list).replace(' ','')
+        return self._get_pole_config_dir() + os.sep + str(n_list).replace(' ','')
+
+    def _get_pole_dk_dir(self, n_list):
+        return self._get_pole_dir(n_list) + os.sep + "dk"
 
     def _get_pole_path(self, pole_dir, dk):
-        return pole_dir+os.sep+"dk"+nu.sci_str(dk)+".txt"
+        return pole_dir+os.sep+"dks"+nu.sci_str(dk)+".txt"
 
     def _save_pole_config(self, p):
         with th.fwopen(self._get_pole_config_path()) as f:
@@ -324,9 +327,9 @@ class MCSMatFit(th.tool):
 
     def _save_pole_data(self, n_list, poleData, asymcalc, p):
         if self.archive_root is not None:
-            pole_dir = self._get_pole_dir(n_list)
-            if not os.path.isdir(pole_dir):
-                os.makedirs(pole_dir)
+            pole_dk_dir = self._get_pole_dk_dir(n_list)
+            if not os.path.isdir(pole_dk_dir):
+                os.makedirs(pole_dk_dir)
 
             for i,dk in enumerate(poleData[2]):
                 header = ["Npts","status"] + self._get_num_header(asymcalc)
@@ -338,7 +341,7 @@ class MCSMatFit(th.tool):
                         rows.append(m)
                     rows.append(["","","",""])
 
-                pole_path = self._get_pole_path(pole_dir, dk)
+                pole_path = self._get_pole_path(pole_dk_dir, dk)
                 with th.fwopen(pole_path) as f:
                     th.fw(f, self._get_pole_file_header_str(len(poleData[0][i]),
                                                             asymcalc))
