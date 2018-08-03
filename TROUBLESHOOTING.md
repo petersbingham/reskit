@@ -15,8 +15,13 @@
       - If you are compiling python from source and then creating a virtualenv against this then you will need to ensure that you separately build the libtk. Either that or as a workaround you can add a location of the libtk dependencies to the library path (eg `export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/csoft/epd-7.3.2full/lib"
 `). You might want to do this if you only have older python distributions in your root (which you don't have sudo for) and are therefore forced to build a recent version in your user space and don't want to go to the effort of also building the libtk.
 
-## Usage Issues
+## General Usage Issues
   - `Exception: Invalid archive state: data dir with no checkdata.dat.` or `Exception: Supplied data does not correspond to that used to originally create the data_root.`
     - When archiving results reskit records into a path. The first part of the path describes the input data (eg `pyrazine\mpmath_100\(0,1200,None)`). Inside this folder reskit will try and create a file called `checkdata.txt` those purpoe is to ensure that subsequent calculations using this directory are using the same input data. These errors are related to this, meaning the file isn't there or that the input data has changed for a given path.
   - `IOError: [Errno 2] No such file or directory: 'test-configuration-1.yaml'` when running the reskit examples.
-    - The examples look for their configuration files in the working directory. You need to invoke the interpreter from within the examples directory. 
+    - The examples look for their configuration files in the working directory. You need to invoke the interpreter from within the examples directory.
+    
+## mcsmatfit Tool Issues
+  - mpmath.libmp.libhyper.NoConvergence: convergence to root failed; try n < 100 or maxsteps > 5000
+    - Make the suggested changes to the parameters.
+    - Alternatively try moving or extending the energy range of your input data-set.

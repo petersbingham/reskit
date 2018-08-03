@@ -171,12 +171,12 @@ def get_tool(toolid, data, archive_root=None, param_file_path=None,
 
     return tool(data, archive_root, param_file_path, silent)
 
-def use_python_types(dps=nw.dps_default_python):
+def use_python_types():
     """
     Specifies to use python types.
     """
     try:
-        nw.use_python_types(dps)
+        nw.use_python_types()
     except:
         s = "Types can only be changed at start of session in safeMode."
         raise Exception(s)

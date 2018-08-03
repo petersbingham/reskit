@@ -309,11 +309,11 @@ class MCSMatFit(th.tool):
     def _get_pole_dir(self, n_list):
         return self._get_pole_config_dir() + os.sep + str(n_list).replace(' ','')
 
-    def _get_pole_dk_dir(self, n_list):
-        return self._get_pole_dir(n_list) + os.sep + "dk"
+    def _get_pole_dks_dir(self, n_list):
+        return self._get_pole_dir(n_list) + os.sep + "dks"
 
-    def _get_pole_path(self, pole_dir, dk):
-        return pole_dir+os.sep+"dks"+nu.sci_str(dk)+".txt"
+    def _get_pole_dks_path(self, pole_dir, dk):
+        return pole_dir+os.sep+"dk"+nu.sci_str(dk)+".txt"
 
     def _save_pole_config(self, p):
         with th.fwopen(self._get_pole_config_path()) as f:
@@ -327,7 +327,7 @@ class MCSMatFit(th.tool):
 
     def _save_pole_data(self, n_list, poleData, asymcalc, p):
         if self.archive_root is not None:
-            pole_dk_dir = self._get_pole_dk_dir(n_list)
+            pole_dk_dir = self._get_pole_dks_dir(n_list)
             if not os.path.isdir(pole_dk_dir):
                 os.makedirs(pole_dk_dir)
 
@@ -341,7 +341,7 @@ class MCSMatFit(th.tool):
                         rows.append(m)
                     rows.append(["","","",""])
 
-                pole_path = self._get_pole_path(pole_dk_dir, dk)
+                pole_path = self._get_pole_dks_path(pole_dk_dir, dk)
                 with th.fwopen(pole_path) as f:
                     th.fw(f, self._get_pole_file_header_str(len(poleData[0][i]),
                                                             asymcalc))
@@ -415,7 +415,15 @@ class MCSMatFit(th.tool):
         if trunc_wdk:
             num = int(str_wdk.split('-')[1])
             if use_energies:
-                num += 1 # 50% chance extra digit when converting from k to E.
+                # 50% chance digit loss when converting from k to E. However,
+                # since the wdk is the higher end of a precision range and that
+                # we use the relative diff from cfsteps from the final two Ms
+                # by default we ignore this
+                with th.fropen(self.param_file_path) as f:
+                    config = yaml.load(f.read())
+                    p = config["create_formatted_QI_tables"]
+                    conv_dps_mod = p["conversion_dps_mod"]
+                    num += conv_dps_mod
             if sig_digits is None or num < sig_digits:
                 sig_digits = num
         if trunc_wdk or sig_digits is not None:
