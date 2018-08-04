@@ -647,14 +647,14 @@ class MCSMatFit(th.tool):
 
     def find_Fin_roots(self, cfins, internal=False):
         """
-        Returns the roots of a list of parameterised Fins as a list of complex
-        or mpmath.mpc types. There are additional advanced parameters in the
-        tool yaml file.
+        Returns the roots of a list of parameterised Fin as a list of complex
+        python or mpmath.mpc types. There are additional advanced parameters in
+        the tool yaml file.
 
         Parameters
         ----------
         cfins : list of cFinMatSympypolyk
-            List of parameterised Fins.
+            List of parameterised Fin.
 
         Returns
         -------
@@ -683,7 +683,7 @@ class MCSMatFit(th.tool):
     def find_stable_Smat_poles(self, cfins_or_roots):
         """
         Finds the S-matrix poles by identifying stable roots. The input can be
-        either a list of roots or the Fins themselves. There are additional
+        either a list of roots or the Fin themselves. There are additional
         advanced parameters in the tool yaml file.
 
         Parameters
@@ -811,7 +811,7 @@ class MCSMatFit(th.tool):
 
     def get_elastic_Smat(self, Npts):
         """
-        Performs S-matrix fits using the specified number of fit points and 
+        Performs an S-matrix fit using the specified number of fit points and 
         returns a cSmat.
 
         Parameters
@@ -847,7 +847,7 @@ class MCSMatFit(th.tool):
         Parameters
         ----------
         csmat : cSmat
-            Fitted S-matrix returned from get_elastic_Smat.
+            Rational S-matrix returned from get_elastic_Smat.
         num_plot_points, units, i, j, logx, logy, imag
             Refer to the chart tool for description.
         """
@@ -886,14 +886,14 @@ class MCSMatFit(th.tool):
     def plot_XS_fit(self, csmat, num_plot_points=None, units=None,
                        logx=False, logy=False):
         """
-        Plots the cross section obtained from the original and fitted S-matrix
-        along with the fit points used. There are additional advanced parameters
-        in the tool yaml file.
+        Plots the cross sections obtained from the original and rational
+        S-matrices along with the fit points used. There are additional advanced
+        parameters in the tool yaml file.
 
         Parameters
         ----------
         csmat : cSmat
-            Fitted S-matrix returned from get_elastic_Smat.
+            Rational S-matrix returned from get_elastic_Smat.
         num_plot_points, units, logx, logy
             Refer to the chart tool for description.
         """
@@ -924,14 +924,14 @@ class MCSMatFit(th.tool):
     def plot_EigenPhase_fit(self, csmat, num_plot_points=None, units=None,
                             logx=False, logy=False):
         """
-        Plots the eigenphase sum obtained from the original and fitted S-matrix
-        along with the fit points used. There are additional advanced parameters
-        in the tool yaml file.
+        Plots the eigenphase sum obtained from the original and rational
+        S-matrices along with the fit points used. There are additional advanced
+        parameters in the tool yaml file.
 
         Parameters
         ----------
         csmat : cSmat
-            Fitted S-matrix returned from get_elastic_Smat.
+            Rational S-matrix returned from get_elastic_Smat.
         num_plot_points, units, logx, logy
             Refer to the chart tool for description.
         """

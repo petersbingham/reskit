@@ -94,8 +94,8 @@ class Chart(th.tool):
         logy : bool, optional
             Switch to turn on y-axis log plotting.
         imag : bool, optional
-            Switch to plot the imaginary component. By default just plots the
-            real component.
+            For complex quantities, switch to plot the imaginary component. By
+            default just plots the real component.
         i : int, optional
             Zero-based row index to plot. Default is to plot all rows.
         j : int, optional

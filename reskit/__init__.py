@@ -40,9 +40,9 @@ def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
         Specification of the total spin of the system. Defaults to 0.5. Only
         required for calculation of cross sections.
     targ_spins : float or list of floats, optional
-        Specification of the spin of the target (eg. molecular) state associated
-        with each of the channels. Defaults to zero in all channels. Only
-        required for calculation of cross sections.
+        Specification of the spin of the target (e.g. electronic) state
+        associated with each of the channels. Defaults to zero in all channels.
+        Only required for calculation of cross sections.
 
     Returns
     -------
@@ -53,8 +53,8 @@ def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
 def get_dmat_from_discrete(mat_type, mat_dict, asymcalc, source_str):
     """
     Converts discrete energy dependent scattering data into a reskit compatible
-    container (dMat). Types must match those specified using the
-    use_python_types or use_mpmath_types functions.
+    container (ie. dSmat, dTmat or dKmat). Types must match those specified
+    using the use_python_types or use_mpmath_types functions.
 
     Parameters
     ----------
@@ -81,8 +81,8 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
                              num_points, source_str):
     """
     Discretises continuous energy dependent scattering data into a reskit
-    compatible container (dMat). Types must match those specified using the
-    use_python_types or use_mpmath_types functions.
+    compatible container (ie. dSmat, dTmat or dKmat). Types must match those
+    specified using the use_python_types or use_mpmath_types functions.
 
     Parameters
     ----------
@@ -90,7 +90,7 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
         As for get_dmat_from_discrete.
     fun_ref : function with float parameter
         An analytical function of energy for the elements of the scattering
-        matrix. Can be either floats or mpmath types.
+        matrix. Can be either python float or mpmath.mpf type.
     asymcalc : AsymCalc
         As for get_dmat_from_discrete.
     start_ene : float
@@ -123,7 +123,7 @@ def get_tool(toolid, data, archive_root=None, param_file_path=None,
         Specification of the Tool. Available options are reskit.chart and
         reskit.mcsmatfit.
     data
-        Tool data. This is the data container to be used by by the Tool.
+        Tool data. This is the data container to be used by the Tool.
     archive_root : str, optional
         Specification of the location into which reskit will write its results.
     param_file_path : str, optional
