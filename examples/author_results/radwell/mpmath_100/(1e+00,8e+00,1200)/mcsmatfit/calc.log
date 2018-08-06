@@ -1,271 +1,301 @@
 
-2018-07-30 23:08:15.104: get_elastic_Fins([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-08-05 16:32:05.189: get_elastic_Fins([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
 
-2018-07-30 23:08:15.108: get_elastic_Fin(2)
-2018-07-30 23:08:15.111:   Calculating for Npts=2,slice:((0, 1200, 1199), (1.0, 8.0))
-2018-07-30 23:08:15.128:   Coefficients calculated
-2018-07-30 23:08:15.177:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=2_S=0_E=1199
-2018-07-30 23:08:15.193:   cfin calculated
-2018-07-30 23:08:15.197: get_elastic_Fin end
+2018-08-05 16:32:05.192: get_elastic_Fin(2)
+2018-08-05 16:32:05.195:   Calculating for Npts=2,slice:((0, 1200, 1199), (1.0, 8.0))
+2018-08-05 16:32:05.212:   Coefficients calculated
+2018-08-05 16:32:05.230:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=2_S=0_E=1199
+2018-08-05 16:32:05.252:   cfin calculated
+2018-08-05 16:32:05.254: get_elastic_Fin end
 
-2018-07-30 23:08:15.201: get_elastic_Fin(4)
-2018-07-30 23:08:15.206:   Calculating for Npts=4,slice:((0, 1198, 399), (1.0, 7.9883236030025015))
-2018-07-30 23:08:16.509:   Coefficients calculated
-2018-07-30 23:08:16.551:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=4_S=0_E=1197
-2018-07-30 23:08:16.593:   cfin calculated
-2018-07-30 23:08:16.597: get_elastic_Fin end
+2018-08-05 16:32:05.256: get_elastic_Fin(4)
+2018-08-05 16:32:05.259:   Calculating for Npts=4,slice:((0, 1198, 399), (1.0, 7.9883236030025015))
+2018-08-05 16:32:06.228:   Coefficients calculated
+2018-08-05 16:32:06.247:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=4_S=0_E=1197
+2018-08-05 16:32:06.269:   cfin calculated
+2018-08-05 16:32:06.271: get_elastic_Fin end
 
-2018-07-30 23:08:16.600: get_elastic_Fin(6)
-2018-07-30 23:08:16.604:   Calculating for Npts=6,slice:((0, 1196, 239), (1.0, 7.976647206005004))
-2018-07-30 23:08:18.816:   Coefficients calculated
-2018-07-30 23:08:18.908:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=6_S=0_E=1195
-2018-07-30 23:08:18.943:   cfin calculated
-2018-07-30 23:08:18.947: get_elastic_Fin end
+2018-08-05 16:32:06.274: get_elastic_Fin(6)
+2018-08-05 16:32:06.277:   Calculating for Npts=6,slice:((0, 1196, 239), (1.0, 7.976647206005004))
+2018-08-05 16:32:07.912:   Coefficients calculated
+2018-08-05 16:32:07.944:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=6_S=0_E=1195
+2018-08-05 16:32:07.975:   cfin calculated
+2018-08-05 16:32:07.978: get_elastic_Fin end
 
-2018-07-30 23:08:18.952: get_elastic_Fin(8)
-2018-07-30 23:08:18.956:   Calculating for Npts=8,slice:((0, 1198, 171), (1.0, 7.9883236030025015))
-2018-07-30 23:08:21.723:   Coefficients calculated
-2018-07-30 23:08:21.843:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=8_S=0_E=1197
-2018-07-30 23:08:21.890:   cfin calculated
-2018-07-30 23:08:21.894: get_elastic_Fin end
+2018-08-05 16:32:07.980: get_elastic_Fin(8)
+2018-08-05 16:32:07.984:   Calculating for Npts=8,slice:((0, 1198, 171), (1.0, 7.9883236030025015))
+2018-08-05 16:32:10.069:   Coefficients calculated
+2018-08-05 16:32:10.102:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=8_S=0_E=1197
+2018-08-05 16:32:10.142:   cfin calculated
+2018-08-05 16:32:10.145: get_elastic_Fin end
 
-2018-07-30 23:08:21.897: get_elastic_Fin(10)
-2018-07-30 23:08:21.901:   Calculating for Npts=10,slice:((0, 1198, 133), (1.0, 7.9883236030025015))
-2018-07-30 23:08:24.828:   Coefficients calculated
-2018-07-30 23:08:24.880:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=10_S=0_E=1197
-2018-07-30 23:08:24.946:   cfin calculated
-2018-07-30 23:08:24.950: get_elastic_Fin end
+2018-08-05 16:32:10.147: get_elastic_Fin(10)
+2018-08-05 16:32:10.151:   Calculating for Npts=10,slice:((0, 1198, 133), (1.0, 7.9883236030025015))
+2018-08-05 16:32:12.276:   Coefficients calculated
+2018-08-05 16:32:12.309:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=10_S=0_E=1197
+2018-08-05 16:32:12.365:   cfin calculated
+2018-08-05 16:32:12.368: get_elastic_Fin end
 
-2018-07-30 23:08:24.953: get_elastic_Fin(12)
-2018-07-30 23:08:24.960:   Calculating for Npts=12,slice:((0, 1200, 109), (1.0, 8.0))
-2018-07-30 23:08:30.137:   Coefficients calculated
-2018-07-30 23:08:30.239:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=12_S=0_E=1199
-2018-07-30 23:08:30.312:   cfin calculated
-2018-07-30 23:08:30.316: get_elastic_Fin end
+2018-08-05 16:32:12.370: get_elastic_Fin(12)
+2018-08-05 16:32:12.373:   Calculating for Npts=12,slice:((0, 1200, 109), (1.0, 8.0))
+2018-08-05 16:32:16.005:   Coefficients calculated
+2018-08-05 16:32:16.042:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=12_S=0_E=1199
+2018-08-05 16:32:16.102:   cfin calculated
+2018-08-05 16:32:16.104: get_elastic_Fin end
 
-2018-07-30 23:08:30.320: get_elastic_Fin(14)
-2018-07-30 23:08:30.325:   Calculating for Npts=14,slice:((0, 1197, 92), (1.0, 7.982485404503753))
-2018-07-30 23:08:36.982:   Coefficients calculated
-2018-07-30 23:08:37.047:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=14_S=0_E=1196
-2018-07-30 23:08:37.127:   cfin calculated
-2018-07-30 23:08:37.137: get_elastic_Fin end
+2018-08-05 16:32:16.106: get_elastic_Fin(14)
+2018-08-05 16:32:16.110:   Calculating for Npts=14,slice:((0, 1197, 92), (1.0, 7.982485404503753))
+2018-08-05 16:32:20.854:   Coefficients calculated
+2018-08-05 16:32:20.908:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=14_S=0_E=1196
+2018-08-05 16:32:20.979:   cfin calculated
+2018-08-05 16:32:20.981: get_elastic_Fin end
 
-2018-07-30 23:08:37.140: get_elastic_Fin(16)
-2018-07-30 23:08:37.145:   Calculating for Npts=16,slice:((0, 1186, 79), (1.0, 7.918265221017514))
-2018-07-30 23:08:45.240:   Coefficients calculated
-2018-07-30 23:08:45.323:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=16_S=0_E=1185
-2018-07-30 23:08:45.417:   cfin calculated
-2018-07-30 23:08:45.421: get_elastic_Fin end
+2018-08-05 16:32:20.983: get_elastic_Fin(16)
+2018-08-05 16:32:20.986:   Calculating for Npts=16,slice:((0, 1186, 79), (1.0, 7.918265221017514))
+2018-08-05 16:32:26.760:   Coefficients calculated
+2018-08-05 16:32:26.808:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=16_S=0_E=1185
+2018-08-05 16:32:26.898:   cfin calculated
+2018-08-05 16:32:26.900: get_elastic_Fin end
 
-2018-07-30 23:08:45.425: get_elastic_Fin(18)
-2018-07-30 23:08:45.429:   Calculating for Npts=18,slice:((0, 1191, 70), (1.0, 7.947456213511259))
-2018-07-30 23:08:54.818:   Coefficients calculated
-2018-07-30 23:08:54.928:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=18_S=0_E=1190
-2018-07-30 23:08:55.034:   cfin calculated
-2018-07-30 23:08:55.038: get_elastic_Fin end
+2018-08-05 16:32:26.903: get_elastic_Fin(18)
+2018-08-05 16:32:26.906:   Calculating for Npts=18,slice:((0, 1191, 70), (1.0, 7.947456213511259))
+2018-08-05 16:32:33.764:   Coefficients calculated
+2018-08-05 16:32:33.818:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=18_S=0_E=1190
+2018-08-05 16:32:33.919:   cfin calculated
+2018-08-05 16:32:33.922: get_elastic_Fin end
 
-2018-07-30 23:08:55.042: get_elastic_Fin(20)
-2018-07-30 23:08:55.047:   Calculating for Npts=20,slice:((0, 1198, 63), (1.0, 7.9883236030025015))
-2018-07-30 23:09:05.407:   Coefficients calculated
-2018-07-30 23:09:05.493:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=20_S=0_E=1197
-2018-07-30 23:09:05.612:   cfin calculated
-2018-07-30 23:09:05.616: get_elastic_Fin end
+2018-08-05 16:32:33.924: get_elastic_Fin(20)
+2018-08-05 16:32:33.928:   Calculating for Npts=20,slice:((0, 1198, 63), (1.0, 7.9883236030025015))
+2018-08-05 16:32:41.319:   Coefficients calculated
+2018-08-05 16:32:41.384:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=20_S=0_E=1197
+2018-08-05 16:32:41.485:   cfin calculated
+2018-08-05 16:32:41.488: get_elastic_Fin end
 
-2018-07-30 23:09:05.620: get_elastic_Fin(22)
-2018-07-30 23:09:05.625:   Calculating for Npts=22,slice:((0, 1198, 57), (1.0, 7.9883236030025015))
-2018-07-30 23:09:14.629:   Coefficients calculated
-2018-07-30 23:09:14.725:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=22_S=0_E=1197
-2018-07-30 23:09:14.856:   cfin calculated
-2018-07-30 23:09:14.861: get_elastic_Fin end
+2018-08-05 16:32:41.490: get_elastic_Fin(22)
+2018-08-05 16:32:41.493:   Calculating for Npts=22,slice:((0, 1198, 57), (1.0, 7.9883236030025015))
+2018-08-05 16:32:48.033:   Coefficients calculated
+2018-08-05 16:32:48.094:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=22_S=0_E=1197
+2018-08-05 16:32:48.206:   cfin calculated
+2018-08-05 16:32:48.209: get_elastic_Fin end
 
-2018-07-30 23:09:14.864: get_elastic_Fin(24)
-2018-07-30 23:09:14.869:   Calculating for Npts=24,slice:((0, 1197, 52), (1.0, 7.982485404503753))
-2018-07-30 23:09:29.134:   Coefficients calculated
-2018-07-30 23:09:29.232:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=24_S=0_E=1196
-2018-07-30 23:09:29.384:   cfin calculated
-2018-07-30 23:09:29.389: get_elastic_Fin end
+2018-08-05 16:32:48.211: get_elastic_Fin(24)
+2018-08-05 16:32:48.214:   Calculating for Npts=24,slice:((0, 1197, 52), (1.0, 7.982485404503753))
+2018-08-05 16:32:58.417:   Coefficients calculated
+2018-08-05 16:32:58.483:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=24_S=0_E=1196
+2018-08-05 16:32:58.606:   cfin calculated
+2018-08-05 16:32:58.609: get_elastic_Fin end
 
-2018-07-30 23:09:29.393: get_elastic_Fin(26)
-2018-07-30 23:09:29.398:   Calculating for Npts=26,slice:((0, 1176, 47), (1.0, 7.859883236030025))
-2018-07-30 23:09:46.344:   Coefficients calculated
-2018-07-30 23:09:46.445:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=26_S=0_E=1175
-2018-07-30 23:09:46.603:   cfin calculated
-2018-07-30 23:09:46.607: get_elastic_Fin end
+2018-08-05 16:32:58.611: get_elastic_Fin(26)
+2018-08-05 16:32:58.615:   Calculating for Npts=26,slice:((0, 1176, 47), (1.0, 7.859883236030025))
+2018-08-05 16:33:10.574:   Coefficients calculated
+2018-08-05 16:33:10.657:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=26_S=0_E=1175
+2018-08-05 16:33:10.803:   cfin calculated
+2018-08-05 16:33:10.806: get_elastic_Fin end
 
-2018-07-30 23:09:46.611: get_elastic_Fin(28)
-2018-07-30 23:09:46.615:   Calculating for Npts=28,slice:((0, 1189, 44), (1.0, 7.935779816513762))
-2018-07-30 23:10:04.561:   Coefficients calculated
-2018-07-30 23:10:04.689:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=28_S=0_E=1188
-2018-07-30 23:10:04.863:   cfin calculated
-2018-07-30 23:10:04.868: get_elastic_Fin end
+2018-08-05 16:33:10.808: get_elastic_Fin(28)
+2018-08-05 16:33:10.811:   Calculating for Npts=28,slice:((0, 1189, 44), (1.0, 7.935779816513762))
+2018-08-05 16:33:23.463:   Coefficients calculated
+2018-08-05 16:33:23.539:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=28_S=0_E=1188
+2018-08-05 16:33:23.686:   cfin calculated
+2018-08-05 16:33:23.688: get_elastic_Fin end
 
-2018-07-30 23:10:04.872: get_elastic_Fin(30)
-2018-07-30 23:10:04.876:   Calculating for Npts=30,slice:((0, 1190, 41), (1.0, 7.94161801501251))
-2018-07-30 23:10:26.443:   Coefficients calculated
-2018-07-30 23:10:26.583:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=30_S=0_E=1189
-2018-07-30 23:10:26.771:   cfin calculated
-2018-07-30 23:10:26.775: get_elastic_Fin end
+2018-08-05 16:33:23.690: get_elastic_Fin(30)
+2018-08-05 16:33:23.694:   Calculating for Npts=30,slice:((0, 1190, 41), (1.0, 7.94161801501251))
+2018-08-05 16:33:38.978:   Coefficients calculated
+2018-08-05 16:33:39.063:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=30_S=0_E=1189
+2018-08-05 16:33:39.233:   cfin calculated
+2018-08-05 16:33:39.235: get_elastic_Fin end
 
-2018-07-30 23:10:26.779: get_elastic_Fin(32)
-2018-07-30 23:10:26.784:   Calculating for Npts=32,slice:((0, 1179, 38), (1.0, 7.877397831526272))
-2018-07-30 23:10:44.964:   Coefficients calculated
-2018-07-30 23:10:45.115:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=32_S=0_E=1178
-2018-07-30 23:10:45.325:   cfin calculated
-2018-07-30 23:10:45.329: get_elastic_Fin end
+2018-08-05 16:33:39.238: get_elastic_Fin(32)
+2018-08-05 16:33:39.241:   Calculating for Npts=32,slice:((0, 1179, 38), (1.0, 7.877397831526272))
+2018-08-05 16:33:51.825:   Coefficients calculated
+2018-08-05 16:33:51.913:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=32_S=0_E=1178
+2018-08-05 16:33:52.085:   cfin calculated
+2018-08-05 16:33:52.088: get_elastic_Fin end
 
-2018-07-30 23:10:45.334: get_elastic_Fin(34)
-2018-07-30 23:10:45.338:   Calculating for Npts=34,slice:((0, 1189, 36), (1.0, 7.935779816513762))
-2018-07-30 23:11:08.079:   Coefficients calculated
-2018-07-30 23:11:08.256:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=34_S=0_E=1188
-2018-07-30 23:11:08.481:   cfin calculated
-2018-07-30 23:11:08.486: get_elastic_Fin end
+2018-08-05 16:33:52.090: get_elastic_Fin(34)
+2018-08-05 16:33:52.094:   Calculating for Npts=34,slice:((0, 1189, 36), (1.0, 7.935779816513762))
+2018-08-05 16:34:07.988:   Coefficients calculated
+2018-08-05 16:34:08.087:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=34_S=0_E=1188
+2018-08-05 16:34:08.283:   cfin calculated
+2018-08-05 16:34:08.285: get_elastic_Fin end
 
-2018-07-30 23:11:08.490: get_elastic_Fin(36)
-2018-07-30 23:11:08.495:   Calculating for Npts=36,slice:((0, 1191, 34), (1.0, 7.947456213511259))
-2018-07-30 23:11:36.792:   Coefficients calculated
-2018-07-30 23:11:36.941:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=36_S=0_E=1190
-2018-07-30 23:11:37.174:   cfin calculated
-2018-07-30 23:11:37.179: get_elastic_Fin end
+2018-08-05 16:34:08.288: get_elastic_Fin(36)
+2018-08-05 16:34:08.292:   Calculating for Npts=36,slice:((0, 1191, 34), (1.0, 7.947456213511259))
+2018-08-05 16:34:28.169:   Coefficients calculated
+2018-08-05 16:34:28.276:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=36_S=0_E=1190
+2018-08-05 16:34:28.477:   cfin calculated
+2018-08-05 16:34:28.479: get_elastic_Fin end
 
-2018-07-30 23:11:37.187: get_elastic_Fin(38)
-2018-07-30 23:11:37.192:   Calculating for Npts=38,slice:((0, 1185, 32), (1.0, 7.912427022518766))
-2018-07-30 23:12:05.476:   Coefficients calculated
-2018-07-30 23:12:05.645:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=38_S=0_E=1184
-2018-07-30 23:12:05.897:   cfin calculated
-2018-07-30 23:12:05.902: get_elastic_Fin end
+2018-08-05 16:34:28.482: get_elastic_Fin(38)
+2018-08-05 16:34:28.486:   Calculating for Npts=38,slice:((0, 1185, 32), (1.0, 7.912427022518766))
+2018-08-05 16:34:48.097:   Coefficients calculated
+2018-08-05 16:34:48.203:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=38_S=0_E=1184
+2018-08-05 16:34:48.453:   cfin calculated
+2018-08-05 16:34:48.455: get_elastic_Fin end
 
-2018-07-30 23:12:05.907: get_elastic_Fin(40)
-2018-07-30 23:12:05.913:   Calculating for Npts=40,slice:((0, 1171, 30), (1.0, 7.83069224353628))
-2018-07-30 23:12:36.421:   Coefficients calculated
-2018-07-30 23:12:36.574:   Coeffs saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=40_S=0_E=1170
-2018-07-30 23:12:36.861:   cfin calculated
-2018-07-30 23:12:36.867: get_elastic_Fin end
-2018-07-30 23:12:36.873: get_elastic_Fins end
+2018-08-05 16:34:48.457: get_elastic_Fin(40)
+2018-08-05 16:34:48.460:   Calculating for Npts=40,slice:((0, 1171, 30), (1.0, 7.83069224353628))
+2018-08-05 16:35:08.872:   Coefficients calculated
+2018-08-05 16:35:08.981:   Coeffs saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/coeffs/test_configuration_1/Npts=40_S=0_E=1170
+2018-08-05 16:35:09.216:   cfin calculated
+2018-08-05 16:35:09.219: get_elastic_Fin end
+2018-08-05 16:35:09.221: get_elastic_Fins end
 
-2018-07-30 23:12:36.878: find_stable_Smat_poles([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
-2018-07-30 23:12:36.882: find_Fin_roots([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
-2018-07-30 23:12:36.901:   Using parameters: {'cScaSympypoly_find_roots': {'nw_roots_sym': {'symPoly_nroots': {'n': 'dps', 'cleanup': True, 'maxsteps': 5000}}}, 'cMatSympypoly_determinant': {'sym_matrix_det': {'method': 'berkowitz'}}}
-2018-07-30 23:12:36.906: _get_roots(2)
-2018-07-30 23:12:36.925:   Determinant calculated
-2018-07-30 23:12:37.137:   Roots calculated
-2018-07-30 23:12:37.165:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=2_S=0_E=1199.txt
-2018-07-30 23:12:37.199: _get_roots end
-2018-07-30 23:12:37.205: _get_roots(4)
-2018-07-30 23:12:37.254:   Determinant calculated
-2018-07-30 23:12:37.647:   Roots calculated
-2018-07-30 23:12:37.656:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=4_S=0_E=1197.txt
-2018-07-30 23:12:37.665: _get_roots end
-2018-07-30 23:12:37.670: _get_roots(6)
-2018-07-30 23:12:37.725:   Determinant calculated
-2018-07-30 23:12:38.383:   Roots calculated
-2018-07-30 23:12:38.393:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=6_S=0_E=1195.txt
-2018-07-30 23:12:38.411: _get_roots end
-2018-07-30 23:12:38.419: _get_roots(8)
-2018-07-30 23:12:38.503:   Determinant calculated
-2018-07-30 23:12:39.504:   Roots calculated
-2018-07-30 23:12:39.546:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=8_S=0_E=1197.txt
-2018-07-30 23:12:39.567: _get_roots end
-2018-07-30 23:12:39.573: _get_roots(10)
-2018-07-30 23:12:39.685:   Determinant calculated
-2018-07-30 23:12:41.252:   Roots calculated
-2018-07-30 23:12:41.262:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=10_S=0_E=1197.txt
-2018-07-30 23:12:41.274: _get_roots end
-2018-07-30 23:12:41.280: _get_roots(12)
-2018-07-30 23:12:41.389:   Determinant calculated
-2018-07-30 23:12:43.838:   Roots calculated
-2018-07-30 23:12:43.848:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=12_S=0_E=1199.txt
-2018-07-30 23:12:43.859: _get_roots end
-2018-07-30 23:12:43.864: _get_roots(14)
-2018-07-30 23:12:43.994:   Determinant calculated
-2018-07-30 23:12:47.583:   Roots calculated
-2018-07-30 23:12:47.594:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=14_S=0_E=1196.txt
-2018-07-30 23:12:47.605: _get_roots end
-2018-07-30 23:12:47.611: _get_roots(16)
-2018-07-30 23:12:47.778:   Determinant calculated
-2018-07-30 23:12:53.249:   Roots calculated
-2018-07-30 23:12:53.262:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=16_S=0_E=1185.txt
-2018-07-30 23:12:53.275: _get_roots end
-2018-07-30 23:12:53.281: _get_roots(18)
-2018-07-30 23:12:53.461:   Determinant calculated
-2018-07-30 23:13:02.085:   Roots calculated
-2018-07-30 23:13:02.098:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=18_S=0_E=1190.txt
-2018-07-30 23:13:02.108: _get_roots end
-2018-07-30 23:13:02.112: _get_roots(20)
-2018-07-30 23:13:02.324:   Determinant calculated
-2018-07-30 23:13:14.898:   Roots calculated
-2018-07-30 23:13:14.912:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=20_S=0_E=1197.txt
-2018-07-30 23:13:14.921: _get_roots end
-2018-07-30 23:13:14.926: _get_roots(22)
-2018-07-30 23:13:15.169:   Determinant calculated
-2018-07-30 23:13:33.001:   Roots calculated
-2018-07-30 23:13:33.014:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=22_S=0_E=1197.txt
-2018-07-30 23:13:33.026: _get_roots end
-2018-07-30 23:13:33.032: _get_roots(24)
-2018-07-30 23:13:33.303:   Determinant calculated
-2018-07-30 23:13:56.358:   Roots calculated
-2018-07-30 23:13:56.373:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=24_S=0_E=1196.txt
-2018-07-30 23:13:56.385: _get_roots end
-2018-07-30 23:13:56.392: _get_roots(26)
-2018-07-30 23:13:56.757:   Determinant calculated
-2018-07-30 23:14:24.562:   Roots calculated
-2018-07-30 23:14:24.590:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=26_S=0_E=1175.txt
-2018-07-30 23:14:24.609: _get_roots end
-2018-07-30 23:14:24.614: _get_roots(28)
-2018-07-30 23:14:24.953:   Determinant calculated
-2018-07-30 23:15:10.301:   Roots calculated
-2018-07-30 23:15:10.318:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=28_S=0_E=1188.txt
-2018-07-30 23:15:10.334: _get_roots end
-2018-07-30 23:15:10.340: _get_roots(30)
-2018-07-30 23:15:10.720:   Determinant calculated
-2018-07-30 23:16:04.007:   Roots calculated
-2018-07-30 23:16:04.029:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=30_S=0_E=1189.txt
-2018-07-30 23:16:04.045: _get_roots end
-2018-07-30 23:16:04.053: _get_roots(32)
-2018-07-30 23:16:04.499:   Determinant calculated
-2018-07-30 23:17:16.745:   Roots calculated
-2018-07-30 23:17:16.779:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=32_S=0_E=1178.txt
-2018-07-30 23:17:16.800: _get_roots end
-2018-07-30 23:17:16.813: _get_roots(34)
-2018-07-30 23:17:17.290:   Determinant calculated
-2018-07-30 23:18:43.628:   Roots calculated
-2018-07-30 23:18:43.651:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=34_S=0_E=1188.txt
-2018-07-30 23:18:43.663: _get_roots end
-2018-07-30 23:18:43.668: _get_roots(36)
-2018-07-30 23:18:44.187:   Determinant calculated
-2018-07-30 23:20:23.034:   Roots calculated
-2018-07-30 23:20:23.052:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=36_S=0_E=1190.txt
-2018-07-30 23:20:23.064: _get_roots end
-2018-07-30 23:20:23.070: _get_roots(38)
-2018-07-30 23:20:23.656:   Determinant calculated
-2018-07-30 23:22:25.810:   Roots calculated
-2018-07-30 23:22:25.828:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=38_S=0_E=1184.txt
-2018-07-30 23:22:25.839: _get_roots end
-2018-07-30 23:22:25.844: _get_roots(40)
-2018-07-30 23:22:26.404:   Determinant calculated
-2018-07-30 23:24:52.598:   Roots calculated
-2018-07-30 23:24:52.680:   Roots saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\roots\test_configuration_1\Npts=40_S=0_E=1170.txt
-2018-07-30 23:24:52.695: _get_roots end
-2018-07-30 23:24:52.704: find_Fin_roots end
-2018-07-30 23:24:52.716:   Using parameters: {'root_filt': {'atol': '0.001+0.001j', 'point': 0.0}, 'stelempy': {'end_rtol': '1e-20', 'amalg_rtol': 0.0001, 'ztol': '1e-7', 'start_rtol': 0.0001, 'cfsteps': 2}}
-2018-07-30 23:26:53.398:   Convergence groups calculated
-2018-07-30 23:26:53.445:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-04.txt
-2018-07-30 23:26:53.491:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-05.txt
-2018-07-30 23:26:53.543:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-06.txt
-2018-07-30 23:26:53.589:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-07.txt
-2018-07-30 23:26:53.656:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-08.txt
-2018-07-30 23:26:53.721:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-09.txt
-2018-07-30 23:26:53.759:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-10.txt
-2018-07-30 23:26:53.815:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-11.txt
-2018-07-30 23:26:53.850:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-12.txt
-2018-07-30 23:26:53.884:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-13.txt
-2018-07-30 23:26:53.916:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-14.txt
-2018-07-30 23:26:53.945:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-15.txt
-2018-07-30 23:26:53.975:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-16.txt
-2018-07-30 23:26:54.003:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-17.txt
-2018-07-30 23:26:54.030:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-18.txt
-2018-07-30 23:26:54.061:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-19.txt
-2018-07-30 23:26:54.088:   Poles saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\dk1e-20.txt
-2018-07-30 23:26:54.250:   QIs calculated
-2018-07-30 23:26:54.264:   QI data saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\QIs_k.txt
-2018-07-30 23:26:54.276:   QI data saved to: results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\poles\test_configuration_1\[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]\QIs_E.txt
-2018-07-30 23:26:54.282: find_stable_Smat_poles end
+2018-08-05 16:35:09.223: find_stable_Smat_poles([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-08-05 16:35:09.225: find_Fin_roots([2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40])
+2018-08-05 16:35:09.236:   Using parameters: {'cScaSympypoly_find_roots': {'nw_roots_sym': {'symPoly_nroots': {'n': 'dps', 'cleanup': True, 'maxsteps': 5000}}}, 'cMatSympypoly_determinant': {'sym_matrix_det': {'method': 'berkowitz'}}}
+2018-08-05 16:35:09.239: _get_roots(2)
+2018-08-05 16:35:09.254:   Determinant calculated
+2018-08-05 16:35:09.412:   Roots calculated
+2018-08-05 16:35:09.420:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=2_S=0_E=1199.txt
+2018-08-05 16:35:09.426: _get_roots end
+2018-08-05 16:35:09.428: _get_roots(4)
+2018-08-05 16:35:09.473:   Determinant calculated
+2018-08-05 16:35:09.769:   Roots calculated
+2018-08-05 16:35:09.773:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=4_S=0_E=1197.txt
+2018-08-05 16:35:09.781: _get_roots end
+2018-08-05 16:35:09.783: _get_roots(6)
+2018-08-05 16:35:09.846:   Determinant calculated
+2018-08-05 16:35:10.297:   Roots calculated
+2018-08-05 16:35:10.302:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=6_S=0_E=1195.txt
+2018-08-05 16:35:10.310: _get_roots end
+2018-08-05 16:35:10.312: _get_roots(8)
+2018-08-05 16:35:10.374:   Determinant calculated
+2018-08-05 16:35:11.092:   Roots calculated
+2018-08-05 16:35:11.097:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=8_S=0_E=1197.txt
+2018-08-05 16:35:11.105: _get_roots end
+2018-08-05 16:35:11.108: _get_roots(10)
+2018-08-05 16:35:11.192:   Determinant calculated
+2018-08-05 16:35:12.494:   Roots calculated
+2018-08-05 16:35:12.500:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=10_S=0_E=1197.txt
+2018-08-05 16:35:12.509: _get_roots end
+2018-08-05 16:35:12.511: _get_roots(12)
+2018-08-05 16:35:12.604:   Determinant calculated
+2018-08-05 16:35:14.376:   Roots calculated
+2018-08-05 16:35:14.382:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=12_S=0_E=1199.txt
+2018-08-05 16:35:14.391: _get_roots end
+2018-08-05 16:35:14.393: _get_roots(14)
+2018-08-05 16:35:14.504:   Determinant calculated
+2018-08-05 16:35:17.114:   Roots calculated
+2018-08-05 16:35:17.121:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=14_S=0_E=1196.txt
+2018-08-05 16:35:17.130: _get_roots end
+2018-08-05 16:35:17.132: _get_roots(16)
+2018-08-05 16:35:17.263:   Determinant calculated
+2018-08-05 16:35:21.109:   Roots calculated
+2018-08-05 16:35:21.116:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=16_S=0_E=1185.txt
+2018-08-05 16:35:21.127: _get_roots end
+2018-08-05 16:35:21.131: _get_roots(18)
+2018-08-05 16:35:21.280:   Determinant calculated
+2018-08-05 16:35:27.492:   Roots calculated
+2018-08-05 16:35:27.500:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=18_S=0_E=1190.txt
+2018-08-05 16:35:27.509: _get_roots end
+2018-08-05 16:35:27.512: _get_roots(20)
+2018-08-05 16:35:27.678:   Determinant calculated
+2018-08-05 16:35:36.805:   Roots calculated
+2018-08-05 16:35:36.813:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=20_S=0_E=1197.txt
+2018-08-05 16:35:36.823: _get_roots end
+2018-08-05 16:35:36.825: _get_roots(22)
+2018-08-05 16:35:37.012:   Determinant calculated
+2018-08-05 16:35:49.251:   Roots calculated
+2018-08-05 16:35:49.259:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=22_S=0_E=1197.txt
+2018-08-05 16:35:49.268: _get_roots end
+2018-08-05 16:35:49.270: _get_roots(24)
+2018-08-05 16:35:49.476:   Determinant calculated
+2018-08-05 16:36:05.869:   Roots calculated
+2018-08-05 16:36:05.878:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=24_S=0_E=1196.txt
+2018-08-05 16:36:05.887: _get_roots end
+2018-08-05 16:36:05.889: _get_roots(26)
+2018-08-05 16:36:06.116:   Determinant calculated
+2018-08-05 16:36:25.810:   Roots calculated
+2018-08-05 16:36:25.819:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=26_S=0_E=1175.txt
+2018-08-05 16:36:25.830: _get_roots end
+2018-08-05 16:36:25.832: _get_roots(28)
+2018-08-05 16:36:26.090:   Determinant calculated
+2018-08-05 16:36:54.480:   Roots calculated
+2018-08-05 16:36:54.490:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=28_S=0_E=1188.txt
+2018-08-05 16:36:54.500: _get_roots end
+2018-08-05 16:36:54.502: _get_roots(30)
+2018-08-05 16:36:54.784:   Determinant calculated
+2018-08-05 16:37:30.262:   Roots calculated
+2018-08-05 16:37:30.273:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=30_S=0_E=1189.txt
+2018-08-05 16:37:30.284: _get_roots end
+2018-08-05 16:37:30.287: _get_roots(32)
+2018-08-05 16:37:30.655:   Determinant calculated
+2018-08-05 16:38:18.963:   Roots calculated
+2018-08-05 16:38:18.975:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=32_S=0_E=1178.txt
+2018-08-05 16:38:18.985: _get_roots end
+2018-08-05 16:38:18.988: _get_roots(34)
+2018-08-05 16:38:19.321:   Determinant calculated
+2018-08-05 16:39:17.344:   Roots calculated
+2018-08-05 16:39:17.355:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=34_S=0_E=1188.txt
+2018-08-05 16:39:17.366: _get_roots end
+2018-08-05 16:39:17.368: _get_roots(36)
+2018-08-05 16:39:17.738:   Determinant calculated
+2018-08-05 16:40:25.212:   Roots calculated
+2018-08-05 16:40:25.225:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=36_S=0_E=1190.txt
+2018-08-05 16:40:25.235: _get_roots end
+2018-08-05 16:40:25.237: _get_roots(38)
+2018-08-05 16:40:25.681:   Determinant calculated
+2018-08-05 16:41:55.162:   Roots calculated
+2018-08-05 16:41:55.175:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=38_S=0_E=1184.txt
+2018-08-05 16:41:55.186: _get_roots end
+2018-08-05 16:41:55.188: _get_roots(40)
+2018-08-05 16:41:55.609:   Determinant calculated
+2018-08-05 16:43:42.211:   Roots calculated
+2018-08-05 16:43:42.225:   Roots saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/roots/test_configuration_1/Npts=40_S=0_E=1170.txt
+2018-08-05 16:43:42.237: _get_roots end
+2018-08-05 16:43:42.240: find_Fin_roots end
+2018-08-05 16:43:42.247:   Using parameters: {'root_filt': {'atol': '0.001+0.001j', 'point': 0.0}, 'stelempy': {'end_rtol': None, 'amalg_rtol': 0.0001, 'ztol': '1e-7', 'start_rtol': 0.0001, 'cfsteps': 2}}
+2018-08-05 16:47:19.799:   Convergence groups calculated
+2018-08-05 16:47:19.841:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-04.txt
+2018-08-05 16:47:19.878:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-05.txt
+2018-08-05 16:47:19.915:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-06.txt
+2018-08-05 16:47:19.948:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-07.txt
+2018-08-05 16:47:19.978:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-08.txt
+2018-08-05 16:47:20.018:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-09.txt
+2018-08-05 16:47:20.046:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-10.txt
+2018-08-05 16:47:20.087:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-11.txt
+2018-08-05 16:47:20.114:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-12.txt
+2018-08-05 16:47:20.138:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-13.txt
+2018-08-05 16:47:20.163:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-14.txt
+2018-08-05 16:47:20.185:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-15.txt
+2018-08-05 16:47:20.206:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-16.txt
+2018-08-05 16:47:20.227:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-17.txt
+2018-08-05 16:47:20.246:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-18.txt
+2018-08-05 16:47:20.265:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-19.txt
+2018-08-05 16:47:20.282:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-20.txt
+2018-08-05 16:47:20.299:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-21.txt
+2018-08-05 16:47:20.317:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-22.txt
+2018-08-05 16:47:20.333:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-23.txt
+2018-08-05 16:47:20.349:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-24.txt
+2018-08-05 16:47:20.364:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-25.txt
+2018-08-05 16:47:20.378:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-26.txt
+2018-08-05 16:47:20.391:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-27.txt
+2018-08-05 16:47:20.403:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-28.txt
+2018-08-05 16:47:20.415:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-29.txt
+2018-08-05 16:47:20.427:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-30.txt
+2018-08-05 16:47:20.439:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-31.txt
+2018-08-05 16:47:20.451:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-32.txt
+2018-08-05 16:47:20.462:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-33.txt
+2018-08-05 16:47:20.473:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-34.txt
+2018-08-05 16:47:20.484:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-35.txt
+2018-08-05 16:47:20.495:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-36.txt
+2018-08-05 16:47:20.505:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-37.txt
+2018-08-05 16:47:20.514:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-38.txt
+2018-08-05 16:47:20.524:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-39.txt
+2018-08-05 16:47:20.534:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-40.txt
+2018-08-05 16:47:20.543:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-41.txt
+2018-08-05 16:47:20.553:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-42.txt
+2018-08-05 16:47:20.574:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-43.txt
+2018-08-05 16:47:20.585:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-44.txt
+2018-08-05 16:47:20.596:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-45.txt
+2018-08-05 16:47:20.604:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-46.txt
+2018-08-05 16:47:20.613:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-47.txt
+2018-08-05 16:47:20.621:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-48.txt
+2018-08-05 16:47:20.629:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-49.txt
+2018-08-05 16:47:20.634:   Poles saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/dks/dk1e-50.txt
+2018-08-05 16:47:20.775:   QIs calculated
+2018-08-05 16:47:20.783:   QI data saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_k.txt
+2018-08-05 16:47:20.790:   QI data saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_E.txt
+2018-08-05 16:47:20.792: find_stable_Smat_poles end
