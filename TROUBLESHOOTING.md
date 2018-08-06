@@ -17,7 +17,7 @@
 
 ## General Usage Issues
   - `Exception: Invalid archive state: data dir with no checkdata.dat.` or `Exception: Supplied data does not correspond to that used to originally create the data_root.`
-    - When archiving results reskit records into a path. The first part of the path describes the input data (eg `pyrazine\mpmath_100\(0,1200,None)`). Inside this folder reskit will try and create a file called `checkdata.txt` those purpoe is to ensure that subsequent calculations using this directory are using the same input data. These errors are related to this, meaning the file isn't there or that the input data has changed for a given path.
+    - When archiving results reskit records into a path. The first part of the path describes the input data (eg `pyrazine\mpmath_100\(0,1200,None)`). Inside this folder reskit will try and create a file called `checkdata.txt` those purpose is to ensure that subsequent calculations using this directory are using the same input data. These errors are related to this, meaning the file isn't there or that the input data has changed for a given path.
   - `IOError: [Errno 2] No such file or directory: 'test-configuration-1.yaml'` when running the reskit examples.
     - The examples look for their configuration files in the working directory. You need to invoke the interpreter from within the examples directory.
     

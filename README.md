@@ -3,7 +3,7 @@ Python Package to assist with the identification and characterisation of quantum
 
 WARNING: There are known issues with the latest version of sympy that affect the execution of reskit. We recommend using virtualenv to use the correct versions of the dependencies. This is fully explained in the instructions below.
 
-TROUBLESHOOTING: If you encounter any issues with reskit please consult the [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md)
+TROUBLESHOOTING: If you encounter any issues with reskit please consult the [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md). If these are due to a bug please leave an issue report.
 
 ## Getting reskit
 
@@ -41,7 +41,7 @@ We recommend using the specific versions of these dependencies as indicated in t
 
 virtualenv sets up an entire python distribution in a local directory, into which can be installed dependency versions specific to your project requirements. This means that you won't affect your global python distribution (since installing a specified version into your global distribution will override any existing install versions of that dependency). 
 
-virtualenv is a tool, which you can install (if not already installed) with the following command (if you dont have root access add '--user' to the end of the command to install into your home):
+virtualenv is a tool, which you can install (if not already installed) with the following command (if you don't have root access add '--user' to the end of the command to install into your home):
 
     pip install virtualenv
 
@@ -78,9 +78,9 @@ Reskit was designed with the following features in mind:
   - Tidy parameter specification. Often calculations have extensive parameters and it can be messy to pass all of these in as function arguments. Reskit provides two levels of parametrisation:
     - High level parameters as function arguments.
     - Low level (and/or advanced) parameters specified in yaml files. The software will provide defaults for these in a default.yaml. If the user wishes to override they can create their own .yaml and pass the path to this to the reskit API.
-  - Smart archiving of results. Reskit takes a path to an archive into which all calculations will be written, along with their parameters. This provides a high level of tracability, easy reproduction and reuse of previously acquired intermediate results.
+  - Smart archiving of results. Reskit takes a path to an archive into which all calculations will be written, along with their parameters. This provides a high level of traceability, easy reproduction and reuse of previously acquired intermediate results.
   - Type abstraction. Reskit supports both standard python types (using the numpy package) and arbitrary precision mpmath types.
-  - Support for data in both continuous and discrete forms. For example S-matrix data can be provided as both a discrete set of data or as a function reference to some analytical expression.
+  - Support for data in both continuous and discrete forms. For example, S-matrix data can be provided as both a discrete set of data or as a function reference to some analytical expression.
 
 As such the reskit interface is fairly generic, providing the following functions (see doc strings for details and parameter descriptions):
   - `get_asym_calc`: Returns a calculator (`AsymCalc`) containing all of the channel information for the scattering system.
@@ -94,7 +94,7 @@ As such the reskit interface is fairly generic, providing the following function
 
 ## Tools
 
-Reskit currently has two Tools, the `Chart` Tool and the `MCSMatFit` Tool. These are introduced in the examples below, detailed reference can be found in the code docstrings. There are two example systems that are used and are provided by reskit. These can be located in the reskit/examples folder; they are the radial well and the pyrazine molecule.
+Reskit currently has two Tools, the `Chart` Tool and the `MCSMatFit` Tool. These are introduced in the examples below, detailed reference can be found in the code docstrings. There are three example systems that are used and are provided by reskit. These can be located in the reskit/examples folder; they are the radial well and the pyrazine and uracil molecules.
 
 ### `Chart` Tool
 
@@ -127,7 +127,7 @@ The "results" argument in the `rk.get_tool` function is the location of an archi
 
 ### `MCSMatFit` Tool
 
-The `MCSMatFit` Tool is based on the technique described in "S.A. Rakityansky P.O.G. Ogunbade. S-matrix parametrization as a way of locating quantum resonances and bound states:multichannel case, 2010". In essence, it provides a rational S-matrix from a set of discrete S-matrix values along the real energy axis. The poles of the S-matrix can then be located by looking for the stable roots of the denominator. It uses the packages [parsmat](https://github.com/petersbingham/parsmat) and [stelempy](https://github.com/petersbingham/stelempy); additional documentation can be found in the README.mds included in these packages.  
+The `MCSMatFit` Tool is based on the technique described in "S.A. Rakityansky P.O.G. Ogunbade. S-matrix parametrization as a way of locating quantum resonances and bound states: multichannel case, 2010". In essence, it provides a rational S-matrix from a set of discrete S-matrix values along the real energy axis. The poles of the S-matrix can then be located by looking for the stable roots of the denominator. It uses the packages [parsmat](https://github.com/petersbingham/parsmat) and [stelempy](https://github.com/petersbingham/stelempy); additional documentation can be found in the README.mds included in these packages.  
 
 ```python
 import reskit as rk
@@ -150,7 +150,7 @@ dkmat2 = dkmat[0:1200]
 # Get the mcsmatfit Tool
 sfittool = rk.get_tool(rk.mcsmatfit, dkmat2, "results")
 
-# Perform the calculation of the poles and the qualityindicators
+# Perform the calculation of the poles and the quality indicators
 cfins = sfittool.get_elastic_Fins(range(2,32,2))
 sfittool.find_stable_Smat_poles(cfins)
 ```

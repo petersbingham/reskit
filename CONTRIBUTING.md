@@ -14,7 +14,7 @@
 
 ### Versioning
  - The reskit package uses semantic versioning: [SemVer](http://semver.org/).
- - The arhive and code relating to it follow the convertion:
+ - The archive and code relating to it follow the convertion:
    - If the default configuration (in the default.yaml) changes, for example through the addition of another option or from optimisation, then a version number will be introduced or incremented in the archive configuration folder to reflect this. (eg. default -> default_v2). This will be accompanied with a patch increment in the reskit package version. In this case the user will have to manually create a copy of the default.yaml in the older release to continue using his old calculations (if they had been created using the old defaults).
    - If the actual routine that the configuration relates to changes then a version number will be introduced or incremented inside the yaml file. In this case the new version of reskit will not be backward compatible with any of the calculations obtained relating to this change using an older version of the software. This type of change will be accompanied with a major increment in the reskit package version.
  
@@ -34,7 +34,7 @@
  
 ### File
  - Lines endings always use Linux style.
- - All non-python files also following PEP8 naming (short, all-lowercase names. Underscores only, no hyphens).
+ - All non-python files must also follow PEP8 naming (short, all-lowercase names. Underscores only, no hyphens).
  - `.txt` files are used for ascii based results that are meant for user consumption.
  - `.dat` files can also be ascii based but are primarily for internal reskit usage.
 
