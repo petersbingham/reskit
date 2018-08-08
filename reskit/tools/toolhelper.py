@@ -6,6 +6,8 @@ import yaml
 import matplotlib.pyplot as plt
 from cycler import cycler
 
+import matfuncutil as mfu
+
 class tool:
     def __init__(self, data, archive_root, param_file_path, tool_dir, silent):
         self.data = copy.deepcopy(data)
@@ -106,12 +108,19 @@ class tool:
         plt.xlabel("Energy (" + self.data.x_units + ")", fontsize=12)
         plt.ylabel(y_axis_lbl, fontsize=12)
         if self.archive_root is not None:
-            savePath = self.archive_root+"charts"+os.sep
-            if not os.path.isdir(savePath):
-                os.makedirs(savePath)
-            savePath += title + " " + str(num_plot_points) + ".png"
-            self.log.write_msg("Chart saved to: "+savePath)
-            plt.savefig(savePath, bbox_inches='tight')
+            save_path = self.archive_root+"charts"+os.sep
+            if not os.path.isdir(save_path):
+                os.makedirs(save_path)
+            save_path += title + "_" + units
+            if logx:
+                save_path += "_logx"
+            if logy:
+                save_path += "_logy"
+            save_path += "_" + str(num_plot_points)
+            save_path += ".png"
+            self.log.write_msg("Chart saved to: "+save_path)
+            plt.savefig(save_path, bbox_inches='tight')
+            mfu.set_plot_paths(fig, save_path, True)
         if p["show"]:
             plt.show()
 

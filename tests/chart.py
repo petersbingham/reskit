@@ -16,7 +16,7 @@ cal = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
 dsmat = csmat.discretise(1.,8.,100)
 
-chart = rk.get_tool(rk.chart, dsmat)
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT)
 
 print "Plot all data as S-matrix"
 chart.plot_Smatrix()

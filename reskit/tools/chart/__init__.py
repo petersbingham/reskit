@@ -29,8 +29,8 @@ class Chart(th.tool):
             dbase.set_chart_parameters(ysize=config["ysize"])
 
     def _get_save_string(self, start, end, num_plot_points, logx, logy, units):
-        ret = " " + str(start) + "_" + str(end) + "_" + str(num_plot_points) +\
-              "_" + units
+        ret = " " + str(start) + "_" + str(end) + "_" + str(num_plot_points)\
+            + "_" + units
         if logx:
             ret += "_logx"
         if logy:
@@ -67,7 +67,8 @@ class Chart(th.tool):
             
         with open(self.param_file_path, 'r') as f:
             config = yaml.load(f.read())
-            dbase.plot(logx, logy, imag, config["show"], save_path)
+            dbase.plot(logx, logy, imag, config["show"], save_path,
+                       add_axis_lmts=True)
 
     ##### Public API #####
 

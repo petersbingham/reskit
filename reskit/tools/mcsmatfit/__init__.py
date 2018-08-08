@@ -516,7 +516,7 @@ class MCSMatFit(th.tool):
                                trunc_wdk, sig_digits):
         start = "\\begin{table}[h!]\n"+\
                 "\\begin{center}\n"+\
-                "\\begin{tabular}{c c c c}\n"+\
+                "\\begin{tabular}{l l c c}\n"+\
                 "\\hline\n"
         if use_energies:
             start += "\\textbf{Real energy} & \\textbf{Imag energy}"
