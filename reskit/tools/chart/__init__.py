@@ -164,8 +164,8 @@ class Chart(th.tool):
         self._plot(dmat, start, end, num_plot_points, logx, logy, imag, i, j)
         self.log.write_call_end("plotUniOpMat")
 
-    def plot_EphaseSum(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False):
+    def plot_EphaseSum(self, start=0, end=None, num_plot_points=None,
+                       units=None, logx=False, logy=False):
         """
         Plots the eigenphase sum. See docs for plot_raw for further details.
         Note that there are no i, j, and imag parameters for this function.
@@ -179,8 +179,8 @@ class Chart(th.tool):
                    None)
         self.log.write_call_end("plot_EphaseSum")
 
-    def plot_EphaseMat(self, start=0, end=None, num_plot_points=None, units=None,
-                     logx=False, logy=False, i=None, j=None):
+    def plot_EphaseMat(self, start=0, end=None, num_plot_points=None,
+                       units=None, logx=False, logy=False, i=None, j=None):
         """
         Plots the eigenphase matrix. See docs for plot_raw for further details.
         Note that there is no imag parameter for this function.
