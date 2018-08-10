@@ -26,6 +26,7 @@ chart.plot_Smatrix()
 print "Use discretised data"
 dsmat = csmat.discretise(1.,8.,100)
 chart = rk.get_tool(rk.chart, dsmat)
+
 print "Plot all data as S-matrix. No archive. Row."
 chart.plot_Smatrix(i=0)
 

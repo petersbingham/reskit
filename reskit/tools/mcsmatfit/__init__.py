@@ -695,7 +695,7 @@ class MCSMatFit(th.tool):
         -------
         pole_dat : list of lists.
             List of poles and their calculated quality indicators.
-        amalgPoleDat : list of lists.
+        amalg_pole_dat : list of lists.
             List of poles that had been combined according to the amalgamation
             threshold specified in the paramFile.
         """

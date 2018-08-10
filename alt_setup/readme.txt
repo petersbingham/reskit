@@ -21,7 +21,10 @@ reskit/setup.py                    - Installation script. See reskit/README.md.
 reskit/requirements.txt            - List of third party dependencies and
                                      versions to be used during installation.
 
-reskit/reskit.jpg                  - reskit design diagram.
+reskit/reskit.vpp                  - reskit visual paradigm project.
+                                     
+reskit/reskit.jpg                  - reskit design diagram created using vpp
+                                     file.
 
 reskit/examples                    - Scripts to generate results from the
                                      provided test data.
