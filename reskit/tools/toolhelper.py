@@ -97,6 +97,8 @@ class tool:
             orig = orig.convert_ene_units(units)
             fit_pnts = fit_pnts.convert_ene_units(units)
             fit = fit.convert_ene_units(units)
+        else:
+            units = orig.x_units
 
         ls1,_ = orig.get_plot_info(logx, logy, imag)
         fit_pnts.set_chart_parameters(use_marker=True)
@@ -105,7 +107,7 @@ class tool:
 
         plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fitted","Fit points"], 
                    prop={'size': 12})
-        plt.xlabel("Energy (" + self.data.x_units + ")", fontsize=12)
+        plt.xlabel("Energy (" + orig.x_units + ")", fontsize=12)
         plt.ylabel(y_axis_lbl, fontsize=12)
         if self.archive_root is not None:
             save_path = self.archive_root+"charts"+os.sep
@@ -116,6 +118,8 @@ class tool:
                 save_path += "_logx"
             if logy:
                 save_path += "_logy"
+            if num_plot_points is None:
+                num_plot_points = len(self.data)
             save_path += "_" + str(num_plot_points)
             save_path += ".png"
             self.log.write_msg("Chart saved to: "+save_path)

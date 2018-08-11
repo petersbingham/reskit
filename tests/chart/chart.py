@@ -8,10 +8,10 @@ import channelutil as cu
 import twochanradialwell as rw
 
 if len(sys.argv) > 1 and sys.argv[1]=="mpmath":
-  cu.use_mpmath_types()
-  print "mpmath"
+    cu.use_mpmath_types()
+    print "mpmath"
 else:
-  print "python"
+    print "python"
   
 TEST_ROOT = "chart"
 if os.path.isdir(TEST_ROOT):
