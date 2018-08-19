@@ -76,7 +76,7 @@ class Chart(th.tool):
                  logx=False, logy=False, imag=False, i=None, j=None):
         """
         Plots whatever form the Tool data happens to be in. There are additional
-        advanced parameters in the tool yml file.
+        advanced parameters in the Tool yml file.
 
         Parameters
         ----------

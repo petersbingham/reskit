@@ -19,7 +19,7 @@ if os.path.isdir(TEST_ROOT):
 
 cal = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
-print "Plot all mpmath data as S-matrix, direct from continuous data."
+print "Plot all mpmath data as S-matrix, direct from continuous data. No archive"
 chart = rk.get_tool(rk.chart, csmat)
 chart.plot_Smatrix()
 
@@ -68,7 +68,7 @@ print "Plot all data as raw matrix."
 chart.plot_raw()
 print "Plot all data as cross section matrix."
 chart.plot_XSmat()
-print "Plot all data as eigenphase sum. Specifying Rydbergs."
+print "Plot all data as eigenphase sum. Specifying rydbergs."
 chart.plot_EphaseSum(units=rk.rydbergs)
 print "Plot all data as cross section. Specifying Hartrees."
 chart.plot_EphaseSum(units=rk.hartrees)

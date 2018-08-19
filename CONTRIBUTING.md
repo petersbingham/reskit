@@ -27,10 +27,16 @@
 
 ### Documentation
  - All public functions must provide [numpy style docstrings](http://www.numpy.org/devdocs/docs/howto_document.html).
+ - Title case used for the Tools and Utilities.
 
 ### Matrix indices
  - When annotating results: One based with `m`,`n` for subscripts.
  - When indexing in code: Zero based with `i`,`j` for index reference.
+
+### Units annotations
+ - Ha used for Hartree units.
+ - Ry used for Rydberg units.
+ - eV used for electron volts.
  
 ### File
  - Lines endings always use Linux style.

@@ -10,6 +10,7 @@ import channelutil as cu
 import tisutil as tu
 import pynumwrap as nw
 import toolhelper as th
+from reskit.release import __version__
 
 # Changing the types after a tool has been created renders old tools in an
 # undefined state and they should not be used. safeMode prevents changing type
@@ -26,7 +27,7 @@ eVs = cu.eVs
 
 def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
     """
-    Returns an AsymCalc for converting from wavenumber to energy.
+    Returns an AsymCalc for converting from momentum to energy.
 
     Parameters
     ----------
@@ -89,8 +90,8 @@ def get_dmat_from_continuous(mat_type, fun_ref, asymcalc, start_ene, end_ene,
     mat_type : int 
         As for get_dmat_from_discrete.
     fun_ref : function with float parameter
-        An analytical function of energy for the elements of the scattering
-        matrix. Can be either python float or mpmath.mpf type.
+        An energy function describing the elements of the scattering matrix. Can
+        be either python float or mpmath.mpf type.
     asymcalc : AsymCalc
         As for get_dmat_from_discrete.
     start_ene : float

@@ -3,10 +3,29 @@ import datetime
 import io
 import copy
 import yaml
+import platform
 import matplotlib.pyplot as plt
 from cycler import cycler
+import sys
 
-import matfuncutil as mfu
+import numpy
+import scipy
+import sympy
+import mpmath
+import matplotlib
+import yaml
+import tabulate
+
+import channelutil
+import matfuncutil
+import parsmat
+import pynumutil
+import pynumwrap
+import stelempy
+import tisutil
+import twochanradialwell
+import ukrmolmatreader
+import reskit
 
 class tool:
     def __init__(self, data, archive_root, param_file_path, tool_dir, silent):
@@ -124,7 +143,7 @@ class tool:
             save_path += ".png"
             self.log.write_msg("Chart saved to: "+save_path)
             plt.savefig(save_path, bbox_inches='tight')
-            mfu.set_plot_paths(fig, save_path, True)
+            matfuncutil.set_plot_paths(fig, save_path, True)
         if p["show"]:
             plt.show()
 
@@ -140,6 +159,28 @@ class tool:
 class Logger:
     def __init__(self, log_file_path):
         self.log_file_path = log_file_path
+        self.write("NEW SESSION: " + platform.platform() + " " +\
+                   platform.processor() + ", Python " + sys.version,
+                   start="\n\n")
+        self.write("VERSIONS: " + self._get_version_strings() + "\n",
+                   start="\n")
+
+    def _vstr(self, package, start=False):
+        vstr = ""
+        if not start:
+            vstr = ", "
+        return vstr + package.__name__ + ":" + package.__version__
+
+    def _get_version_strings(self):
+        vstr = self._vstr(numpy,True) + self._vstr(scipy) + self._vstr(sympy) +\
+               self._vstr(mpmath) + self._vstr(matplotlib) + self._vstr(yaml) +\
+               self._vstr(tabulate) +\
+               self._vstr(channelutil) + self._vstr(matfuncutil) +\
+               self._vstr(parsmat) + self._vstr(pynumutil) +\
+               self._vstr(pynumwrap) + self._vstr(stelempy) +\
+               self._vstr(tisutil) + self._vstr(twochanradialwell) +\
+               self._vstr(ukrmolmatreader) + self._vstr(reskit)
+        return vstr
 
     def write(self, msg, start=""):
         if self.log_file_path is not None:

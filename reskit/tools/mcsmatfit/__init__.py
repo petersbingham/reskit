@@ -647,9 +647,9 @@ class MCSMatFit(th.tool):
 
     def find_Fin_roots(self, cfins, internal=False):
         """
-        Returns the roots of a list of parameterised Fin as a list of complex
-        python or mpmath.mpc types. There are additional advanced parameters in
-        the tool yaml file.
+        Returns the roots of a list of parameterised Fin as a list of python
+        complex or mpmath.mpc types. There are additional advanced parameters
+        supplied via the Tool yaml file.
 
         Parameters
         ----------
@@ -684,7 +684,7 @@ class MCSMatFit(th.tool):
         """
         Finds the S-matrix poles by identifying stable roots. The input can be
         either a list of roots or the Fin themselves. There are additional
-        advanced parameters in the tool yaml file.
+        advanced parameters supplied via the Tool yaml file.
 
         Parameters
         ----------
@@ -757,7 +757,7 @@ class MCSMatFit(th.tool):
         """
         Creates and formats all the QIs.txt tables in the current archive.
         Numbers are formatted according to the supplied parameters. There are
-        additional advanced parameters in the tool yaml file.
+        additional advanced parameters supplied via the Tool yaml file.
 
         Parameters
         ----------
@@ -842,14 +842,14 @@ class MCSMatFit(th.tool):
         """
         Plots the original data, the fit points used and the resultant S-matrix
         for the specified matrix element(s). There are additional advanced
-        parameters in the tool yaml file.
+        parameters supplied via the Tool yaml file.
 
         Parameters
         ----------
         csmat : cSmat
             Rational S-matrix returned from get_elastic_Smat.
         num_plot_points, units, i, j, logx, logy, imag
-            Refer to the chart tool for description.
+            Refer to the chart Tool for description.
         """
         Npts = csmat.fitInfo[0]
         self.log.write_call("plot_Smat_fit("+str(Npts)+")")
@@ -888,14 +888,14 @@ class MCSMatFit(th.tool):
         """
         Plots the cross sections obtained from the original and rational
         S-matrices along with the fit points used. There are additional advanced
-        parameters in the tool yaml file.
+        parameters supplied via the Tool yaml file.
 
         Parameters
         ----------
         csmat : cSmat
             Rational S-matrix returned from get_elastic_Smat.
         num_plot_points, units, logx, logy
-            Refer to the chart tool for description.
+            Refer to the chart Tool for description.
         """
         Npts = csmat.fitInfo[0]
         self.log.write_call("plot_XS_fit("+str(Npts)+")")
@@ -926,14 +926,14 @@ class MCSMatFit(th.tool):
         """
         Plots the eigenphase sum obtained from the original and rational
         S-matrices along with the fit points used. There are additional advanced
-        parameters in the tool yaml file.
+        parameters supplied via the Tool yaml file.
 
         Parameters
         ----------
         csmat : cSmat
             Rational S-matrix returned from get_elastic_Smat.
         num_plot_points, units, logx, logy
-            Refer to the chart tool for description.
+            Refer to the chart Tool for description.
         """
         Npts = csmat.fitInfo[0]
         self.log.write_call("plot_EigenPhase_fit("+str(Npts)+")")
@@ -955,6 +955,6 @@ class MCSMatFit(th.tool):
             title = "Eigenphase Sum (Npts="+str(Npts)+")"
 
             self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
-                           units, "Eigenphase Sum (radians)", logx, logy, False)
+                           units, "Eigenphase Sum (rad)", logx, logy, False)
 
         self.log.write_call_end("plot_EigenPhase_fit")
