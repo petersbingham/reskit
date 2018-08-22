@@ -1,4 +1,4 @@
-0 poles, hartrees
+0 poles, Ha
 
-Npts    status    k    E (hartrees)
-------  --------  ---  --------------
+Npts    status    k    E (Ha)
+------  --------  ---  --------

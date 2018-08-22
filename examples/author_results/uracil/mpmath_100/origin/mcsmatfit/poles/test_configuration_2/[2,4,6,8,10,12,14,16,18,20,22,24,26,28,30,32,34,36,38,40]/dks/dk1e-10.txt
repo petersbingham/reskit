@@ -1,4 +1,4 @@
-0 poles, rydbergs
+0 poles, Ry
 
-Npts    status    k    E (rydbergs)
-------  --------  ---  --------------
+Npts    status    k    E (Ry)
+------  --------  ---  --------

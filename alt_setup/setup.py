@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from distutils.core import setup
+import os
+
+dir_setup = os.path.dirname(os.path.realpath(__file__))
+with open(os.path.join(dir_setup, 'reskit', 'release.py')) as f:
+    # Defines __version__
+    exec(f.read())
 
 setup(name='reskit',
-      version='1.0.0',
+      version=__version__,
       description='Python Package to assist with the identification and characterisation of quantum scattering resonances.',
       author="Peter Bingham",
       author_email="petersbingham@hotmail.co.uk",
