@@ -1,8 +1,6 @@
 # reskit
 Python Package to assist with the identification and characterisation of quantum scattering resonances.
 
-WARNING: There are known issues with the latest version of sympy that affect the execution of reskit. We recommend using virtualenv to use the correct versions of the dependencies. This is fully explained in the instructions below.
-
 TROUBLESHOOTING: If you encounter any issues with reskit please consult the [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md). If these are due to a bug please leave an issue report.
 
 ## Getting reskit

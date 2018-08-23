@@ -26,7 +26,3 @@
   - mpmath.libmp.libhyper.NoConvergence: convergence to root failed; try n < 100 or maxsteps > 5000
     - Make the suggested changes to the parameters.
     - Alternatively try moving or extending the energy range of your input data-set.
-  - sympy.polys.polyerrors.PolynomialError: Poly(-1.723 ... k, I, domain='RR') contains an element of the generators set.
-    - Bad sympy version. See [sympy issues](https://github.com/sympy/sympy/issues/15086).
-  - Unhandled Exception: can't unify DMP([[8.4161 ...
-    - Bad sympy version. See [sympy issues](https://github.com/sympy/sympy/issues/15086).
