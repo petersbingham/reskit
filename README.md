@@ -35,9 +35,13 @@ reskit utilities:
 
 We recommend using the specific versions of these dependencies as indicated in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt), especially for the third party packages. If the user wishes to try their luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
 
-### Installing dependencies with virtualenv
+### Setting up a virtual environment
 
-virtualenv sets up an entire python distribution in a local directory, into which can be installed dependency versions specific to your project requirements. This means that you won't affect your global python distribution (since installing a specified version into your global distribution will override any existing install versions of that dependency). 
+If you plan to install the recommended versions of the dependencies you may not want to override those that already exist in your global python distribution. If this is the case we recommend setting up a virtual environment, either using the virtualenv tool or, if using an anaconda distribution, the `conda create` command. 
+
+#### virtualenv
+
+virtualenv sets up an entire python distribution in a local directory, into which can be installed dependency versions specific to your project requirements.
 
 virtualenv is a tool, which you can install (if not already installed) with the following command (if you don't have root access add '--user' to the end of the command to install into your home):
 
@@ -56,9 +60,29 @@ On Linux type:
 
     source env/bin/activate
 
-You can now install the dependencies into your virtualenv with the following commands:
+#### Anaconda
+
+Assuming that you have anaconda correctly installed and that you are in the same directory where you did the git clone set up the local virtual environment with the following commands:
+
+    cd reskit
+    conda create -n env python=2.7.15
+
+You now need to activate your virtual environment. Type:
+
+    source activate env
+
+### Installing the dependencies
+
+If you are using a virtual environment ensure that you have activated using the commands in the relevant section above.
+
+Using pip (ie. if you are not using an anaconda distribution):
 
     pip install -r requirements.txt
+    python setup.py install
+
+If using an anaconda distribution:
+
+    conda install --file requirements.txt
     python setup.py install
 
 ## Running reskit
