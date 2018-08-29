@@ -93,6 +93,12 @@ If you are using virtualenv you will have to setup your environment before invok
     python  # will start the interpreter
     import reskit
 
+If you are using Anaconda:
+
+    source activate env
+    python  # will start the interpreter
+    import reskit
+
 ## Overview
 
 Reskit was designed with the following features in mind:
