@@ -67,7 +67,11 @@ Assuming that you have anaconda correctly installed and that you are in the same
     cd reskit
     conda create -n env python=2.7.15
 
-You now need to activate your virtual environment. Type:
+You now need to activate your virtual environment. On Windows Powershell type:
+
+    activate env
+
+On Linux type:
 
     source activate env
 
@@ -95,7 +99,7 @@ If you are using virtualenv you will have to setup your environment before invok
 
 If you are using Anaconda:
 
-    source activate env
+    activate env # source activate env on Linux
     python  # will start the interpreter
     import reskit
 
