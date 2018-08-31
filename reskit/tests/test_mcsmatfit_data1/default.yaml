@@ -4,6 +4,7 @@ find_Fin_roots:
       method: berkowitz
 
   cScaSympypoly_find_roots:
+    force_nroots: True
     nw_roots_sym:
       symPoly_nroots:
         n: dps # use mpmath dps. Specify a value to override.
