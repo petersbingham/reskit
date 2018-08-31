@@ -18,8 +18,8 @@ QI_file_ext = ".txt"
 
 QI_file_real = "real"
 QI_file_imag = "imag"
-QI_file_wdk = "^dk"
-QI_file_EMk = "EMk"
+QI_file_Vdk = "Vdk"
+QI_file_EM = "EM"
 
 class MCSMatFit(th.tool):
     def __init__(self, data, archive_root, param_file_path, silent):
@@ -370,8 +370,8 @@ class MCSMatFit(th.tool):
                 pid = type_str+"["+str(i)+"]."
                 th.fw(f, pid+QI_file_real+"="+row[index][0]+"\n")
                 th.fw(f, pid+QI_file_imag+"="+row[index][1]+"\n")
-                th.fw(f, QI_file_wdk+"="+row[2]+"\n")
-                th.fw(f, QI_file_EMk+"="+row[3]+"\n\n")
+                th.fw(f, QI_file_Vdk+"="+row[2]+"\n")
+                th.fw(f, QI_file_EM+"="+row[3]+"\n\n")
         return path
 
     def _save_QI_data(self, n_list, pole_dat, asymcalc):
@@ -407,16 +407,16 @@ class MCSMatFit(th.tool):
         else:
             return str_cell + str
 
-    def _get_line(self, str_real, str_imag, str_wdk, str_EMk, trunc_wdk,
+    def _get_line(self, str_real, str_imag, str_Vdk, str_EM, trunc_Vdk,
                   sig_digits, col_delim, col_start_delim, has_final_col_delim,
                   use_energies):
         strip_zeros, min_fixed, max_fixed, show_zero_exponent, ztol = \
                 self._get_table_format_parameters()
-        if trunc_wdk:
-            num = int(str_wdk.split('-')[1])
+        if trunc_Vdk:
+            num = int(str_Vdk.split('-')[1])
             if use_energies:
                 # 50% chance digit loss when converting from k to E. However,
-                # since the wdk is the higher end of a precision range and that
+                # since the Vdk is the higher end of a precision range and that
                 # we use the relative diff from cfsteps from the final two Ms
                 # by default we ignore this
                 with th.fropen(self.param_file_path) as f:
@@ -426,7 +426,7 @@ class MCSMatFit(th.tool):
                     num += conv_dps_mod
             if sig_digits is None or num < sig_digits:
                 sig_digits = num
-        if trunc_wdk or sig_digits is not None:
+        if trunc_Vdk or sig_digits is not None:
             str_real = nw.num_str_real(str_real, sig_digits, strip_zeros,
                                        min_fixed, max_fixed, show_zero_exponent,
                                        ztol)
@@ -435,13 +435,13 @@ class MCSMatFit(th.tool):
                                        ztol)
         line = self._get_cell(str_real, col_delim, col_start_delim)
         line += self._get_cell(str_imag, col_delim, col_start_delim)
-        line += self._get_cell(str_wdk, col_delim, col_start_delim)
-        line += self._get_cell(str_EMk, col_delim, col_start_delim,
+        line += self._get_cell(str_Vdk, col_delim, col_start_delim)
+        line += self._get_cell(str_EM, col_delim, col_start_delim,
                                has_final_col_delim)
         return line
 
     def _get_formatted_lines(self, subdir, orig_file_name, use_energies, 
-                             trunc_wdk, sig_digits,
+                             trunc_Vdk, sig_digits,
                              row_delim=None, row_start_delim=None,
                              col_delim="$$", col_start_delim=None,
                              has_final_col_delim=True):
@@ -462,18 +462,18 @@ class MCSMatFit(th.tool):
                         str_real = num_str
                     elif QI_file_imag in l:
                         str_imag = num_str
-                    elif QI_file_wdk in l:
+                    elif QI_file_Vdk in l:
                         num_str = nw.num_str_real(num_str, 1, True, 1, 1, False)
-                        str_wdk = num_str.replace(".0","")
-                    elif QI_file_EMk in l:
-                        str_EMk = num_str
+                        str_Vdk = num_str.replace(".0","")
+                    elif QI_file_EM in l:
+                        str_EM = num_str
 
                         # Info for new line complete. Construct it:
                         new_line = ""
                         if row_start_delim is not None:
                             new_line = row_start_delim                        
-                        new_line += self._get_line(str_real, str_imag, str_wdk,
-                                                   str_EMk, trunc_wdk, sig_digits,
+                        new_line += self._get_line(str_real, str_imag, str_Vdk,
+                                                   str_EM, trunc_Vdk, sig_digits,
                                                    col_delim, col_start_delim,
                                                    has_final_col_delim,
                                                    use_energies)
@@ -485,7 +485,7 @@ class MCSMatFit(th.tool):
 
         return desc, new_lines
 
-    def _formatted_QI_table_name(self, trunc_wdk, sig_digits, use_energies,
+    def _formatted_QI_table_name(self, trunc_Vdk, sig_digits, use_energies,
                                  type_str):
         if use_energies:
             name = "_E_"
@@ -495,14 +495,14 @@ class MCSMatFit(th.tool):
         
         if sig_digits is not None:
             name += "_maxsf" + str(sig_digits)
-        if trunc_wdk:
+        if trunc_Vdk:
             return name + "_trunc"
         else:
             return name
 
     def _write_formatted_QI_table(self, start, new_lines, end, subdir,
-                                  trunc_wdk, sig_digits, use_energies, tab_type):
-        name = self._formatted_QI_table_name(trunc_wdk, sig_digits, use_energies,
+                                  trunc_Vdk, sig_digits, use_energies, tab_type):
+        name = self._formatted_QI_table_name(trunc_Vdk, sig_digits, use_energies,
                                              tab_type)
         save_path = subdir+os.sep+"QIs"+name+".txt"
         with th.fwopen(save_path) as f:
@@ -513,7 +513,7 @@ class MCSMatFit(th.tool):
             self.log.write_msg("Formatted QI table saved to: " + save_path)
 
     def _create_latex_QI_table(self, use_energies, subdir, orig_file_name,
-                               trunc_wdk, sig_digits):
+                               trunc_Vdk, sig_digits):
         start = "\\begin{table}[h!]\n"+\
                 "\\begin{center}\n"+\
                 "\\begin{tabular}{l l c c}\n"+\
@@ -522,10 +522,10 @@ class MCSMatFit(th.tool):
             start += "\\textbf{Real energy} & \\textbf{Imag energy}"
         else:
             start += "\\textbf{Real k} & \\textbf{Imag k}"
-        start += " & $\\wedge dk$ & $\\Sigma Mk$ \\\\\n \\hline\n"
+        start += " & $\\vee dk$ & $\\Sigma M$ \\\\\n \\hline\n"
 
         desc, new_lines = self._get_formatted_lines(subdir, orig_file_name,
-                                                    use_energies, trunc_wdk,
+                                                    use_energies, trunc_Vdk,
                                                     sig_digits,
                                                     row_delim="\\\\\n\\hline\n",
                                                     col_delim=" & ", 
@@ -536,20 +536,20 @@ class MCSMatFit(th.tool):
                 "\label{}\n"+\
                 "\end{table}"
         self._write_formatted_QI_table(start, new_lines, end, subdir,
-                                       trunc_wdk, sig_digits, use_energies,
+                                       trunc_Vdk, sig_digits, use_energies,
                                        "latex")
 
     def _create_html_QI_table(self, use_energies, subdir, orig_file_name,
-                              trunc_wdk, sig_digits):
+                              trunc_Vdk, sig_digits):
         start = "<table cellspacing=\"0\" border=\"1\">\n<tr>"
         if use_energies:
             start += "<th>Real energy</th><th>Imag energy</th>"
         else:
             start += "<th>Real k</th><th>Imag k</th>"
-        start += "<th>"+QI_file_wdk+"</th><th>"+QI_file_EMk+"</th></tr>\n"
+        start += "<th>"+QI_file_Vdk+"</th><th>"+QI_file_EM+"</th></tr>\n"
 
         desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
-                                                    use_energies, trunc_wdk,
+                                                    use_energies, trunc_Vdk,
                                                     sig_digits,
                                                     row_delim="</tr>\n",
                                                     row_start_delim="<tr>",
@@ -557,17 +557,17 @@ class MCSMatFit(th.tool):
                                                     col_start_delim="<td>")
         end = "<table>\n" + desc + "\n"
         self._write_formatted_QI_table(start, new_lines, end, subdir,
-                                       trunc_wdk, sig_digits, use_energies,
+                                       trunc_Vdk, sig_digits, use_energies,
                                        "html")
 
     def _create_raw_QI_table(self, use_energies, subdir, orig_file_name,
-                             trunc_wdk, sig_digits):
-        header = ["real", "imag", QI_file_wdk, QI_file_EMk]
+                             trunc_Vdk, sig_digits):
+        header = ["real", "imag", QI_file_Vdk, QI_file_EM]
         desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
-                                                    use_energies, trunc_wdk,
+                                                    use_energies, trunc_Vdk,
                                                     sig_digits,
                                                     has_final_col_delim=False)
-        name = self._formatted_QI_table_name(trunc_wdk, sig_digits, use_energies,
+        name = self._formatted_QI_table_name(trunc_Vdk, sig_digits, use_energies,
                                              "raw")
         save_path = subdir+os.sep+"QIs"+name+".txt"
         with th.fwopen(save_path) as f:
@@ -752,7 +752,7 @@ class MCSMatFit(th.tool):
         self.log.write_call_end("find_stable_Smat_poles")
         return None, None
 
-    def create_formatted_QI_tables(self, table_type="latex_E", trunc_wdk=True,
+    def create_formatted_QI_tables(self, table_type="latex_E", trunc_Vdk=True,
                                    sig_digits=None, spec_path=False):
         """
         Creates and formats all the QIs.txt tables in the current archive.
@@ -765,13 +765,13 @@ class MCSMatFit(th.tool):
             The table type to create and whether to use energies or wavenumbers.
             The string should contain the table type (html, latex, raw) and the
             quantity k, E). eg latex_E.
-        trunc_wdk : bool, optional
+        trunc_Vdk : bool, optional
             Truncate the real and imaginary components of the pole positions
-            to show only converged digits (according to the wdk).
+            to show only converged digits (according to the Vdk).
         sig_digits : int, optional
             The number of significant digits to represent the numeric values. If
             None (default) then will use whatever is in the QIs_E.txt or
-            QIs_k.txt file. If trunc_wdk is True then this represents a maximum
+            QIs_k.txt file. If trunc_Vdk is True then this represents a maximum
             number of digits.
         spec_path : bool or str, optional
             Convenience parameter. If you've don't want to go to the trouble of
@@ -797,15 +797,15 @@ class MCSMatFit(th.tool):
                 if orig_file_name == QI_file:
                     if "latex" in table_type:
                         self._create_latex_QI_table("E" in table_type, subdir,
-                                                    orig_file_name, trunc_wdk,
+                                                    orig_file_name, trunc_Vdk,
                                                     sig_digits)
                     elif "html" in table_type:
                         self._create_html_QI_table("E" in table_type, subdir,
-                                                   orig_file_name, trunc_wdk,
+                                                   orig_file_name, trunc_Vdk,
                                                    sig_digits)
                     elif "raw" in table_type:
                         self._create_raw_QI_table("E" in table_type, subdir,
-                                                  orig_file_name, trunc_wdk,
+                                                  orig_file_name, trunc_Vdk,
                                                   sig_digits)
         self.log.write_call_end("create_formatted_QI_tables")
 
