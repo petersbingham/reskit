@@ -1,9 +1,6 @@
 Some releases (eg CPC) require inclusion of the utilities and are released as a zip.
 The files for this are contained here. Follow the instructions below to create this release.
 
-- Ensure all non-versioned files have been removed.
-- Replace the requirements.txt and setup.py files in the parent with the ones here.
-- Copy the utilties folder here into the reskit folder in the parent.
-- Run the utilities/get_utilities.sh script.
-- Create a copy of the readme.txt and then delete this alt-setup folder.
-- Zip all files and release along with with the readme.txt in this folder.
+- Run create_alt_setup.sh.
+- Ensure that the .git and alt_setup folders in the root have been deleted by the scripts.
+- Zip all files in a tarball named reskitCPC (reskitCPC is referenced in the update_readme.py in case of change).
