@@ -2,7 +2,7 @@ import os
 import sys
 import shutil
 fileDir = os.path.dirname(os.path.realpath(__file__))
-rkPath = fileDir+'/../..'
+rkPath = fileDir+'/../../../..'
 sys.path.insert(0,rkPath)
 
 import reskit as rk

@@ -1,5 +1,9 @@
-import sys
 import os
+import sys
+fileDir = os.path.dirname(os.path.realpath(__file__))
+rkPath = fileDir+'/../../../..'
+sys.path.insert(0,rkPath)
+
 import shutil
 
 import channelutil as cu
