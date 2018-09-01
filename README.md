@@ -73,7 +73,7 @@ You now need to activate your virtual environment. On Windows Powershell type:
 
 On Linux type:
 
-    source activate env
+    conda activate env
 
 ### Installing the dependencies
 
@@ -99,7 +99,7 @@ If you are using virtualenv you will have to setup your environment before invok
 
 If you are using Anaconda:
 
-    activate env # source activate env on Linux
+    conda activate env
     python  # will start the interpreter
     import reskit
 
