@@ -19,7 +19,7 @@ QI_file_ext = ".txt"
 QI_file_real = "real"
 QI_file_imag = "imag"
 QI_file_Vdk = "Vdk"
-QI_file_EM = "EM"
+QI_file_SM = "SM"
 
 class MCSMatFit(th.tool):
     def __init__(self, data, archive_root, param_file_path, silent):
@@ -371,7 +371,7 @@ class MCSMatFit(th.tool):
                 th.fw(f, pid+QI_file_real+"="+row[index][0]+"\n")
                 th.fw(f, pid+QI_file_imag+"="+row[index][1]+"\n")
                 th.fw(f, QI_file_Vdk+"="+row[2]+"\n")
-                th.fw(f, QI_file_EM+"="+row[3]+"\n\n")
+                th.fw(f, QI_file_SM+"="+row[3]+"\n\n")
         return path
 
     def _save_QI_data(self, n_list, pole_dat, asymcalc):
@@ -407,7 +407,7 @@ class MCSMatFit(th.tool):
         else:
             return str_cell + str
 
-    def _get_line(self, str_real, str_imag, str_Vdk, str_EM, trunc_Vdk,
+    def _get_line(self, str_real, str_imag, str_Vdk, str_SM, trunc_Vdk,
                   sig_digits, col_delim, col_start_delim, has_final_col_delim,
                   use_energies):
         strip_zeros, min_fixed, max_fixed, show_zero_exponent, ztol = \
@@ -436,7 +436,7 @@ class MCSMatFit(th.tool):
         line = self._get_cell(str_real, col_delim, col_start_delim)
         line += self._get_cell(str_imag, col_delim, col_start_delim)
         line += self._get_cell(str_Vdk, col_delim, col_start_delim)
-        line += self._get_cell(str_EM, col_delim, col_start_delim,
+        line += self._get_cell(str_SM, col_delim, col_start_delim,
                                has_final_col_delim)
         return line
 
@@ -465,15 +465,15 @@ class MCSMatFit(th.tool):
                     elif QI_file_Vdk in l:
                         num_str = nw.num_str_real(num_str, 1, True, 1, 1, False)
                         str_Vdk = num_str.replace(".0","")
-                    elif QI_file_EM in l:
-                        str_EM = num_str
+                    elif QI_file_SM in l:
+                        str_SM = num_str
 
                         # Info for new line complete. Construct it:
                         new_line = ""
                         if row_start_delim is not None:
                             new_line = row_start_delim                        
                         new_line += self._get_line(str_real, str_imag, str_Vdk,
-                                                   str_EM, trunc_Vdk, sig_digits,
+                                                   str_SM, trunc_Vdk, sig_digits,
                                                    col_delim, col_start_delim,
                                                    has_final_col_delim,
                                                    use_energies)
@@ -546,7 +546,7 @@ class MCSMatFit(th.tool):
             start += "<th>Real energy</th><th>Imag energy</th>"
         else:
             start += "<th>Real k</th><th>Imag k</th>"
-        start += "<th>"+QI_file_Vdk+"</th><th>"+QI_file_EM+"</th></tr>\n"
+        start += "<th>"+QI_file_Vdk+"</th><th>"+QI_file_SM+"</th></tr>\n"
 
         desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
                                                     use_energies, trunc_Vdk,
@@ -562,7 +562,7 @@ class MCSMatFit(th.tool):
 
     def _create_raw_QI_table(self, use_energies, subdir, orig_file_name,
                              trunc_Vdk, sig_digits):
-        header = ["real", "imag", QI_file_Vdk, QI_file_EM]
+        header = ["real", "imag", QI_file_Vdk, QI_file_SM]
         desc, new_lines = self._get_formatted_lines(subdir, orig_file_name, 
                                                     use_energies, trunc_Vdk,
                                                     sig_digits,

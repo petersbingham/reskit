@@ -33,7 +33,7 @@
  - When annotating results: One based with `m`,`n` for subscripts.
  - When indexing in code: Zero based with `i`,`j` for index reference.
 
-### Units annotations
+### Unit annotations
  - Ha used for Hartree units.
  - Ry used for Rydberg units.
  - eV used for electron volts.

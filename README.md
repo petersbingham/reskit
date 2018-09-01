@@ -1,17 +1,17 @@
 # reskit
 Python Package to assist with the identification and characterisation of quantum scattering resonances.
 
-TROUBLESHOOTING: If you encounter any issues with reskit please consult the [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md). If these are due to a bug please leave an issue report.
+TROUBLESHOOTING: If you encounter any issues with reskit please consult the [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md). If these are due to a bug please leave an issue report in github.
 
 ## Getting reskit
 
 Git clone the repository with the following command:
 
     git clone https://github.com/petersbingham/reskit
-    
+
 ## Dependencies
 
-Currently reskit only supports python 2.7. Suggested version is 2.7.15. If you are on Linux and have no sudo access see here for installing python into your user space: http://thelazylog.com/install-python-as-local-user-on-linux/
+Currently reskit only supports python 2.7 (tested on 2.7.15). If you are using Linux and have no root access see here for installing python into your user space: http://thelazylog.com/install-python-as-local-user-on-linux/
 
 Third party packages:
   - numpy
@@ -33,7 +33,7 @@ reskit utilities:
   - [twochanradialwell](https://github.com/petersbingham/twochanradialwell)
   - [ukrmolmatreader](https://github.com/petersbingham/ukrmolmatreader)
 
-We recommend using the specific versions of these dependencies as indicated in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt), especially for the third party packages. If the user wishes to try their luck with later versions of the utilities they should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
+We recommend using the specific versions of these dependencies as indicated in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt), especially for the third party packages. If you wish to try your luck with later versions of the utilities you should should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
 
 ### Setting up a virtual environment
 
@@ -51,7 +51,7 @@ Once installed and assuming that you are in the same directory where you did the
 
     cd reskit
     virtualenv env
-    
+
 You now need to run a virtualenv activate script to setup your path to use this local version of python. On Windows Powershell type:
 
     env/Scripts/activate
@@ -65,7 +65,7 @@ On Linux type:
 Assuming that you have anaconda correctly installed and that you are in the same directory where you did the git clone set up the local virtual environment with the following commands:
 
     cd reskit
-    conda create -n env python=2.7.15
+    conda create -n env python=2.7.15 -y
 
 You now need to activate your virtual environment. On Windows Powershell type:
 
@@ -73,11 +73,11 @@ You now need to activate your virtual environment. On Windows Powershell type:
 
 On Linux type:
 
-    conda activate env
+    conda activate env  # or source activate env
 
 ### Installing the dependencies
 
-If you are using a virtual environment ensure that you have activated using the commands in the relevant section above.
+If you are using a virtual environment ensure that you have activated using the instructions given in the Setting up a virtual environment section above.
 
 Using pip (ie. if you are not using an anaconda distribution):
 
@@ -86,22 +86,24 @@ Using pip (ie. if you are not using an anaconda distribution):
 
 If using an anaconda distribution:
 
-    conda install --file requirements.txt
+    conda install --file requirements.txt -y
     python setup.py install
 
 ## Running reskit
 
-If you are using virtualenv you will have to setup your environment before invoking the interpreter by running the activate script as detailed above. If you are in the reskit folder on Windows you can type the following commands:
+### Using the reskit API
 
-    env/Scripts/activate.bat  # source env/bin/activate on Linux
-    python  # will start the interpreter
-    import reskit
+If you are using a virtual environment ensure that you have activated using the instructions given in the Setting up a virtual environment section above. From the command line type:
 
-If you are using Anaconda:
+    python  # will start the python interpreter
+    import reskit as rk
 
-    conda activate env
-    python  # will start the interpreter
-    import reskit
+You can now interact with the reskit API. See the examples given below or function docstrings for further details.
+
+### Running the examples
+
+Example reskit calculations for the radial well and the pyrazine and uracil molecules can be found in the examples folder. Refer to the 
+readme.txt in this folder for further details. Again, if you are using a virtual environment ensure that you have activated before running these examples.
 
 ## Overview
 
