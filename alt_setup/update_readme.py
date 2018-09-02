@@ -1,8 +1,14 @@
 import io
 
+import os
+import sys
+filedir = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0,filedir+os.sep+'..'+os.sep+'reskit')
+import release
+
 def transform_line(l):
     l = l.replace("git clone", "unzip")
-    return l.replace("cd reskit", "cd reskitCPC")
+    return l.replace("cd reskit", "cd reskitCPC-"+release.__version__)
 
 new_lines = []
 with io.open("README.md", 'r', newline='\n', encoding="utf-8") as f:

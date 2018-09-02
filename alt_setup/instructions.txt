@@ -3,4 +3,4 @@ The files for this are contained here. Follow the instructions below to create t
 
 - Run create_alt_setup.sh.
 - Ensure that the .git and alt_setup folders in the root have been deleted by the scripts.
-- Zip all files in a tarball named reskitCPC (reskitCPC is referenced in the update_readme.py in case of change).
+- Zip all files in a tarball named eg reskitCPC-1.1.0 (referenced in the update_readme.py in case of change).
