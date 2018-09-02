@@ -18,27 +18,36 @@ TEST_ROOT = "test_mcsmatfit_calc"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
-class parent_test(unittest.TestCase):
-    def find_stable_Smat_poles(self):
-        # Test that the (previously determined) correct number poles returned
-        # for the different modes.
+class test(unittest.TestCase):
+    def get_dsmat(self):
         cal = rk.get_asym_calc(cu.hartrees, [0,0])
         csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
-        dsmat = csmat.discretise(1.,8.,100)
-        mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, archive_root=TEST_ROOT,
-                               silent=True)
+        return csmat.discretise(1.,8.,100)
 
-class test_numpy(parent_test):
+    def get_roots(self, mcsmatfit):
+        cFin = mcsmatfit.get_elastic_Fin(4)
+        return mcsmatfit.find_Fin_roots([cFin])
+
     def runTest(self):
+        # Test that the three modes (mpmath, python with and without sympy 
+        # nroots) all return different results.
+        dsmat = self.get_dsmat()
         rk.use_python_types()
-        self.find_stable_Smat_poles()
+        mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, silent=True)
+        roots1 = self.get_roots(mcsmatfit)
+        mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, silent=True,
+                                param_file_path="test_mcsmatfit_calc_modes.yaml")
+        roots2 = self.get_roots(mcsmatfit)
+        rk.use_mpmath_types(dps=100)
+        dsmat = self.get_dsmat()
+        mcsmatfit = rk.get_tool(rk.mcsmatfit, dsmat, silent=True)
+        roots3 = self.get_roots(mcsmatfit)
 
-class test_mpmath(parent_test):
-    def runTest(self):
-        rk.use_mpmath_types()
-        self.find_stable_Smat_poles()
+        self.assertNotEqual(str(roots1), str(roots2))
+        self.assertNotEqual(str(roots1), str(roots3))
+        self.assertNotEqual(str(roots2), str(roots3))
 
 if __name__ == "__main__":
     #Just for debug
-    b = test_mpmath()
+    b = test()
     b.runTest()
