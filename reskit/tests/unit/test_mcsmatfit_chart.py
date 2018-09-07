@@ -27,6 +27,7 @@ class parent_test(unittest.TestCase):
 
         cfin = mcsmatfit.get_elastic_Fin(6)
         csmat = mcsmatfit.get_elastic_Smat(6)
+        cqmat = mcsmatfit.get_elastic_Qmat(6)
         
         chart = rk.get_tool(rk.chart, cfin, archive_root=TEST_ROOT,
                             param_file_path="test_mcsmatfit_chart.yaml",
@@ -36,6 +37,10 @@ class parent_test(unittest.TestCase):
                             param_file_path="test_mcsmatfit_chart.yaml",
                             silent=True)
         chart.plot_Smatrix()
+        chart = rk.get_tool(rk.chart, cqmat, archive_root=TEST_ROOT,
+                            param_file_path="test_mcsmatfit_chart.yaml",
+                            silent=True)
+        chart.plot_raw(start=1) # Get div by zero for 1st index.
 
 class test_numpy(parent_test):
     def runTest(self):
@@ -49,5 +54,5 @@ class test_mpmath(parent_test):
 
 if __name__ == "__main__":
     #Just for debug
-    b = test_mpmath()
+    b = test_numpy()
     b.runTest()

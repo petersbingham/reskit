@@ -12,7 +12,7 @@ use_marker: False
 
 leg_prefix: ''
 
-hide_title: True
+hide_title: False
 
 show: True
 

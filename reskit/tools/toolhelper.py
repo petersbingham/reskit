@@ -83,18 +83,19 @@ class tool:
         self.log.write_err(msg)
         raise Exception(msg)
 
-    def _prepare_for_fit_plot(self, num_plot_points):
+    def _prepare_for_fit_plot(self, num_plot_points, orig=None):
+        if orig is None:
+            orig = self.data
         with fropen(self.param_file_path) as f:
             config = yaml.load(f.read())
             p = config["fit_charts"]
             self.log.write_parameters(p)
     
             if num_plot_points is None:
-                ln = len(self.data)
+                ln = len(orig)
             else:
                 ln = num_plot_points
 
-            orig = self.data
             if num_plot_points is not None:
                 orig = orig.create_reduced_length(num_points=ln)
             return p, ln, orig
@@ -119,6 +120,17 @@ class tool:
                     break
                 if dashes[i][j] is not None:
                     ln[j].set_dashes(dashes[i][j])
+
+    def _plot_mat_fit(self, p, title, orig, fit_pnts, fit, num_plot_points,
+                      units, i, j, y_axis_lbl, logx, logy, imag):
+        if i is not None and j is not None:
+            title += ", m="+str(i+1)+", n="+str(j+1)
+        elif i is not None:
+            title += ", m="+str(i+1)
+        elif j is not None:
+            title += ", n="+str(j+1)
+        self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                       units, y_axis_lbl, logx, logy, imag)
 
     def _plot_fit(self, p, title, orig, fit_pnts, fit, num_plot_points, units,
                   y_axis_lbl, logx, logy, imag):
@@ -186,7 +198,7 @@ class tool:
         if p["show"]:
             plt.show()
 
-    def _reduceDimensions(self, dbase, i, j):
+    def _reduceDimensions(self, dbase, i, j=None):
         if i is not None and j is not None:
             dbase = dbase.create_reduced_dim(i).create_reduced_dim(j)
         elif i is not None:

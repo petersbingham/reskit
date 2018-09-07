@@ -45,6 +45,8 @@ There are three options here, refer to the corresponding section further below d
 2. Install into a virtual environment with a standalone python installation.
 3. Install into your global python space.
 
+Again, if you encounter problems please see [TROUBLESHOOTING.md](https://github.com/petersbingham/reskit/blob/master/TROUBLESHOOTING.md).
+
 #### 1. Install into a virtual environment using Anaconda.
 
 Assuming that you have anaconda correctly installed and that you are in the same directory where you did the git clone set up the local virtual environment with the following commands:

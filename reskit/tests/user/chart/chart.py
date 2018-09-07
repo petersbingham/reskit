@@ -94,10 +94,10 @@ print "Save high dpi png. Dashes with title hidden."
 chart.plot_Smatrix()
 
 chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_2_0_2.yaml")
-print "Save pdf. Dashes with title hidden."
-chart.plot_Smatrix()
+print "Q-matrix. Save pdf. Dashes with title."
+chart.plot_Qmatrix()
 
 chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_2_0_3.yaml")
-print "Save pdf. Cycled dashes with title hidden."
-chart.plot_Smatrix()
+print "Q-matrix eigenvalues. Save pdf. Cycled dashes with title."
+chart.plot_Qmatrix_evals()
 

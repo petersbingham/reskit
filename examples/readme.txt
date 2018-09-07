@@ -5,7 +5,7 @@
 python reskit_examples.py system output_produced Npts
 where:
  system: Scattering system. Either:
-  radwell, pyrazine or uracil
+  radwell, pyrazine, uracil or pbq (para-benzoquinone)
  output_produced: Command. Either:
   poles, plotSmat, plotXS or createLatex
  Npts: Either max Npts (if output_produced==poles) or plot Npts (if output_produced==plotSmat or output_produced==plotXS)
@@ -21,4 +21,3 @@ The roots of the S-matrix obtained for each step of the calculation will be in a
 Finally, the poles identified for each M will will be in a subdirectory named poles. The final result,
 that is, the poles identified with their corresponding quality indicators, will be listed in a file called
 QIs.dat located in the poles subdirectory.
-
