@@ -579,6 +579,20 @@ class MCSMatFit(th.tool):
 
     ##### Others #####
 
+    def _get_mat(self, fun, Npts, fun_name):
+        self.log.write_call(fun_name+"("+str(Npts)+")")
+        self._check_elastic()
+        ris = self.data.get_slice_indices(num_points=Npts)
+        self.log.write_msg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
+        self.all_coeffs_loaded = True
+        coeffs = self._get_coefficients(Npts, ris[0])
+        cmat = fun(coeffs, self.data.asymcalc)
+        cmat.fitInfo = (Npts,ris)
+        self._update_container_strings(Npts, cmat)
+        self.log.write_msg("Calculation completed")
+        self.log.write_call_end(fun_name)
+        return cmat
+
     def _check_for_fit_plot(self, csmat):
         try:
             csmat.MCSMatFit_SplotCompatible
@@ -610,18 +624,7 @@ class MCSMatFit(th.tool):
         -------
         cfin : cFinMatSympypolyk
         """
-        self.log.write_call("get_elastic_Fin("+str(Npts)+")")
-        self._check_elastic()
-        ris = self.data.get_slice_indices(num_points=Npts)
-        self.log.write_msg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
-        self.all_coeffs_loaded = True
-        coeffs = self._get_coefficients(Npts, ris[0])
-        cfin = psm.get_elastic_Fin_fun(coeffs, self.data.asymcalc)
-        cfin.fitInfo = (Npts,ris)
-        self._update_container_strings(Npts, cfin)
-        self.log.write_msg("cfin calculated")
-        self.log.write_call_end("get_elastic_Fin")
-        return cfin
+        return self._get_mat(psm.get_elastic_Fin_fun, Npts, "get_elastic_Fin")
 
     def get_elastic_Fins(self, Npts_list):
         """
@@ -812,7 +815,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Smat(self, Npts):
         """
         Performs an S-matrix fit using the specified number of fit points and 
-        returns a cSmat.
+        returns an S-matrix as a cSmat.
 
         Parameters
         ----------
@@ -823,19 +826,44 @@ class MCSMatFit(th.tool):
         -------
         csmat : cSmat
         """
-        self.log.write_call("get_elastic_Smat("+str(Npts)+")")
-        self._check_elastic()
-        ris = self.data.get_slice_indices(num_points=Npts)
-        self.log.write_msg("Calculating for slice:"+str(ris))
-        self.all_coeffs_loaded = True
-        coeffs = self._get_coefficients(Npts, ris[0])
-        csmat = psm.get_elastic_Smat_fun(coeffs, self.data.asymcalc)
-        csmat.fitInfo = (Npts,ris)
+        csmat = self._get_mat(psm.get_elastic_Smat_fun, Npts,
+                              "get_elastic_Smat")
         csmat.MCSMatFit_SplotCompatible = True
-        self._update_container_strings(Npts, csmat)
-        self.log.write_msg("Calculation completed")
-        self.log.write_call_end("get_elastic_Smat")
         return csmat
+
+    def get_elastic_Spmat(self, Npts):
+        """
+        Performs S-matrix fits using the specified number of fit points and 
+        returns a differentiated S-matrix as a cMat.
+
+        Parameters
+        ----------
+        Npts : int
+            Number of points to use in the fit. Must be an even number.
+
+        Returns
+        -------
+        cmat : cMat
+        """
+        cmat = self._get_mat(psm.get_elastic_Spmat_fun, Npts,
+                             "get_elastic_Spmat")
+        return cmat
+
+    def get_elastic_Qmat(self, Npts):
+        """
+        Performs S-matrix fits using the specified number of fit points and 
+        returns a cQmat.
+
+        Parameters
+        ----------
+        Npts : int
+            Number of points to use in the fit. Must be an even number.
+
+        Returns
+        -------
+        cqmat : cQmat
+        """
+        return self._get_mat(psm.get_elastic_Qmat_fun, Npts, "get_elastic_Qmat")
 
     def plot_Smat_fit(self, csmat, num_plot_points=None, units=None, i=None,
                       j=None, logx=False, logy=False, imag=False):
