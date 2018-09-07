@@ -7,7 +7,7 @@ sys.path.insert(0,rkPath)
 import shutil
 
 import reskit as rk
-rk.safeMode = False
+rk.safe_mode = False
 import channelutil as cu
 import twochanradialwell as rw
 

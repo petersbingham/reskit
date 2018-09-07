@@ -11,7 +11,7 @@ Git clone the repository with the following command:
 
 ## Dependencies
 
-Currently reskit only supports python 2.7 (tested on 2.7.15). If you are using Linux and have no root access see here for installing python into your user space: http://thelazylog.com/install-python-as-local-user-on-linux/
+Currently reskit only supports python 2.7 (tested on 2.7.15). If you are using Linux and have no root access see here for installing a specific version of python into your user space: http://thelazylog.com/install-python-as-local-user-on-linux/
 
 Third party packages:
   - numpy
@@ -35,11 +35,45 @@ reskit utilities:
 
 We recommend using the specific versions of these dependencies as indicated in the [requirements.txt](https://github.com/petersbingham/reskit/blob/master/requirements.txt), especially for the third party packages. If you wish to try your luck with later versions of the utilities you should should check the version number for any compatibility breaks (the utilities use [SemVer](http://semver.org/)). Note that some distributions of reskit come with the utilities already installed.
 
-### Setting up a virtual environment
+If you plan to install the recommended versions of the dependencies you may not want to override those that already exist in your global python distribution. If this is the case we recommend setting up a virtual environment.either using the virtualenv tool or, if using an anaconda distribution, the `conda create` command. 
 
-If you plan to install the recommended versions of the dependencies you may not want to override those that already exist in your global python distribution. If this is the case we recommend setting up a virtual environment, either using the virtualenv tool or, if using an anaconda distribution, the `conda create` command. 
+### Installing Dependencies
 
-#### virtualenv
+There are three options here, refer to the corresponding section further below depending on your installation preference:
+
+1. Install into a virtual environment using Anaconda.
+2. Install into a virtual environment with a standalone python installation.
+3. Install into your global python space.
+
+#### 1. Install into a virtual environment using Anaconda.
+
+Assuming that you have anaconda correctly installed and that you are in the same directory where you did the git clone set up the local virtual environment with the following commands:
+
+    cd reskit
+    conda create -n env python=2.7.15 -y
+
+You now need to activate your virtual environment. On Windows Powershell type:
+
+    activate env
+
+On Linux type:
+
+    conda activate env  # or source activate env
+
+With the virtual environment activated then install the dependencies with the following commands:
+
+    conda install --file requirements.txt -y
+    python setup.py install
+    
+Note that Anaconda will by default still search in the global python user sites when running the virtual environment, which could be a problem if you have different versions of the dependencies in these locations. To remove this behaviour you need to set an environment variable on each reskit session.  On Windows Powershell type:
+
+    set PYTHONNOUSERSITE=1
+
+On Linux type:
+
+    export PYTHONNOUSERSITE=1
+
+#### 2. Install into a virtual environment with a standalone python installation.
 
 virtualenv sets up an entire python distribution in a local directory, into which can be installed dependency versions specific to your project requirements.
 
@@ -60,33 +94,17 @@ On Linux type:
 
     source env/bin/activate
 
-#### Anaconda
-
-Assuming that you have anaconda correctly installed and that you are in the same directory where you did the git clone set up the local virtual environment with the following commands:
-
-    cd reskit
-    conda create -n env python=2.7.15 -y
-
-You now need to activate your virtual environment. On Windows Powershell type:
-
-    activate env
-
-On Linux type:
-
-    conda activate env  # or source activate env
-
-### Installing the dependencies
-
-If you are using a virtual environment ensure that you have activated using the instructions given in the Setting up a virtual environment section above.
-
-Using pip (ie. if you are not using an anaconda distribution):
+With the virtual environment activated then install the dependencies with the following commands:
 
     pip install -r requirements.txt
     python setup.py install
 
-If using an anaconda distribution:
+#### 3. Install into your global python space.
 
-    conda install --file requirements.txt -y
+Assuming that you are in the same directory where you did the git clone install with the following commands (if you don't have root access on Linux you can install into your user space by adding `--user` to the end of both commands below):
+
+    cd reskit
+    pip install -r requirements.txt
     python setup.py install
 
 ## Running reskit

@@ -69,14 +69,19 @@ class tool:
             self._config_error()
 
     def _config_error(self):
-        estr = "Error. Configuration at param_file_path conflicts with a prior "
-        estr += "config with the same file name. Rename your parameter file."
+        estr = "Reskit Archive Error. Configuration contained in " \
+        + self.param_file_path + " conflicts with a prior configuration with " \
+        + "the same file name. All config files associated with a given data " \
+        + "set must have unique names (these are specified as the " \
+        + "param_file_path in the get_tool function).\n\nTO FIX: Uniquely " \
+        + "rename the file: " + self.param_file_path + "."
         self.log.write_err(estr)
         raise Exception(estr)
 
     def _file_error(self, estr):
-        self.log.write_err(estr)
-        raise Exception("Error. Exception opening cache config: " + estr)
+        msg = "Reskit File Error. Exception opening cache config: " + estr
+        self.log.write_err(msg)
+        raise Exception(msg)
 
     def _prepare_for_fit_plot(self, num_plot_points):
         with fropen(self.param_file_path) as f:

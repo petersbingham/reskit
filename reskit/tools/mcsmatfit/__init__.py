@@ -54,7 +54,7 @@ class MCSMatFit(th.tool):
         
     def _check_elastic(self):
         if not self.data.asymcalc.is_elastic():
-            msg = "Function not compatible with inelastic systems."
+            msg = "Reskit Error. Function not compatible with inelastic systems."
             self.log.write_err(msg)
             raise Exception(msg)
 

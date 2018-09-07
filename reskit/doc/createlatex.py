@@ -173,7 +173,7 @@ write_doc(reskit, reskitfuns, "reskit")
 
 desc_str = (
 "\\subsection{Tools}\n\label{sec_Tools}\n\nIn this section we describe the "
-"functionality provided as part of the Tools. MCSMatFit performs the analytic "
+"functionality provided by the Tools. MCSMatFit performs the analytic "
 "fit and pole identification whereas Chart provides functionality for the basic "
 "plotting of data.\n\n\\subsubsection{MCSMatFit}\n\nThese routines perform the "
 "fit and identify the poles as described in Section~\\ref{sec:Method}.\n\n")

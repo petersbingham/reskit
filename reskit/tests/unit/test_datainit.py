@@ -7,7 +7,7 @@ sys.path.insert(0,rkPath)
 import reskit as rk
 import channelutil as cu
 import pynumwrap as nw
-rk.safeMode = False
+rk.safe_mode = False
 import numpy as np
 import mpmath
 

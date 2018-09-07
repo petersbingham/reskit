@@ -13,9 +13,9 @@ import toolhelper as th
 from reskit.release import __version__
 
 # Changing the types after a tool has been created renders old tools in an
-# undefined state and they should not be used. safeMode prevents changing type
+# undefined state and they should not be used. safe_mode prevents changing type
 # after tools have been created.
-safeMode = True
+safe_mode = True
 
 Smat = tu.Smat
 Kmat = tu.Kmat
@@ -24,6 +24,30 @@ Tmat = tu.Tmat
 rydbergs = cu.rydbergs
 hartrees = cu.hartrees
 eVs = cu.eVs
+
+filename_checkdata = "checkdata.dat"
+
+reskit_err_str_unrecog_module = "Reskit Error. Unrecognised module."
+
+reskit_err_str_typ_chg = "Reskit Error. Types can only be changed at start " \
++ "of session in safe_mode."
+
+reskit_err_str_bad_data_root = "Reskit Archive Error. Supplied data does not " \
++ "correspond to that used to originally create the data root. The data " \
++ "associated with the source_str supplied to the get_dmat_from_discrete or " \
++ "get_dmat_from_continuous functions must not change between subsequent " \
++ "calculations.\n\nTO FIX: Either provide a different source_str for your " \
++ "new data or ensure the correct data has been supplied to the get_tool " \
++ "function."
+
+reskit_err_str_missing_check_data_1 = "Reskit Archive Error. Data root with no " \
++ filename_checkdata + " file. There must always be a " + filename_checkdata \
++ " file contained in each data root. This is used to check that the same " \
++ "data is being used for successive calculations.\n\nTO FIX: Either check " \
++ "there are no required files in the folder: "
+reskit_err_str_missing_check_data_2 = " and then delete it or provide a " \
++ "different source_str for your data to the get_dmat_from_discrete or " \
++ "get_dmat_from_continuous functions."
 
 def get_asym_calc(units, angmoms=None, tot_spin=None, targ_spins=None):
     """
@@ -137,7 +161,7 @@ def get_tool(toolid, data, archive_root=None, param_file_path=None,
     -------
     tool : Tool
     """
-    if safeMode:
+    if safe_mode:
         nw.lockType()
     if toolid == chart:
         import chart as mod
@@ -146,12 +170,11 @@ def get_tool(toolid, data, archive_root=None, param_file_path=None,
         import mcsmatfit as mod
         tool = mod.MCSMatFit
     else:
-        raise Exception("Unrecognised module.")
+        raise Exception(reskit_err_str_unrecog_module)
     if archive_root is not None:
         data_root = archive_root+os.sep+data.get_source_str()+os.sep
         data_root += nw.getConfigString()+os.sep+data.get_hist_str()+os.sep
         archive_root = data_root+mod.toolName+os.sep
-        filename_checkdata = "checkdata.dat"
         if not os.path.isdir(data_root):
             os.makedirs(data_root)
             with th.fwopen(data_root+filename_checkdata) as f:
@@ -160,12 +183,10 @@ def get_tool(toolid, data, archive_root=None, param_file_path=None,
             if os.path.isfile(data_root+filename_checkdata):
                 with th.fropen(data_root+filename_checkdata) as f:
                     if str(f.read()) != str(data.get_check_str()):
-                        s = "Supplied data does not correspond to that used "
-                        s += "to originally create the data_root."
-                        raise Exception(s)
+                        raise Exception(reskit_err_str_bad_data_root)
             else:
-                s = "Invalid archive state: data dir with no "
-                s += filename_checkdata + "."
+                s = reskit_err_str_missing_check_data_1 + data_root
+                s += reskit_err_str_missing_check_data_2
                 raise Exception(s)
         if not os.path.isdir(archive_root):
             os.makedirs(archive_root)
@@ -179,8 +200,7 @@ def use_python_types():
     try:
         nw.use_python_types()
     except:
-        s = "Types can only be changed at start of session in safeMode."
-        raise Exception(s)
+        raise Exception(reskit_err_str_typ_chg)
 
 def use_mpmath_types(dps=nw.dps_default_mpmath):
     """
@@ -194,5 +214,4 @@ def use_mpmath_types(dps=nw.dps_default_mpmath):
     try:
         nw.use_mpmath_types(dps)
     except:
-        s = "Types can only be changed at start of session in safeMode."
-        raise Exception(s)
+        raise Exception(reskit_err_str_typ_chg)
