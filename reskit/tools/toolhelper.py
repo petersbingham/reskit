@@ -105,7 +105,10 @@ class tool:
         ysize = p["ysize"]
 
         fig = plt.figure(facecolor="white")
-        fig.suptitle(title)
+        if not imag:
+            fig.suptitle(title)
+        else:
+            fig.suptitle(title + " imag")
         fig.set_size_inches(xsize, ysize, forward=True)
         valsize = orig.valsize()
         if len(p["colour_cycle"])!=3 or valsize==1:
