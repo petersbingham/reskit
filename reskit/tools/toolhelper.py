@@ -99,16 +99,41 @@ class tool:
                 orig = orig.create_reduced_length(num_points=ln)
             return p, ln, orig
 
+    def _get_new_plot_parameters(self, p):
+        # Need to specify defaults for backwards compatibility. These were
+        # introduced after initial release
+        dpi = p.get("dpi", 300)
+        dashes = p.get("dashes", None)
+        cycle_dashes = p.get("cycle_dashes", False)
+        hide_title = p.get("hide_title", False)
+        extension = p.get("extension", "png")
+        return dpi, dashes, cycle_dashes, hide_title, extension
+
+    def _apply_dashes(self, ln, dashes, cycle_dashes, i):
+        if dashes[i] is not None:
+            if cycle_dashes:
+                # At least as many dashes for number of lines
+                dashes[i] = dashes[i] * len(ln)
+            for j in range(len(dashes[i])):
+                if j >= len(ln):
+                    break
+                if dashes[i][j] is not None:
+                    ln[j].set_dashes(dashes[i][j])
+
     def _plot_fit(self, p, title, orig, fit_pnts, fit, num_plot_points, units,
                   y_axis_lbl, logx, logy, imag):
         xsize = p["xsize"]
         ysize = p["ysize"]
 
+        dpi, dashes, cycle_dashes, hide_title, extension = \
+            self._get_new_plot_parameters(p)
+
         fig = plt.figure(facecolor="white")
-        if not imag:
-            fig.suptitle(title)
-        else:
-            fig.suptitle(title + " imag")
+        if not hide_title:
+            if not imag:
+                fig.suptitle(title)
+            else:
+                fig.suptitle(title + " imag")
         fig.set_size_inches(xsize, ysize, forward=True)
         valsize = orig.valsize()
         if len(p["colour_cycle"])!=3 or valsize==1:
@@ -132,6 +157,10 @@ class tool:
         ls2,_ = fit.get_plot_info(logx, logy, imag)
         ls3,_ = fit_pnts.get_plot_info(logx, logy, imag)
 
+        if dashes:
+            self._apply_dashes(ls1, dashes, cycle_dashes, 0)
+            self._apply_dashes(ls2, dashes, cycle_dashes, 1)
+
         plt.legend([ls1[0],ls2[0],ls3[0]], ["Original","Fitted","Fit points"], 
                    prop={'size': 12})
         plt.xlabel("Energy (" + orig.x_units + ")", fontsize=12)
@@ -148,9 +177,11 @@ class tool:
             if num_plot_points is None:
                 num_plot_points = len(self.data)
             save_path += "_" + str(num_plot_points)
-            save_path += ".png"
+            if extension[0] == ".":
+                extension = extension[1:]
+            save_path += "." + extension
             self.log.write_msg("Chart saved to: "+save_path)
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(save_path, bbox_inches='tight', dpi=dpi)
             matfuncutil.set_plot_paths(fig, save_path, True)
         if p["show"]:
             plt.show()

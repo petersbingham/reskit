@@ -23,12 +23,20 @@ find_stable_Smat_poles:
 
 fit_charts:
   colour_cycle:
-    - purple
     - green
-    - orange
-  xsize: 8
-  ysize: 7
+    - red
+    - blue
+  dashes: null # To add dash patterns for lines Use for example [[[10, 5, 100, 5], null], null]:
+               # First element applies to the original data, second (null) to the fit data.
+               # Shown for the original data: 10 points on, 5 off, 100 on, 5 off for first line.
+               # No dashes for second line (null, applicable only if matrix).
+  cycle_dashes: False
+  hide_title: False
   show: True
+  xsize: 6.4
+  ysize: 4.8
+  dpi: 300
+  extension: "png"
 
 create_formatted_QI_tables:
   num_format:

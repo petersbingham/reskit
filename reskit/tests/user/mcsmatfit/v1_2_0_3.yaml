@@ -26,14 +26,14 @@ fit_charts:
     - green
     - red
     - blue
-  dashes: [null, [[5,5]]]
+  dashes: [[null],[[5,5]]]
   cycle_dashes: True
-  hide_title: False
+  hide_title: True
   show: True
-  xsize: 8
-  ysize: 7
-  dpi: 1200
-  extension: "png"
+  xsize: 6.4
+  ysize: 4.8
+  dpi: 5000
+  extension: "pdf"
 
 create_formatted_QI_tables:
   num_format:

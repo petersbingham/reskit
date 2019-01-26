@@ -23,17 +23,12 @@ find_stable_Smat_poles:
 
 fit_charts:
   colour_cycle:
+    - purple
     - green
-    - red
-    - blue
-  dashes: [null, [[5,5]]]
-  cycle_dashes: True
-  hide_title: False
-  show: True
+    - orange
   xsize: 8
   ysize: 7
-  dpi: 1200
-  extension: "png"
+  show: True
 
 create_formatted_QI_tables:
   num_format:

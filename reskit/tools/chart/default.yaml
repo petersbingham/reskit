@@ -1,15 +1,28 @@
 colour_cycle:
   - black
-  - purple
+  - red
   - green
-  - orange
+  - blue
+
+dashes: null # To add dash patterns for lines. Use for example [[10, 5, 100, 5], null]:
+             # This is 10 points on, 5 off, 100 on, 5 off for first line.
+             # No dashes for second line.
+
+cycle_dashes: False # For very large matrices will have many lines. If this is
+                    # True will cycle through the dash patterns for all lines.
+
+use_marker: False
 
 leg_prefix: ''
 
-use_marker: False
+hide_title: False
+
+show: True
 
 xsize: 8
 
 ysize: 7
 
-show: True
+dpi: 300
+
+extension: "png"

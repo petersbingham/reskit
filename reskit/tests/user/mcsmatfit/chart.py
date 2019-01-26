@@ -25,6 +25,7 @@ calc = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,calc,1.0)
 dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 200,
                                    "radwell")
+
 sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT)
 
 csmat = sfittool.get_elastic_Smat(10)
@@ -64,3 +65,27 @@ print "eVs"
 sfittool.plot_EigenPhase_fit(csmat, 100, units=rk.eVs)
 print "logx and logy"
 sfittool.plot_EigenPhase_fit(csmat, 100, logx=True, logy=True)
+
+print "Plot all data as S-matrix using yml config and save to archive."
+sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT)
+sfittool.plot_Smat_fit(csmat)
+
+print "\nTest new config changes"
+print "Plot dashed lines, high dpi."
+sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT, "v1_2_0_1.yaml")
+sfittool.plot_Smat_fit(csmat)
+
+print "Plot dashed fitted, no title as pdf."
+sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT, "v1_2_0_2.yaml")
+sfittool.plot_Smat_fit(csmat)
+
+print "Plot cycled dashed fitted, no title as pdf."
+sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT, "v1_2_0_3.yaml")
+sfittool.plot_Smat_fit(csmat)
+
+print "\nTest old config"
+sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT, "v1_1_1.yaml")
+csmat = sfittool.get_elastic_Smat(10)
+sfittool.plot_Smat_fit(csmat)
+sfittool.plot_XS_fit(csmat, units=rk.eVs)
+sfittool.plot_EigenPhase_fit(csmat, logx=True, logy=True)

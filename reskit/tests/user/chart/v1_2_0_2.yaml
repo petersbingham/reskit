@@ -1,0 +1,25 @@
+colour_cycle:
+  - black
+  - red
+  - green
+  - blue
+
+dashes: [[5, 5], [4, 4], [3, 3], [2, 2]]
+
+cycle_dashes: False
+
+use_marker: False
+
+leg_prefix: ''
+
+hide_title: True
+
+show: True
+
+xsize: 8
+
+ysize: 7
+
+dpi: 300
+
+extension: "pdf"
