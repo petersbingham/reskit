@@ -37,11 +37,12 @@ elif sys.argv[1] == "pyrazine":
     desc_str = "pyrazine"
     ang_mom = [3,5,5]
     sl = slice(0,1200)
+    param_path = "test_configuration_2.yaml"
 elif sys.argv[1] == "uracil":
     input_data_file = "kmatrix_input_uracil.txt"
     desc_str = "uracil"
     ang_mom = [1,2,2,3,3,3]
-    param_path = "test_configuration_2.yaml"
+    param_path = "test_configuration_3.yaml"
 else:
     raise Exception(exceptStr)
 

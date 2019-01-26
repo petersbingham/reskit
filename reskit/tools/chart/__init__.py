@@ -18,24 +18,17 @@ class Chart(th.tool):
                            +str(j)+","+str(logx)+","+str(logy)+","+str(imag)\
                            +")")
 
-    def _set_chart_parameters(self, dbase):
-        with open(self.param_file_path, 'r') as f:
-            config = yaml.load(f.read())
-            self.log.write_parameters(config)
-            dbase.set_chart_parameters(colour_cycle=config["colour_cycle"])
-            dbase.set_chart_parameters(leg_prefix=config["leg_prefix"])
-            dbase.set_chart_parameters(use_marker=config["use_marker"])
-            dbase.set_chart_parameters(xsize=config["xsize"])
-            dbase.set_chart_parameters(ysize=config["ysize"])
-
-    def _get_save_string(self, start, end, num_plot_points, logx, logy, units):
+    def _get_save_string(self, start, end, num_plot_points, logx, logy, units,
+                         extension):
         ret = " " + str(start) + "_" + str(end) + "_" + str(num_plot_points)\
             + "_" + units
         if logx:
             ret += "_logx"
         if logy:
             ret += "_logy"
-        return ret + ".png"
+        if extension[0] == ".":
+            extension = extension[1:]
+        return ret + "." + extension
 
     def _getdbase(self, start, end, num_plot_points, units):
         if self.data.is_discrete():
@@ -55,18 +48,49 @@ class Chart(th.tool):
             dbase = dbase.convert_ene_units(units)
         return dbase, start, end, num_plot_points
 
-    def _plot(self, dbase, start, end, num_plot_points, logx, logy, imag, i, j):
-        dbase = self._reduceDimensions(dbase, i, j)
-        self._set_chart_parameters(dbase)
-        save_path = None
-        if self.archive_root is not None:
-            save_path = self.archive_root+dbase.chart_title
-            save_path += self._get_save_string(start, end, num_plot_points, logx, 
-                                              logy, dbase.x_units)
-            self.log.write_msg("Chart saved to: "+save_path)
-            
+    def _set_chart_parameters(self, dbase):
         with open(self.param_file_path, 'r') as f:
             config = yaml.load(f.read())
+            self.log.write_parameters(config)
+            dbase.set_chart_parameters(colour_cycle=config["colour_cycle"])
+            dbase.set_chart_parameters(leg_prefix=config["leg_prefix"])
+            dbase.set_chart_parameters(use_marker=config["use_marker"])
+            dbase.set_chart_parameters(xsize=config["xsize"])
+            dbase.set_chart_parameters(ysize=config["ysize"])
+
+    def _set_new_chart_parameters(self, config, dbase):
+        # Need to specify defaults for backwards compatibility. These were
+        # introduced after initial release
+        dashes = config.get("dashes", None)
+        cycle_dashes = config.get("cycle_dashes", False)
+        dpi = config.get("dpi", 300)
+        dbase.set_chart_parameters(dashes=dashes, cycle_dashes=cycle_dashes,
+                                   dpi=dpi)
+
+    def _get_new_plot_parameters(self, config):
+        # Need to specify defaults for backwards compatibility. These were
+        # introduced after initial release
+        extension = config.get("extension", "png")
+        hide_title = config.get("hide_title", False)
+        return extension, hide_title
+
+    def _plot(self, dbase, start, end, num_plot_points, logx, logy, imag, i, j):
+        dbase = self._reduceDimensions(dbase, i, j)
+
+        with open(self.param_file_path, 'r') as f:
+            config = yaml.load(f.read())
+            self._set_chart_parameters(dbase)
+            self._set_new_chart_parameters(config, dbase)
+            extension, hide_title = self._get_new_plot_parameters(config)
+            save_path = None
+            if self.archive_root is not None:
+                save_path = self.archive_root+dbase.chart_title
+                save_path += self._get_save_string(start, end, num_plot_points, logx, 
+                                                  logy, dbase.x_units, extension)
+                self.log.write_msg("Chart saved to: "+save_path)
+
+            if hide_title:
+                dbase.set_chart_title(None)
             dbase.plot(logx, logy, imag, config["show"], save_path,
                        add_axis_lmts=True)
 

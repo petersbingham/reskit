@@ -1,0 +1,25 @@
+colour_cycle:
+  - black
+  - red
+  - green
+  - blue
+
+dashes: [[10, 5, 100, 5], null]
+
+cycle_dashes: False
+
+use_marker: False
+
+leg_prefix: ''
+
+hide_title: True
+
+show: True
+
+xsize: 8
+
+ysize: 7
+
+dpi: 3000
+
+extension: "png"

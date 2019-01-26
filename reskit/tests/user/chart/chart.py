@@ -23,11 +23,12 @@ if os.path.isdir(TEST_ROOT):
 
 cal = cu.AsymCalc(cu.hartrees, [0,0])
 csmat = rw.get_Smat_fun(1.0,2.0,2.0,cal,1.0)
-print "Plot all mpmath data as S-matrix, direct from continuous data. No archive"
+
+print "Plot all data as S-matrix, direct from continuous data. No archive."
 chart = rk.get_tool(rk.chart, csmat)
 chart.plot_Smatrix()
 
-print "Use discretised data"
+print "Use discretised data."
 dsmat = csmat.discretise(1.,8.,100)
 chart = rk.get_tool(rk.chart, dsmat)
 
@@ -80,9 +81,23 @@ print "Plot all data as eigenphase matrix."
 chart.plot_EphaseMat()
 
 # Check copy saved on file system
-chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart.yaml")
-print "Plot all mpmath data as S-matrix using yml config and save to archive."
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_1_1_1.yaml")
+print "Plot all data as S-matrix using yml config and save to archive."
 chart.plot_Smatrix()
 print "This time as T-matrix but don't show."
-chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "chart_noshow.yaml")
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_1_1_2.yaml")
 chart.plot_Tmatrix()
+
+# v1_2_0 tests
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_2_0_1.yaml")
+print "Save high dpi png. Dashes with title hidden."
+chart.plot_Smatrix()
+
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_2_0_2.yaml")
+print "Save pdf. Dashes with title hidden."
+chart.plot_Smatrix()
+
+chart = rk.get_tool(rk.chart, dsmat, TEST_ROOT, "v1_2_0_3.yaml")
+print "Save pdf. Cycled dashes with title hidden."
+chart.plot_Smatrix()
+

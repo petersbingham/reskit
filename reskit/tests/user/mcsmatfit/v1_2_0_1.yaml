@@ -26,13 +26,13 @@ fit_charts:
     - green
     - red
     - blue
-  dashes: [null, [[5,5]]]
-  cycle_dashes: True
+  dashes: [[[5,5],[20,20],[30,30],[40,40]],[[7,7],[20,20],[30,30],[40,40]]]
+  cycle_dashes: False
   hide_title: False
   show: True
-  xsize: 8
-  ysize: 7
-  dpi: 1200
+  xsize: 6.0
+  ysize: 1.0
+  dpi: 5000
   extension: "png"
 
 create_formatted_QI_tables:
