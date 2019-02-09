@@ -304,3 +304,33 @@
 2018-09-02 00:51:00.000:   QI data saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_k.txt
 2018-09-02 00:51:00.007:   QI data saved to: results/radwell/mpmath_100/(1e+00,8e+00,1200)/mcsmatfit/poles/test_configuration_1/[2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40]/QIs_E.txt
 2018-09-02 00:51:00.009: find_stable_Smat_poles end
+
+
+2019-02-09 23:26:30.948: NEW SESSION: Windows-10-10.0.17134 Intel64 Family 6 Model 45 Stepping 7, GenuineIntel, Python 2.7.14 (v2.7.14:84471935ed, Sep 16 2017, 20:25:58) [MSC v.1500 64 bit (AMD64)]
+2019-02-09 23:26:30.969: VERSIONS: numpy:1.15.0, scipy:1.1.0, sympy:1.0, mpmath:1.0.0, matplotlib:2.1.0, yaml:3.12, tabulate:0.8.2, channelutil:1.0.1, matfuncutil:1.1.0, parsmat:1.0.1, pynumutil:1.1.0, pynumwrap:1.1.0, stelempy:1.0.1, tisutil:1.0.1, twochanradialwell:1.0.1, ukrmolmatreader:1.0.1, reskit:1.2.0
+
+2019-02-09 23:26:31.066: get_elastic_Smat(20)
+2019-02-09 23:26:31.082:   Calculating for slice:((0, 1198, 63), (1.0, 7.9883236030025015))
+2019-02-09 23:26:31.263:   Coefficients loaded from: author_results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=20_S=0_E=1197
+2019-02-09 23:26:31.268:   Calculation completed
+2019-02-09 23:26:31.273: get_elastic_Smat end
+
+2019-02-09 23:26:31.278: plot_Smat_fit(20)
+2019-02-09 23:26:31.290:   Using parameters: {'extension': 'png', 'show': True, 'ysize': 7, 'cycle_dashes': True, 'dashes': [None, [[2, 4], [4, 2]]], 'xsize': 8, 'colour_cycle': ['green', 'red', 'blue'], 'hide_title': False, 'dpi': 1200}
+2019-02-09 23:28:46.922:   Chart saved to: author_results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\charts\S matrix (Npts=20)_Ha_300.png
+2019-02-09 23:32:29.702: plot_Smat_fit end
+
+
+2019-02-09 23:33:08.144: NEW SESSION: Windows-10-10.0.17134 Intel64 Family 6 Model 45 Stepping 7, GenuineIntel, Python 2.7.14 (v2.7.14:84471935ed, Sep 16 2017, 20:25:58) [MSC v.1500 64 bit (AMD64)]
+2019-02-09 23:33:08.149: VERSIONS: numpy:1.15.0, scipy:1.1.0, sympy:1.0, mpmath:1.0.0, matplotlib:2.1.0, yaml:3.12, tabulate:0.8.2, channelutil:1.0.1, matfuncutil:1.1.0, parsmat:1.0.1, pynumutil:1.1.0, pynumwrap:1.1.0, stelempy:1.0.1, tisutil:1.0.1, twochanradialwell:1.0.1, ukrmolmatreader:1.0.1, reskit:1.2.0
+
+2019-02-09 23:33:08.169: get_elastic_Smat(20)
+2019-02-09 23:33:08.174:   Calculating for slice:((0, 1198, 63), (1.0, 7.9883236030025015))
+2019-02-09 23:33:08.225:   Coefficients loaded from: author_results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\coeffs\test_configuration_1\Npts=20_S=0_E=1197
+2019-02-09 23:33:08.230:   Calculation completed
+2019-02-09 23:33:08.235: get_elastic_Smat end
+
+2019-02-09 23:33:08.239: plot_XS_fit(20)
+2019-02-09 23:33:08.256:   Using parameters: {'extension': 'png', 'show': True, 'ysize': 7, 'cycle_dashes': True, 'dashes': [None, [[2, 4], [4, 2]]], 'xsize': 8, 'colour_cycle': ['green', 'red', 'blue'], 'hide_title': False, 'dpi': 1200}
+2019-02-09 23:35:22.398:   Chart saved to: author_results\radwell\mpmath_100\(1e+00,8e+00,1200)\mcsmatfit\charts\Cross Section (Npts=20)_Ha_300.png
+2019-02-09 23:35:35.175: plot_XS_fit end
