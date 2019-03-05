@@ -6,25 +6,39 @@ sys.path.insert(0,rkPath)
 
 import shutil
 
-import channelutil as cu
 import ukrmolmatreader as rmol
 import twochanradialwell as rw
 import reskit as rk
 
-if len(sys.argv) > 1 and sys.argv[1]=="mpmath":
-    cu.use_mpmath_types()
+use_pyrazine = True
+
+if sys.argv[1] == "mpmath":
+    rk.use_mpmath_types()
     print "mpmath"
 else:
     print "python"
+
 
 TEST_ROOT = "chart"
 if os.path.isdir(TEST_ROOT):
     shutil.rmtree(TEST_ROOT)
 
-calc = cu.AsymCalc(cu.hartrees, [0,0])
-csmat = rw.get_Smat_fun(1.0,2.0,2.0,calc,1.0)
-dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 200,
-                                   "radwell")
+if sys.argv[2] == "radwell":
+    calc = rk.get_asym_calc(rk.hartrees, [0,0])
+    csmat = rw.get_Smat_fun(1.0,2.0,2.0,calc,1.0)
+    dmat = rk.get_dmat_from_continuous(rk.Smat, csmat, calc, 1., 8., 200,
+                                       "radwell")
+else:
+    # This data is only available in the distribution package.
+    if sys.argv[2] == "pyrazine":
+        input_data_file = "../../../../examples/kmatrix_input_pyrazine.txt"
+        calc = rk.get_asym_calc(rk.rydbergs, [3,5,5])
+    else:
+        input_data_file = "../../../../examples/kmatrix_input_pbq.txt"
+        calc = rk.get_asym_calc(rk.rydbergs, [1,3,3])
+    kmatdict,_ = rmol.read_Kmats(input_data_file)
+    dmat = rk.get_dmat_from_discrete(rk.Kmat, kmatdict, calc, "PBQ")
+
 
 sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT)
 
@@ -89,3 +103,32 @@ csmat = sfittool.get_elastic_Smat(10)
 sfittool.plot_Smat_fit(csmat)
 sfittool.plot_XS_fit(csmat, units=rk.eVs)
 sfittool.plot_EigenPhase_fit(csmat, logx=True, logy=True)
+
+cqmat = sfittool.get_elastic_Qmat(10)
+print "Q matrix"
+print "All elements. Default number of points"
+sfittool.plot_Qmat_fit(cqmat)
+print "All elements"
+sfittool.plot_Qmat_fit(cqmat, 100)
+print "Row eVs"
+sfittool.plot_Qmat_fit(cqmat, 100, units=rk.eVs, i=1)
+print "Column hartrees"
+sfittool.plot_Qmat_fit(cqmat, 100, units=rk.hartrees, j=0)
+print "Element"
+sfittool.plot_Qmat_fit(cqmat, 100, i=1, j=0)
+print "Element logx"
+sfittool.plot_Qmat_fit(cqmat, 100, i=1, j=0, logx=True)
+print "Element logx and logy"
+sfittool.plot_Qmat_fit(cqmat, 100, i=1, j=0, logx=True, logy=True)
+
+print "Q matrix eigenvalues"
+print "All elements. Default number of points"
+sfittool.plot_Qmat_evals_fit(cqmat)
+print "All elements hartrees"
+sfittool.plot_Qmat_evals_fit(cqmat, 100, units=rk.hartrees)
+print "Row eVs"
+sfittool.plot_Qmat_evals_fit(cqmat, 100, units=rk.eVs, i=1)
+print "Element logx"
+sfittool.plot_Qmat_evals_fit(cqmat, 100, i=1, logx=True)
+print "Element logx and logy"
+sfittool.plot_Qmat_evals_fit(cqmat, 100, i=1, logx=True, logy=True)

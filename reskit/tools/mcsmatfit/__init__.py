@@ -579,11 +579,25 @@ class MCSMatFit(th.tool):
 
     ##### Others #####
 
-    def _check_for_fit_plot(self, csmat):
+    def _get_mat(self, fun, Npts, fun_name):
+        self.log.write_call(fun_name+"("+str(Npts)+")")
+        self._check_elastic()
+        ris = self.data.get_slice_indices(num_points=Npts)
+        self.log.write_msg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
+        self.all_coeffs_loaded = True
+        coeffs = self._get_coefficients(Npts, ris[0])
+        cmat = fun(coeffs, self.data.asymcalc)
+        cmat.fitInfo = (Npts,ris)
+        self._update_container_strings(Npts, cmat)
+        self.log.write_msg("Calculation completed")
+        self.log.write_call_end(fun_name)
+        return cmat
+
+    def _check_for_fit_plot(self, cmat, val):
         try:
-            csmat.MCSMatFit_SplotCompatible
+            cmat.MCSMatFit_plot_compatible = val 
         except Exception:
-            self.log.write_err("Not a csmat")
+            self.log.write_err("Not an MCSMatFit cmat")
             raise
 
     def _filterRoots(self, all_roots, point, atol):
@@ -610,18 +624,7 @@ class MCSMatFit(th.tool):
         -------
         cfin : cFinMatSympypolyk
         """
-        self.log.write_call("get_elastic_Fin("+str(Npts)+")")
-        self._check_elastic()
-        ris = self.data.get_slice_indices(num_points=Npts)
-        self.log.write_msg("Calculating for Npts="+str(Npts)+",slice:"+str(ris))
-        self.all_coeffs_loaded = True
-        coeffs = self._get_coefficients(Npts, ris[0])
-        cfin = psm.get_elastic_Fin_fun(coeffs, self.data.asymcalc)
-        cfin.fitInfo = (Npts,ris)
-        self._update_container_strings(Npts, cfin)
-        self.log.write_msg("cfin calculated")
-        self.log.write_call_end("get_elastic_Fin")
-        return cfin
+        return self._get_mat(psm.get_elastic_Fin_fun, Npts, "get_elastic_Fin")
 
     def get_elastic_Fins(self, Npts_list):
         """
@@ -812,7 +815,7 @@ class MCSMatFit(th.tool):
     def get_elastic_Smat(self, Npts):
         """
         Performs an S-matrix fit using the specified number of fit points and 
-        returns a cSmat.
+        returns an S-matrix as a cSmat.
 
         Parameters
         ----------
@@ -823,19 +826,46 @@ class MCSMatFit(th.tool):
         -------
         csmat : cSmat
         """
-        self.log.write_call("get_elastic_Smat("+str(Npts)+")")
-        self._check_elastic()
-        ris = self.data.get_slice_indices(num_points=Npts)
-        self.log.write_msg("Calculating for slice:"+str(ris))
-        self.all_coeffs_loaded = True
-        coeffs = self._get_coefficients(Npts, ris[0])
-        csmat = psm.get_elastic_Smat_fun(coeffs, self.data.asymcalc)
-        csmat.fitInfo = (Npts,ris)
-        csmat.MCSMatFit_SplotCompatible = True
-        self._update_container_strings(Npts, csmat)
-        self.log.write_msg("Calculation completed")
-        self.log.write_call_end("get_elastic_Smat")
+        csmat = self._get_mat(psm.get_elastic_Smat_fun, Npts,
+                              "get_elastic_Smat")
+        csmat.MCSMatFit_plot_compatible = "Smat"
         return csmat
+
+    def get_elastic_Spmat(self, Npts):
+        """
+        Performs S-matrix fits using the specified number of fit points and 
+        returns a differentiated S-matrix as a cMat.
+
+        Parameters
+        ----------
+        Npts : int
+            Number of points to use in the fit. Must be an even number.
+
+        Returns
+        -------
+        cmat : cMat
+        """
+        cmat = self._get_mat(psm.get_elastic_Spmat_fun, Npts,
+                             "get_elastic_Spmat")
+        return cmat
+
+    def get_elastic_Qmat(self, Npts):
+        """
+        Performs S-matrix fits using the specified number of fit points and 
+        returns a cQmat.
+
+        Parameters
+        ----------
+        Npts : int
+            Number of points to use in the fit. Must be an even number.
+
+        Returns
+        -------
+        cqmat : cQmat
+        """
+        cmat = self._get_mat(psm.get_elastic_Qmat_fun, Npts, "get_elastic_Qmat")
+        cmat.MCSMatFit_plot_compatible = "Qmat"
+        return cmat
 
     def plot_Smat_fit(self, csmat, num_plot_points=None, units=None, i=None,
                       j=None, logx=False, logy=False, imag=False):
@@ -853,8 +883,8 @@ class MCSMatFit(th.tool):
         """
         Npts = csmat.fitInfo[0]
         self.log.write_call("plot_Smat_fit("+str(Npts)+")")
-        self._check_for_fit_plot(csmat)
-        ret = self._prepare_for_fit_plot(num_plot_points)  
+        self._check_for_fit_plot(csmat, "Smat")
+        ret = self._prepare_for_fit_plot(num_plot_points)
         if ret is not None:
             p, ln, orig = ret
 
@@ -871,20 +901,13 @@ class MCSMatFit(th.tool):
             fit = self._reduceDimensions(dsmat, i, j)
 
             title = "S matrix (Npts="+str(Npts)+")"
-            if i is not None and j is not None:
-                title += ", m="+str(i+1)+", n="+str(j+1)
-            elif i is not None:
-                title += ", m="+str(i+1)
-            elif j is not None:
-                title += ", n="+str(j+1)
-
-            self._plot_fit(p, title, orig, fit_pnts, fit, num_plot_points,
-                           units, "S matrix", logx, logy, imag)
+            self._plot_mat_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                               units, i, j, "S matrix", logx, logy, imag)
 
         self.log.write_call_end("plot_Smat_fit")
 
     def plot_XS_fit(self, csmat, num_plot_points=None, units=None,
-                       logx=False, logy=False):
+                    logx=False, logy=False):
         """
         Plots the cross sections obtained from the original and rational
         S-matrices along with the fit points used. There are additional advanced
@@ -899,7 +922,7 @@ class MCSMatFit(th.tool):
         """
         Npts = csmat.fitInfo[0]
         self.log.write_call("plot_XS_fit("+str(Npts)+")")
-        self._check_for_fit_plot(csmat)
+        self._check_for_fit_plot(csmat, "Smat")
         ret = self._prepare_for_fit_plot(num_plot_points)  
         if ret is not None:
             p, ln, orig = ret
@@ -937,7 +960,7 @@ class MCSMatFit(th.tool):
         """
         Npts = csmat.fitInfo[0]
         self.log.write_call("plot_EigenPhase_fit("+str(Npts)+")")
-        self._check_for_fit_plot(csmat)
+        self._check_for_fit_plot(csmat, "Smat")
         ret = self._prepare_for_fit_plot(num_plot_points)  
         if ret is not None:
             p, ln, orig = ret
@@ -958,3 +981,91 @@ class MCSMatFit(th.tool):
                            units, "Eigenphase Sum (rad)", logx, logy, False)
 
         self.log.write_call_end("plot_EigenPhase_fit")
+
+    def plot_Qmat_fit(self, cqmat, num_plot_points=None, units=None, i=None,
+                      j=None, logx=False, logy=False):
+        """
+        Plots the Q-matrix obtained from the original and rational
+        S-matrices along with the fit points used for the specified matrix
+        element(s). There are additional advanced parameters supplied via the
+        Tool yaml file.
+
+        Parameters
+        ----------
+        cqmat : cQmat
+            Rational Q-matrix returned from get_elastic_Qmat.
+        num_plot_points, units, i, j, logx, logy
+            Refer to the chart Tool for description.
+        """
+        Npts = cqmat.fitInfo[0]
+        self.log.write_call("plot_Qmat_fit("+str(Npts)+")")
+        self._check_for_fit_plot(cqmat, "Qmat")
+
+        # For this case we need to calculate the numeric Q-matrix from the
+        # self.data before proceeding. If we slice first then this will
+        # change the numerical derivatives (since grad between successive pnts).
+        dqmat_data = self.data.to_dQmat()
+        ret = self._prepare_for_fit_plot(num_plot_points, dqmat_data)
+        if ret is not None:
+            p, ln, orig = ret
+
+            orig = self._reduceDimensions(orig, i, j)
+
+            ris0 = cqmat.fitInfo[1][0]
+            fit_pnts = dqmat_data[ris0[0]:ris0[1]:ris0[2]]
+            fit_pnts = self._reduceDimensions(fit_pnts, i, j)
+
+            rng = orig.get_range()
+            dqmat = cqmat.discretise(rng[0], rng[1], ln)
+            fit = self._reduceDimensions(dqmat, i, j)
+
+            title = "Q matrix (Npts="+str(Npts)+")"
+            self._plot_mat_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                               units, i, j, "Q matrix", logx, logy, False)
+
+        self.log.write_call_end("plot_Qmat_fit")
+
+    def plot_Qmat_evals_fit(self, cqmat, num_plot_points=None, units=None,
+                            i=None, logx=False, logy=False):
+        """
+        Plots the Q-matrix eigenvalues obtained from the original and rational
+        S-matrices along with the fit points used for the specified matrix
+        element(s). There are additional advanced parameters supplied via the
+        Tool yaml file.
+
+        Parameters
+        ----------
+        cqmat : cQmat
+            Rational Q-matrix returned from get_elastic_Qmat.
+        num_plot_points, units, i, logx, logy
+            Refer to the chart Tool for description.
+        """
+        Npts = cqmat.fitInfo[0]
+        self.log.write_call("plot_Qmat_evals_fit("+str(Npts)+")")
+        self._check_for_fit_plot(cqmat, "Qmat evals")
+
+        # For this case we need to calculate the numeric Q-matrix from the
+        # self.data before proceeding. If we slice first then this will
+        # change the numerical derivatives (since grad between successive pnts).
+        dqvec_data = self.data.to_dQmat().eigenvalues()
+        ret = self._prepare_for_fit_plot(num_plot_points, dqvec_data)
+        if ret is not None:
+            p, ln, orig = ret
+
+            orig = self._reduceDimensions(orig, i)
+
+            ris0 = cqmat.fitInfo[1][0]
+            fit_pnts = dqvec_data[ris0[0]:ris0[1]:ris0[2]]
+            fit_pnts = self._reduceDimensions(fit_pnts, i)
+
+            rng = orig.get_range()
+            dqmat = cqmat.discretise(rng[0], rng[1], ln)
+            dqvec = dqmat.eigenvalues()
+            fit = self._reduceDimensions(dqvec, i)
+
+            title = "Q matrix eigenvalues (Npts="+str(Npts)+")"
+            self._plot_mat_fit(p, title, orig, fit_pnts, fit, num_plot_points,
+                               units, i, None, "Q matrix eigenvalues", logx,
+                               logy, False)
+
+        self.log.write_call_end("plot_Qmat_evals_fit")
