@@ -97,7 +97,13 @@ class tool:
                 ln = num_plot_points
 
             if num_plot_points is not None:
-                orig = orig.create_reduced_length(num_points=ln)
+                # orig is discrete set so cannot exceed its length when plotting
+                # Note ln is used for the plot points in the continuous fit, so
+                # don't move this logic to the code block above.
+                ln_orig = ln
+                if ln > len(orig):
+                    ln_orig = len(orig)
+                orig = orig.create_reduced_length(num_points=ln_orig)
             return p, ln, orig
 
     def _get_new_plot_parameters(self, p):

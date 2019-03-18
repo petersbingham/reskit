@@ -80,9 +80,10 @@ sfittool.plot_EigenPhase_fit(csmat, 100, units=rk.eVs)
 print "logx and logy"
 sfittool.plot_EigenPhase_fit(csmat, 100, logx=True, logy=True)
 
-print "Plot all data as S-matrix using yml config and save to archive."
+print ("Plot all data as S-matrix using yml config and save to archive. "
+       "Plot using more points than in disrete set.")
 sfittool = rk.get_tool(rk.mcsmatfit, dmat, TEST_ROOT)
-sfittool.plot_Smat_fit(csmat)
+sfittool.plot_Smat_fit(csmat, num_plot_points=600)
 
 print "\nTest new config changes"
 print "Plot dashed lines, high dpi."
