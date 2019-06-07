@@ -24,7 +24,7 @@
       - If you are compiling python from source and then creating a virtualenv against this then you will need to ensure that you separately build the libtk. Either that or as a workaround you can add a location of the libtk dependencies to the library path (eg `export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/csoft/epd-7.3.2full/lib"`). You might want to do this if you only have older python distributions in your root (which you don't have sudo for) and are therefore forced to build a recent version in your user space and don't want to go to the effort of also building the libtk.
 
   - `ImportError: /home/path/.local/lib/python2.7/site-packages/kiwisolver.so: undefined symbol: PyUnicodeUCS2_AsUTF8String`
-    - This arise from unicode incompatibilities between python and dependent libraries.
+    - This arises from unicode incompatibilities between python and dependent libraries.
     - Firstly check your virtual env path that the dependencies aren't being picked up somewhere other than the virtualenv.
     - http://effbot.org/pyfaq/when-importing-module-x-why-do-i-get-undefined-symbol-pyunicodeucs2.htm
 
@@ -40,3 +40,5 @@
   - `mpmath.libmp.libhyper.NoConvergence: convergence to root failed; try n < 100 or maxsteps > 5000`
     - Make the suggested changes to the parameters.
     - Alternatively try moving or extending the energy range of your input data-set.
+  - `ValueError: matrix is numerically singular`
+    - Use mpmath types and/or increase the precision. eg `rk.use_mpmath_types(dps=200)`.
